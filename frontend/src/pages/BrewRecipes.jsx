@@ -82,7 +82,7 @@ function BrewRecipes() {
                 </table>
 
                 {/* Form for Brew Recipes */}
-                <form onSubmit={event => { event.preventDefault(); addBrewResult(); }}>
+                <form onSubmit={event => { event.preventDefault(); }}>
                     <p>
                         <label>Brewer Types
                             <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
