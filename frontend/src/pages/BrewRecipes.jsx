@@ -30,7 +30,13 @@ function BrewRecipes() {
     return (
         <>
             <div>
+                <h2>Page Description</h2>
+                <p>Create, edit and delete brew recipes. On this page you also have acccess to dependant subtables.
+                    Create brewer types as needed to build your recipe.
+                </p>
+
                 <h2>Manage Brew Recipes</h2>
+
 
                 {/* Table for BrewRecipes */}
                 <table border="1">
