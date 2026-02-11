@@ -1,9 +1,10 @@
 function Home() {
     return (
         <>
-            <h1>Home page</h1>
             <div className="homepageDescription">
+                <h3>Welcome to California Coffee Co.'s Coffee Quality Control database</h3>
                 <p>Authors: Ian Henderson & Nicholas Park. California Coffee Co.</p>
+                <p>Group 12: Socal Schemas</p>
             </div>
         </>
     )

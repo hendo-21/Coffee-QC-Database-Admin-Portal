@@ -26,7 +26,13 @@ function Roasters() {
 
     return (
         <div>
-            <h1>Roasters</h1>
+            <h2>Page Description</h2>
+                <p>
+                    Create, edit and delete Roasters from the database.
+                </p>
+            <hr style={{ margin: '40px 0' }} />
+
+            <h2>Manage Roasters</h2>
             <table border="1">
                 <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Country</th></tr></thead>
                 <tbody>

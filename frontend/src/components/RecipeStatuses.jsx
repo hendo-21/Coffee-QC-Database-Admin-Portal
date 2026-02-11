@@ -1,4 +1,11 @@
+import React, { useState } from "react";
+
 function RecipeStatuses({ recipeStatuses }) {
+    // Init state to store user input
+    const [recipeStatus, setRecipeStatus] = useState('');
+
+    // TODO: POST recipe status to db
+
     return (
         <>
             <h2>Recipe Statuses</h2>
@@ -20,6 +27,20 @@ function RecipeStatuses({ recipeStatuses }) {
                     ))}
                 </tbody>
             </table>
+
+            {/* Form to add Recipe Status */}
+            <form className="recipeStatusForm" onSubmit={event => {event.preventDefault();}}>
+                <p>
+                    <label>Recipe Status
+                        <input type="text" id="recipeStatus" name="recipeStatus" required 
+                            onChange={ event => { setRecipeStatus(event.target.value) } }></input>
+                    </label>
+                </p>
+
+                <button type="submit">
+                        Add Recipe Status
+                </button>
+            </form>
         </>
     )
 }
