@@ -3,10 +3,19 @@ import BrewerTypes from '../components/BrewerTypes';
 import RecipeStatuses from '../components/RecipeStatuses';
 
 function BrewRecipes() {
-    // Set state for fetching tables
+    // Init state for fetching tables
     const [brewRecipes, setBrewRecipes] = useState([]);
     const [brewerTypes, setBrewerTypes] = useState([]);
     const [recipeStatuses, setBrewStatuses] = useState([]);
+
+    // Init state for tracking user input
+    const [selectedBrewerType, setSelectedBrewerType] = useState([]);
+    const [selectedRecipeStatus, setSelectedRecipeStatus] = useState([]);
+    const [targetDose, setTargetDose] = useState('');
+    const [targetYield, setTargetYield] = useState('');
+    const [targetGrindSize, setTargetGrindSize] = useState('');
+    const [targetWaterTemp, setTargetWaterTemp] = useState('');
+    const [targetBrewTime, setTargetBrewTime] = useState('');
 
     // 1. Load data
     const loadData = async () => {
@@ -26,6 +35,9 @@ function BrewRecipes() {
     useEffect(() => {
         loadData()
     }, []);
+
+    // TODO: POST new recipe to db
+
 
     return (
         <>
@@ -68,6 +80,82 @@ function BrewRecipes() {
                         ))}
                     </tbody>
                 </table>
+
+                {/* Form for Brew Recipes */}
+                <form onSubmit={event => { event.preventDefault(); addBrewResult(); }}>
+                    <p>
+                        <label>Brewer Types
+                            <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
+                                <option value="">-- Select a Brewer Type --</option>
+                                {brewerTypes && brewerTypes.length > 0 ? (
+                                    brewerTypes.map(brewerTypes => (
+                                        <option key={brewerTypes.brewer_id} value={brewerTypes.brewer_type}>
+                                            {brewerTypes.brewer_type}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option key="loading" value="">Loading...</option>
+                                )}
+                            </select>
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>Target Dose
+                            <input type="number" step="0.01" id="targetDose" name="targetDose" min="0" placeholder="eg. 15.00" required 
+                            onChange={ event => { setTargetDose(event.target.valueAsNumber) } }></input>
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>Target Yeild
+                            <input type="number" step="0.01" id="targetYield" name="targetYield" min="0" placeholder="eg. 240.00" required 
+                            onChange={ event => { setTargetYield(event.target.valueAsNumber) } }></input>
+                        </label>
+                    </p>
+                    
+                    <p>
+                        <label>Target Grind Size
+                            <input type="number" step="0.01" id="targetGrindSize" name="targetGrindSize" min="0" placeholder="eg. 14.00" required 
+                            onChange={ event => { setTargetGrindSize(event.target.valueAsNumber) } }></input>
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>Target Water Temp
+                            <input type="number" step="0.01" id="targetWaterTemp" name="targetWaterTemp" min="0" placeholder="eg. 96.00" required 
+                            onChange={ event => { setTargetYield(event.target.valueAsNumber) } }></input>
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>Target Brew Time
+                            <input type="number" step="0.01" id="targetBrewTime" name="targetBrewTime" min="0" placeholder="eg. 00:04:00" required 
+                            onChange={ event => { setTargetYield(event.target.valueAsNumber) } }></input>
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>Recipe Statuses
+                            <select value={selectedRecipeStatus} onChange={event => setSelectedRecipeStatus(event.target.value)} required>
+                                <option value="">-- Select Recipe Status --</option>
+                                {recipeStatuses && recipeStatuses.length > 0 ? (
+                                    recipeStatuses.map(recipeStatuses => (
+                                        <option key={recipeStatuses.status_id} value={recipeStatuses.status_type}>
+                                                {recipeStatuses.status_type}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option key="loading" value="">Loading...</option>
+                                )}
+                            </select>
+                        </label>
+                    </p>
+
+                    <button type="submit">
+                        Add Brew Recipe
+                    </button>
+                </form>
 
                 {/* Table for Brewer Types */}
                 <hr style={{ margin: '40px 0' }} />
