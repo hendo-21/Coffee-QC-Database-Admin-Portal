@@ -33,7 +33,7 @@ function BrewerTypes ({ brewerTypes }) {
                 <p>
                     <label>Brewer Type
                         <input type="text" id="brewerType" name="brewerType" placeholder="Chemex" required 
-                            onChange={ event => { setBrewerType(event.target.valueAsNumber) } }></input>
+                            onChange={ event => { setBrewerType(event.target.value) } }></input>
                     </label>
                 </p>
 

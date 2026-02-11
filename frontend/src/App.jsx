@@ -31,6 +31,8 @@ function App() {
                 <Route path="/brewresults" element={<BrewResults />} />
                 <Route path="/create-brew-result" element={<CreateBrewRecipe />} />
             </Routes>
+
+            <footer><p>&copy; 2026 Ian Henderson & Nicholas Park</p></footer>
         </>
     );
 
