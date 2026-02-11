@@ -34,6 +34,7 @@ function BrewRecipes() {
                 <p>Create, edit and delete brew recipes. On this page you also have acccess to dependant subtables.
                     Create brewer types as needed to build your recipe.
                 </p>
+                <hr style={{ margin: '40px 0' }} />
 
                 <h2>Manage Brew Recipes</h2>
 

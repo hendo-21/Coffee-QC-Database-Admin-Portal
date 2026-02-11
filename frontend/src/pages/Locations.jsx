@@ -39,6 +39,12 @@ function Locations() {
 
     return (
         <div style={{ padding: '20px' }}>
+            <h2>Page Description</h2>
+            <p>
+                Create, update, and delete locations from the database. Locations apply to Coffee Lots and Roasters.
+            </p>
+            <hr style={{ margin: '40px 0' }} />
+
             <h2>Manage Locations</h2>
 
             {/* Table for READ */}

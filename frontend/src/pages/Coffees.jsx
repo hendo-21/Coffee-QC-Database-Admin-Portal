@@ -94,6 +94,15 @@ function Coffees() {
     */}
     return (
         <div style={{ padding: '20px' }}>
+            <h2>Page Description</h2>
+                <p>
+                    Create, edit and delete Coffees. On this page you also have acccess to dependant subtables.
+                </p>
+                <p>
+                    Create coffee lots, varietals, assign lots to varietals, and add processing styles as needed to populate dropdowns for Coffee record creation.
+                </p>
+            <hr style={{ margin: '40px 0' }} />
+
             <h2>Manage Coffees</h2>
 
             {/* Table for READ */}
