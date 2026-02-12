@@ -34,7 +34,16 @@ function Roasters() {
 
             <h2>Manage Roasters</h2>
             <table border="1">
-                <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Country</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
                 <tbody>
                     {Array.isArray(roasters) && roasters.map(r => (
                         <tr key={r.roaster_id}>
@@ -42,6 +51,16 @@ function Roasters() {
                             <td>{r.email}</td>
                             <td>{r.city}</td>
                             <td>{r.country}</td>
+                            <td>
+                                    <button type='submit'>
+                                        Edit
+                                    </button>
+                            </td>
+                            <td>
+                                    <button type='submit'>
+                                        Delete
+                                    </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

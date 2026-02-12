@@ -13,7 +13,8 @@ function CoffeeLots({ lots }) {
                         <th>Country</th>
                         <th>Elevation (m)</th>
                         <th>Process</th>
-                        <th>Edit / Delete</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,7 +26,16 @@ function CoffeeLots({ lots }) {
                             <td>{lot.country}</td>
                             <td>{lot.elevation}</td>
                             <td>{lot.process}</td>
-                            <td>MD icons go here</td>
+                            <td>
+                                    <button type='submit'>
+                                        Edit
+                                    </button>
+                            </td>
+                            <td>
+                                    <button type='submit'>
+                                        Delete
+                                    </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

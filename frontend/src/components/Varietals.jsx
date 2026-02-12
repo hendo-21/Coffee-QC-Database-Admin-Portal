@@ -4,12 +4,13 @@ function Varietals({ varietals }) {
     return (
         <div style={{ padding: '20px' }}>
             <h2>Varietals</h2>
-            <table border="1" style={{ width: '100%' }}>
+            <table border="1">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Varietal Name</th>
-                        <th>Edit / Delete</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,7 +18,16 @@ function Varietals({ varietals }) {
                         <tr key={varietal.varietal_id}>
                             <td>{varietal.varietal_id}</td>
                             <td>{varietal.varietal_name}</td>
-                            <td>MD icons go here</td>
+                            <td>
+                                    <button type='submit'>
+                                        Edit
+                                    </button>
+                            </td>
+                            <td>
+                                    <button type='submit'>
+                                        Delete
+                                    </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

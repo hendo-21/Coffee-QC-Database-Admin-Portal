@@ -91,6 +91,13 @@ function BrewRecipes() {
 
                 {/* Form for Brew Recipes */}
                 <form onSubmit={event => { event.preventDefault(); }}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '10px',
+                        alignItems: 'flex-end',
+                    }}>
+
                     <p>
                         <label>Brewer Types
                             <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
@@ -155,6 +162,8 @@ function BrewRecipes() {
                     <button type="submit">
                         Add Brew Recipe
                     </button>
+
+                    </div>
                 </form>
 
                 {/* Table for Brewer Types */}
