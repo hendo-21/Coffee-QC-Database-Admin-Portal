@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function ProcessingStyles({ processes }) {
+    // Init state for storing user input
+    const [processingStyle, setProcessingStyle] = useState('');
+
     return (
         <div style={{ padding: '20px' }}>
             <h2>Processing Styles</h2>
@@ -32,8 +35,31 @@ function ProcessingStyles({ processes }) {
                     ))}
                 </tbody>
             </table>
+
+            {/* Form to add Processing Style */}
+            <form className="recipeStatusForm" onSubmit={event => {event.preventDefault();}}>
+                <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '1px',
+                        alignItems: 'baseline',
+                }}>
+
+                <p>
+                    <label>Processing Style
+                        <input type="text" id="processingStyle" name="processingStyle" required 
+                            onChange={ event => { setProcessingStyle(event.target.value) } }></input>
+                    </label>
+                </p>
+
+                <button type="submit">
+                        Add Processing Style
+                </button>
+
+                </div>
+            </form>
         </div>
     );
-}
+};
 
 export default ProcessingStyles;
