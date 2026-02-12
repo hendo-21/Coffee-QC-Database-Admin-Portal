@@ -10,9 +10,10 @@ function Coffees() {
     const [lots, setLots] = useState([]);
     const [varietals, setVarietals] = useState([]);
     const [lotVarietals, setCoffeeLotVarietals] = useState([]);
-    const [processes, setProcesses] = useState([]);
+    const [processingStyles, setProcessingStyles] = useState([]);
     const [roastTypes, setRoastTypes] = useState([]);
     const [roasters, setRoasters] = useState([]);
+    const [locations, setLocations] = useState([]);
 
     // Init state for tracking user input
     const [newName, setNewName] = useState("");
@@ -32,23 +33,25 @@ function Coffees() {
         */}
 
         try {
-            const [CoffeesRes, LotsRes, VarietalsRes, CoffeeLotVarietalsRes, ProcessesRes, RoastTypesRes, RoastersRes] = await Promise.all([
+            const [CoffeesRes, LotsRes, VarietalsRes, CoffeeLotVarietalsRes, ProcessingStylesRes, RoastTypesRes, RoastersRes, LocationsRes] = await Promise.all([
                 fetch('/api/coffees'),
                 fetch('/api/coffeelots'),
                 fetch('/api/varietals'),
                 fetch('/api/coffeelotvarietals'),
                 fetch('/api/processingstyles'),
                 fetch('/api/roasttypes'),
-                fetch('/api/roasters')
+                fetch('/api/roasters'),
+                fetch('/api/locations')
             ]);
 
             setCoffees(await CoffeesRes.json());
             setLots(await LotsRes.json());
             setVarietals(await VarietalsRes.json());
             setCoffeeLotVarietals(await CoffeeLotVarietalsRes.json());
-            setProcesses(await ProcessesRes.json());
+            setProcessingStyles(await ProcessingStylesRes.json());
             setRoastTypes(await RoastTypesRes.json());
             setRoasters(await RoastersRes.json());
+            setLocations(await LocationsRes.json());
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -215,16 +218,16 @@ function Coffees() {
             </form>
 
             <hr style={{ margin: '40px 0' }} />
-            <CoffeeLots lots={lots} />
+            <CoffeeLots lots={lots} locations={locations} processingStyles={processingStyles}/>
 
             <hr style={{ margin: '40px 0' }} />
             <Varietals varietals={varietals} />
 
             <hr style={{ margin: '40px 0' }} />
-            <CoffeeLotVarietals lotVarietals={lotVarietals} />
+            <CoffeeLotVarietals lotVarietals={lotVarietals} lots={lots} varietals={varietals}/>
 
             <hr style={{ margin: '40px 0' }} />
-            <ProcessingStyles processes={processes} />
+            <ProcessingStyles processingStyles={processingStyles} />
         </div>
     );
 }

@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function CoffeeLotVarietals({ lotVarietals }) {
+function CoffeeLotVarietals({ lotVarietals, lots, varietals }) {
+    // Init state for storing user input
+    const [selectedCoffeLot, setSelectedCoffeeLot] = useState('');
+    const [selectedVarietal, setSelectedVarietal] = useState('');
+
+
     return (
         <div style={{ padding: '20px' }}>
             <h2>Coffee Lot Varietals</h2>
@@ -32,6 +37,46 @@ function CoffeeLotVarietals({ lotVarietals }) {
                     ))}
                 </tbody>
             </table>
+
+            {/* Form to add CoffeeLotVarietal */}
+            <form className="coffeeLotVarietalForm" onSubmit={event => {event.preventDefault();}}>
+                <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '1px',
+                        alignItems: 'baseline',
+                }}>
+
+                <p>
+                    <label>Lot Number</label>
+                    <select>
+                        <option>-- Select Lot Number --</option>
+                        {lots.map(lot => (
+                            <option key={lot.lot_id} value={lot.lot_number}>
+                                {lot.lot_number}
+                            </option>
+                        ))}
+                    </select>
+                </p>
+
+                <p>
+                    <label>Varietal</label>
+                    <select>
+                        <option>-- Select Varietal --</option>
+                        {varietals.map(varietal => (
+                            <option key={varietal.varietal_id} value={varietal.varietal_name}>
+                                {varietal.varietal_name}
+                            </option>
+                        ))}
+                    </select>
+                </p>
+
+                <button type="submit">
+                        Add Coffee Lot Varietal
+                </button>
+
+                </div>
+            </form>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ProcessingStyles({ processes }) {
+function ProcessingStyles({ processingStyles }) {
     // Init state for storing user input
     const [processingStyle, setProcessingStyle] = useState('');
 
@@ -17,7 +17,7 @@ function ProcessingStyles({ processes }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {processes.map(process => (
+                    {processingStyles.map(process => (
                         <tr key={process.process_id}>
                             <td>{process.process_id}</td>
                             <td>{process.process_name}</td>
