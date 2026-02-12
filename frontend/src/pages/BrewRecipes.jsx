@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BrewerTypes from '../components/BrewerTypes';
 import RecipeStatuses from '../components/RecipeStatuses';
 
-function BrewRecipes() {
+function BrewRecipes({ backendURL }) {
     // Init state for fetching tables
     const [brewRecipes, setBrewRecipes] = useState([]);
     const [brewerTypes, setBrewerTypes] = useState([]);
@@ -21,9 +21,9 @@ function BrewRecipes() {
     const loadData = async () => {
         try {
             const [brewRecipesRes, brewerTypesRes, recipeStatusesRes] = await Promise.all([
-                fetch('/api/brewrecipes'),
-                fetch('/api/brewertypes'),
-                fetch('/api/recipestatuses')
+                fetch(`${backendURL}/api/brewrecipes`),
+                fetch(`${backendURL}/api/brewertypes`),
+                fetch(`${backendURL}/api/recipestatuses`)
             ]);
             setBrewRecipes(await brewRecipesRes.json());
             setBrewerTypes(await brewerTypesRes.json());

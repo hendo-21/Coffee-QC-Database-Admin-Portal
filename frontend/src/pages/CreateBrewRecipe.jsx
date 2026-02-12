@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function CreateBrewResult() {
+function CreateBrewResult({ backendURL}) {
     // Init state for fetching data from required tables for dropdowns
     const [coffees, setCoffees] = useState([]);
     const [recipeStatuses, setRecipeStatuses] = useState([]);
@@ -27,9 +27,9 @@ function CreateBrewResult() {
         const fetchData = async () => {
             try {
                 const [coffeesRes, statusRes, brewerTypesRes] = await Promise.all([
-                    fetch('/api/coffees'),
-                    fetch('/api/recipestatuses'),
-                    fetch('/api/brewertypes')
+                    fetch(`${backendURL}/api/coffees`),
+                    fetch(`${backendURL}/api/recipestatuses`),
+                    fetch(`${backendURL}/api/brewertypes`)
                 ]);                
                 setCoffees(await coffeesRes.json());
                 setRecipeStatuses(await statusRes.json());

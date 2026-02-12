@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function BrewResults() {
+function BrewResults({ backendURL }) {
     // Init state for fetching tables
     const [brewresults, setBrewResults] = useState([]);
 
@@ -11,7 +11,7 @@ function BrewResults() {
     // Load Data
     const loadData = async () => {
         try{
-            const brewResultsRes = await fetch('/api/brewresults');
+            const brewResultsRes = await fetch(`${backendURL}/api/brewresults`);
             setBrewResults(await brewResultsRes.json());
         } catch {
             console.error('Error fetching data:', error);

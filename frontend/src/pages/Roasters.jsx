@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-function Roasters() {
+function Roasters({backendURL}) {
     const [roasters, setRoasters] = useState([]);
     const [locations, setLocations] = useState([]);
     const [formData, setFormData] = useState({ roaster_name: '', location_id: '' });
 
     // Display roasters
     const loadRoasters = async () => {
-        const response = await fetch('/api/roasters');
+        const response = await fetch(`${backendURL}/api/roasters`);
         const dbData = await response.json();
         setRoasters(dbData);
     }
@@ -17,7 +17,7 @@ function Roasters() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('/api/roasters', {
+        fetch(`${backendURL}/api/roasters`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)

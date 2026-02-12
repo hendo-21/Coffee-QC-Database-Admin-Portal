@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-function Locations() {
+function Locations({ backendURL }) {
     const [locations, setLocations] = useState([]);
     const [newCity, setNewCity] = useState("");
     const [newCountry, setNewCountry] = useState("");
 
     // 1. Load data
     const loadLocations = async () => {
-        const response = await fetch('/api/locations');
+        const response = await fetch(`${backendURL}/api/locations`);
         const dbData = await response.json();
         setLocations(dbData);
     }

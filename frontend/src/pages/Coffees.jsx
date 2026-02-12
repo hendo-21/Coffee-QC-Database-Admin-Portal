@@ -4,7 +4,7 @@ import Varietals from '../components/Varietals';
 import CoffeeLotVarietals from '../components/CoffeeLotVarietals';
 import ProcessingStyles from '../components/ProcessingStyles';
 
-function Coffees() {
+function Coffees({backendURL}) {
     // Init state for fetching tables
     const [coffees, setCoffees] = useState([]);
     const [lots, setLots] = useState([]);
@@ -34,14 +34,14 @@ function Coffees() {
 
         try {
             const [CoffeesRes, LotsRes, VarietalsRes, CoffeeLotVarietalsRes, ProcessingStylesRes, RoastTypesRes, RoastersRes, LocationsRes] = await Promise.all([
-                fetch('/api/coffees'),
-                fetch('/api/coffeelots'),
-                fetch('/api/varietals'),
-                fetch('/api/coffeelotvarietals'),
-                fetch('/api/processingstyles'),
-                fetch('/api/roasttypes'),
-                fetch('/api/roasters'),
-                fetch('/api/locations')
+                fetch(`${backendURL}/api/coffees`),
+                fetch(`${backendURL}/api/coffeelots`),
+                fetch(`${backendURL}/api/varietals`),
+                fetch(`${backendURL}/api/coffeelotvarietals`),
+                fetch(`${backendURL}/api/processingstyles`),
+                fetch(`${backendURL}/api/roasttypes`),
+                fetch(`${backendURL}/api/roasters`),
+                fetch(`${backendURL}/api/locations`)
             ]);
 
             setCoffees(await CoffeesRes.json());
@@ -221,13 +221,13 @@ function Coffees() {
             <CoffeeLots lots={lots} locations={locations} processingStyles={processingStyles}/>
 
             <hr style={{ margin: '40px 0' }} />
-            <Varietals varietals={varietals} />
+            <Varietals varietals={varietals}/>
 
             <hr style={{ margin: '40px 0' }} />
             <CoffeeLotVarietals lotVarietals={lotVarietals} lots={lots} varietals={varietals}/>
 
             <hr style={{ margin: '40px 0' }} />
-            <ProcessingStyles processingStyles={processingStyles} />
+            <ProcessingStyles processingStyles={processingStyles}/>
         </div>
     );
 }

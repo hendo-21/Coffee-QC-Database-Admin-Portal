@@ -24,12 +24,12 @@ function App() {
             <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/locations" element={<Locations />} />
-                <Route path="/roasters" element={<Roasters />} />
-                <Route path="/coffees" element={<Coffees />} />
-                <Route path="/brewrecipes" element={<BrewRecipes />} />
-                <Route path="/brewresults" element={<BrewResults />} />
-                <Route path="/create-brew-result" element={<CreateBrewRecipe />} />
+                <Route path="/locations" element={<Locations backendURL={backendURL} />}/>
+                <Route path="/roasters" element={<Roasters backendURL={backendURL} />} />
+                <Route path="/coffees" element={<Coffees backendURL={backendURL}/>} />
+                <Route path="/brewrecipes" element={<BrewRecipes backendURL={backendURL}/>} />
+                <Route path="/brewresults" element={<BrewResults backendURL={backendURL}/>} />
+                <Route path="/create-brew-result" element={<CreateBrewRecipe backendURL={backendURL}/>} />
             </Routes>
 
             <footer><p>&copy; 2026 Ian Henderson & Nicholas Park</p></footer>
