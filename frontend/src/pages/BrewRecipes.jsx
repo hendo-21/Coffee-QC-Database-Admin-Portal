@@ -49,8 +49,6 @@ function BrewRecipes() {
                 <hr style={{ margin: '40px 0' }} />
 
                 <h2>Manage Brew Recipes</h2>
-
-
                 {/* Table for BrewRecipes */}
                 <table border="1">
                     <thead>
@@ -87,15 +85,11 @@ function BrewRecipes() {
                         <label>Brewer Types
                             <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
                                 <option value="">-- Select a Brewer Type --</option>
-                                {brewerTypes && brewerTypes.length > 0 ? (
-                                    brewerTypes.map(brewerTypes => (
+                                {brewerTypes.map(brewerTypes => (
                                         <option key={brewerTypes.brewer_id} value={brewerTypes.brewer_type}>
                                             {brewerTypes.brewer_type}
                                         </option>
-                                    ))
-                                ) : (
-                                    <option key="loading" value="">Loading...</option>
-                                )}
+                                    ))}
                             </select>
                         </label>
                     </p>
@@ -139,15 +133,11 @@ function BrewRecipes() {
                         <label>Recipe Statuses
                             <select value={selectedRecipeStatus} onChange={event => setSelectedRecipeStatus(event.target.value)} required>
                                 <option value="">-- Select Recipe Status --</option>
-                                {recipeStatuses && recipeStatuses.length > 0 ? (
-                                    recipeStatuses.map(recipeStatuses => (
+                                {recipeStatuses.map(recipeStatuses => (
                                         <option key={recipeStatuses.status_id} value={recipeStatuses.status_type}>
                                                 {recipeStatuses.status_type}
                                         </option>
-                                    ))
-                                ) : (
-                                    <option key="loading" value="">Loading...</option>
-                                )}
+                                    ))}
                             </select>
                         </label>
                     </p>

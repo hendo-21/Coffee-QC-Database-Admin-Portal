@@ -55,13 +55,9 @@ function CreateBrewResult() {
                     <label>Coffee Name
                         <select value={selectedCoffee} onChange={event => setSelectedCoffee(event.target.value)} required>
                             <option value="">-- Select a Coffee --</option>
-                            {coffees && coffees.length > 0 ? (
-                                coffees.map(coffee => (
+                            {coffees.map(coffee => (
                                     <option key={coffee.coffee_id} value={coffee.coffee_name}>{coffee.coffee_name}</option>
-                                ))
-                            ) : (
-                                <option key="loading" value="">Loading...</option>
-                            )}
+                                ))}
                         </select>
                     </label>
                 </p>
@@ -70,13 +66,9 @@ function CreateBrewResult() {
                     <label>Recipe Status
                         <select value={selectedRecipeStatus} onChange={event => setSelectedRecipeStatus(event.target.value)} required>
                             <option value="">-- Select a Recipe Status --</option>
-                            {recipeStatuses && recipeStatuses.length > 0 ? (
-                                recipeStatuses.map(status => (
+                            {recipeStatuses.map(status => (
                                     <option key={status.status_id} value={status.status_id}>{status.status_type}</option>
-                                ))
-                            ) : (
-                                <option key="loading" value="">Loading...</option>
-                            )}
+                                ))}
                         </select>
                     </label>
                 </p>
@@ -85,13 +77,9 @@ function CreateBrewResult() {
                     <label>Brewer Type
                         <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
                             <option value="">-- Select a Brewer Type --</option>
-                            {brewerTypes && brewerTypes.length > 0 ? (
-                                brewerTypes.map(type => (
+                            {brewerTypes.map(type => (
                                     <option key={type.brewer_id} value={type.brewer_id}>{type.brewer_type}</option>
-                                ))
-                            ) : (
-                                <option key="loading" value="">Loading...</option>
-                            )}
+                                ))}
                         </select>
                     </label>
                 </p>

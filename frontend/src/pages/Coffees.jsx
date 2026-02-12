@@ -88,7 +88,7 @@ function Coffees() {
     Prompt(s) used: 
         - Would it be better to have CoffeeLots, Varietals, CoffeeLotVarietals, 
         and ProcessingStyles as separate components that are imported into Coffees? Explain why.
-        - Create individual component files for each function just mentioned using the table elements already in this file. 
+        - Create individual component files for each function just mentioned using the form elements already in this file. 
         Import those components to this component (Coffees.jsx) and pass the data to each newly created component file as appropriate.
     AI Source: Microsoft Copilot VSCode integration. Model: Claude Haiku 4.5.
     */}

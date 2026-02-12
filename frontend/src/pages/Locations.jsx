@@ -15,8 +15,6 @@ function Locations() {
         loadLocations()
     }, [])
 
-
-
     // 2. Add a new location
     const addLocation = (e) => {
         e.preventDefault();
