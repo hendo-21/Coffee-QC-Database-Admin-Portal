@@ -60,7 +60,8 @@ function BrewRecipes() {
                             <th>Target Water Temp</th>
                             <th>Target Brew Time</th>
                             <th>Recipe Status</th>
-                            <th>Edit / Delete</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +74,16 @@ function BrewRecipes() {
                                 <td>{br.target_water_temp}</td>
                                 <td>{br.target_brew_time}</td>
                                 <td>{br.status}</td>
-                                <td>MD Icons go here</td>
+                                <td>
+                                    <button type='submit'>
+                                        Edit
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type='submit'>
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
