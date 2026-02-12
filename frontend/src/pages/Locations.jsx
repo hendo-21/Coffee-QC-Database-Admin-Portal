@@ -46,12 +46,14 @@ function Locations() {
             <h2>Manage Locations</h2>
 
             {/* Table for READ */}
-            <table border="1" style={{ width: '100%', marginBottom: '20px' }}>
+            <table border="1">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>City</th>
                         <th>Country</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,6 +62,16 @@ function Locations() {
                             <td>{loc.location_id}</td>
                             <td>{loc.city}</td>
                             <td>{loc.country}</td>
+                            <td>
+                                    <button type='submit'>
+                                        Edit
+                                    </button>
+                            </td>
+                            <td>
+                                    <button type='submit'>
+                                        Delete
+                                    </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

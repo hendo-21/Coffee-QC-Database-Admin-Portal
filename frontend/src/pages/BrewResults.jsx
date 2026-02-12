@@ -71,7 +71,11 @@ function BrewResults() {
                                 <td>{bres.tds_reading}</td>
                                 <td>{bres.ext_yield}</td>
                                 <td>{bres.rating}</td>
-                                <td>MD Icons go here</td>
+                                <td>
+                                        <button type='submit'>
+                                            Delete
+                                        </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

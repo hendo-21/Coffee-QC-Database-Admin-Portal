@@ -14,7 +14,8 @@ function BrewerTypes ({ brewerTypes }) {
                     <tr>
                         <th>Brewer ID</th>
                         <th>Brewer Type</th>
-                        <th>Edit / Delete</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,7 +23,16 @@ function BrewerTypes ({ brewerTypes }) {
                         <tr key={brewerTypes.brewer_id}>
                             <td>{brewerTypes.brewer_id}</td>
                             <td>{brewerTypes.brewer_type}</td>
-                            <td>MD Icons go here</td>
+                            <td>
+                                    <button type='submit'>
+                                        Edit
+                                    </button>
+                            </td>
+                            <td>
+                                    <button type='submit'>
+                                        Delete
+                                    </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -30,6 +40,13 @@ function BrewerTypes ({ brewerTypes }) {
 
             {/* Form to add Brewer Type */}
             <form className="brewerTypeForm" onSubmit={event => {event.preventDefault();}}>
+                <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '1px',
+                        alignItems: 'baseline',
+                }}>
+
                 <p>
                     <label>Brewer Type
                         <input type="text" id="brewerType" name="brewerType" placeholder="Chemex" required 
@@ -40,6 +57,8 @@ function BrewerTypes ({ brewerTypes }) {
                 <button type="submit">
                         Add Brewer Type
                 </button>
+
+                </div>
             </form>
         </>
     )
