@@ -1,3 +1,8 @@
+// Citation for following code:
+// Date: 02/09/26
+// Copied from:
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
 // Get an instance of mysql we can use in the app
 let mysql = require('mysql2')
 
