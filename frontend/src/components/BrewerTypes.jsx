@@ -40,6 +40,13 @@ function BrewerTypes ({ brewerTypes }) {
 
             {/* Form to add Brewer Type */}
             <form className="brewerTypeForm" onSubmit={event => {event.preventDefault();}}>
+                <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '1px',
+                        alignItems: 'baseline',
+                }}>
+
                 <p>
                     <label>Brewer Type
                         <input type="text" id="brewerType" name="brewerType" placeholder="Chemex" required 
@@ -50,6 +57,8 @@ function BrewerTypes ({ brewerTypes }) {
                 <button type="submit">
                         Add Brewer Type
                 </button>
+
+                </div>
             </form>
         </>
     )

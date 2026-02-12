@@ -94,8 +94,7 @@ function BrewRecipes() {
                     <div style={{
                         display: 'flex',
                         flexDirection: 'row',
-                        gap: '10px',
-                        alignItems: 'flex-end',
+                        alignItems: 'baseline',
                     }}>
 
                     <p>

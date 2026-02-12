@@ -40,6 +40,13 @@ function RecipeStatuses({ recipeStatuses }) {
 
             {/* Form to add Recipe Status */}
             <form className="recipeStatusForm" onSubmit={event => {event.preventDefault();}}>
+                <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '1px',
+                        alignItems: 'baseline',
+                }}>
+
                 <p>
                     <label>Recipe Status
                         <input type="text" id="recipeStatus" name="recipeStatus" required 
@@ -50,6 +57,8 @@ function RecipeStatuses({ recipeStatuses }) {
                 <button type="submit">
                         Add Recipe Status
                 </button>
+
+                </div>
             </form>
         </>
     )
