@@ -11,7 +11,7 @@ import BrewerTypes from './pages/BrewerTypes';
 import RecipeStatuses from './pages/RecipeStatuses';
 import BrewRecipes from './pages/BrewRecipes';
 import BrewResults from './pages/BrewResults';
-import CreateBrewRecipe from './pages/CreateBrewRecipe';
+import CreateBrewResult from './pages/CreateBrewResult';
 
 // Components
 import Navigation from './components/Navigation';
@@ -40,7 +40,7 @@ function App() {
                     <Route path="/recipestatuses" element={<RecipeStatuses backendURL={backendURL}/>} />
                     <Route path="/brewrecipes" element={<BrewRecipes backendURL={backendURL}/>} />
                     <Route path="/brewresults" element={<BrewResults backendURL={backendURL}/>} />
-                    <Route path="/create-brew-result" element={<CreateBrewRecipe backendURL={backendURL}/>} />
+                    <Route path="/create-brew-result" element={<CreateBrewResult backendURL={backendURL}/>} />
                 </Routes>
 
                 <footer><p>&copy; 2026 Ian Henderson & Nicholas Park</p></footer>
