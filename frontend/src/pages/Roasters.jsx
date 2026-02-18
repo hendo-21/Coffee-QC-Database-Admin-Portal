@@ -25,7 +25,7 @@ function Roasters({backendURL}) {
     };
 
     return (
-        <div>
+        <div className="pageContent">
             <h2>Page Description</h2>
                 <p>
                     Create, edit and delete Roasters from the database.

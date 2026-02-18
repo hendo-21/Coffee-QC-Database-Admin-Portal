@@ -28,7 +28,7 @@ function BrewResults({ backendURL }) {
 
     return (
         <>
-            <div>
+            <div className="pageContent">
                 <h2>Page Description</h2>
                 <p>
                     View, create and delete brew results. These are considered transaction records, so editing not available.

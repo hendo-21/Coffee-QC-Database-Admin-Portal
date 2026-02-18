@@ -36,7 +36,7 @@ function Locations({ backendURL }) {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="pageContent">
             <h2>Page Description</h2>
             <p>
                 Create, update, and delete locations from the database. Locations apply to Coffee Lots and Roasters.

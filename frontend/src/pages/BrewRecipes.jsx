@@ -41,7 +41,7 @@ function BrewRecipes({ backendURL }) {
 
     return (
         <>
-            <div>
+            <div className="pageContent">
                 <h2>Page Description</h2>
                 <p>Create, edit and delete brew recipes. On this page you also have acccess to dependant subtables.
                     Create brewer types as needed to build your recipe.
@@ -118,7 +118,7 @@ function BrewRecipes({ backendURL }) {
                     </p>
 
                     <p>
-                        <label>Target Yeild
+                        <label>Target Yield
                             <input type="number" step="0.01" id="targetYield" name="targetYield" min="0" placeholder="eg. 240.00" required 
                             onChange={ event => { setTargetYield(event.target.valueAsNumber) } }></input>
                         </label>

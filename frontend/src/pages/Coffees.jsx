@@ -96,7 +96,7 @@ function Coffees({backendURL}) {
     AI Source: Microsoft Copilot VSCode integration. Model: Claude Haiku 4.5.
     */}
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="pageContent">
             <h2>Page Description</h2>
                 <p>
                     Create, edit and delete Coffees. On this page you also have acccess to dependant subtables.
