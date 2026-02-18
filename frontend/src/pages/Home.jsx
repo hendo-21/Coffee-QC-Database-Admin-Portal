@@ -1,4 +1,3 @@
-import Navigation from '../components/Navigation';
 import { Link } from 'react-router-dom';
 
 function Home() {
@@ -10,17 +9,52 @@ function Home() {
                 <div className="homepageIndex">
                     <Link to="/locations" >
                         <span className="homepageIndexElement">Locations: </span>
-                        <span>Manage location information for Roasters and Coffees.</span>
+                        <span>View locations for Roasters and Coffee Lots.</span>
                     </Link>
 
                     <Link to="/roasters" >
                         <span className="homepageIndexElement">Roasters: </span>
-                        <span>View roaster contact info and manage roasters.</span>
+                        <span>View roaster information.</span>
                     </Link>
 
                     <Link to="/coffees">
                         <span className="homepageIndexElement">Coffees:</span>
-                        <span>Manage all origin-specific coffee information: Coffees, Coffee Lots, Coffee Lot Varietals, Varietals, and Processing Styles.</span>
+                        <span>View Coffees and delete them from the database.</span>
+                    </Link>
+
+                    <Link to="/coffeelots">
+                        <span className="homepageIndexElement">Coffee Lots:</span>
+                        <span>View Coffee lot information: location, elevation, and processing style.</span>
+                    </Link>
+
+                    <Link to="/varietals">
+                        <span className="homepageIndexElement">Varietals:</span>
+                        <span>View the varietals that compose the coffee lots.</span>
+                    </Link>
+
+                    <Link to="/coffeelotvarietals">
+                        <span className="homepageIndexElement">Coffee Lot Varietals:</span>
+                        <span>View the varietals that makeup each lot of coffee.</span>
+                    </Link>
+
+                    <Link to="/processingstyles">
+                        <span className="homepageIndexElement">Processing Styles:</span>
+                        <span>View the processing styles used for the available coffee lots.</span>
+                    </Link>
+
+                    <Link to="/roasttypes">
+                        <span className="homepageIndexElement">Roast Types:</span>
+                        <span>View the roast types used by the available roasters.</span>
+                    </Link>
+
+                    <Link to="/brewertypes">
+                        <span className="homepageIndexElement">Brewer Types:</span>
+                        <span>View the brewer types available for use in Brew Recipes.</span>
+                    </Link>
+
+                    <Link to="/recipestatuses">
+                        <span className="homepageIndexElement">Recipe Statuses:</span>
+                        <span>View the recipe statuses available for Brew Recipes.</span>
                     </Link>
 
                     <Link to="/brewrecipes">

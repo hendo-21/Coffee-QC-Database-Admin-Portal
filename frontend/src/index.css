@@ -1,10 +1,19 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #f6ded0;
+  color: #4a3e36;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 table {
   border-collapse: collapse;
-  margin-left: 32px;
+  margin-left: 16px;
+  min-width: 50%;
 }
 
 th, td {
-  border: 1px solid #ddd;
+  border: 1px solid #4a3e36;
   padding: 12px;
   text-align: center;
 }
@@ -12,33 +21,70 @@ th {
   background-color: #f2f2f2;
 }
 tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #e6e6e6;
 }
-.cuForm { 
-  margin-left: 32px;
+tr:nth-child(odd) {
+  background-color: #ffffff;
 }
+
 input, select { 
   margin-bottom: 4px;
   margin-right: 12px;
 }
 
 nav {
-  background-color: #cecece;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 175px;
+  min-width: 175px;
+  height: vh;
+  margin: 0;
+  background-color: #a94841;
 }
 
+/* Citation for use of AI Tools
+    Date: 02/18/26
+    Prompt(s) used: 
+        - Add a hober effect for the nav anchors that lightens the color to #d26b63 over the course of 0.25s.
+    AI Source: Microsoft Copilot VSCode integration.
+*/
 a {
-  margin-left: 16px;
+  padding: 1rem 0;
+  margin-left: 0;
   text-decoration: none;
+  font-size: medium;
+  border-bottom: 1px solid #4a3e36;
+  color: white;
+  transition: background-color 0.25s ease;
+}
+
+a span {
+  padding-left: 16px;
 }
 
 a:visited {
   text-decoration: none;
 }
 
+nav a:hover {
+  background-color: #d26b63;
+}
+
+.resetButton {
+  margin: 100px 10px;
+  padding: 15px;
+  font-weight: bold;
+}
+
 .pageContent {
   margin: 0 32px;
   margin-bottom: 32px;
+  flex: 1;
+}
+
+.pageContent a {
+  color: #4a3e36;
+  border-bottom: none;
 }
 
 .homepageIndex {
@@ -49,6 +95,8 @@ a:visited {
 
 .homepageIndex a {
   padding: 5px;
+  color: #4a3e36;
+  border-bottom: none;
 }
 
 .homepageIndexElement {
@@ -58,13 +106,53 @@ a:visited {
 
 .pageContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 footer {
   margin-top: auto;
   padding: 5px;
-  border-top: 1px solid black;
+  border-top: 1px solid #4a3e36;
   text-align: left;
+}
+
+form {
+  margin: 1rem;
+  display:flex;
+  flex-direction: column;
+  border: 1px solid #4a3e36;
+  background-color: #f2f2f2;
+  width: 25%;
+}
+
+form h3, p {
+  padding: 0 1rem;
+  margin: 0.5rem;
+}
+
+form label {
+  display: flex;
+  justify-content: space-between;
+}
+
+label select, input {
+  padding: 0;
+  margin: 0;
+  width: 200px;
+  border: 1px solid #4a3e36;
+}
+
+input {
+  padding-left: 5px;
+}
+
+form button {
+  width: 100%;
 }

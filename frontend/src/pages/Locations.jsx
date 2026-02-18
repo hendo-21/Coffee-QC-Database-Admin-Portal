@@ -37,13 +37,7 @@ function Locations({ backendURL }) {
 
     return (
         <div className="pageContent">
-            <h2>Page Description</h2>
-            <p>
-                Create, update, and delete locations from the database. Locations apply to Coffee Lots and Roasters.
-            </p>
-            <hr style={{ margin: '40px 0' }} />
-
-            <h2>Manage Locations</h2>
+            <h2>View Locations</h2>
 
             {/* Table for READ */}
             <table border="1">
@@ -52,8 +46,6 @@ function Locations({ backendURL }) {
                         <th>ID</th>
                         <th>City</th>
                         <th>Country</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,22 +54,12 @@ function Locations({ backendURL }) {
                             <td>{loc.location_id}</td>
                             <td>{loc.city}</td>
                             <td>{loc.country}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Form for CREATE */}
+            {/* Form for CREATE 
             <form onSubmit={addLocation}>
                 <h3>Add New Location</h3>
 
@@ -112,6 +94,7 @@ function Locations({ backendURL }) {
                     <button type="submit">Add Location</button>
                 </div>
             </form>
+            */}
         </div>
     );
 }

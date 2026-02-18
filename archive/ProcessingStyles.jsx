@@ -12,8 +12,6 @@ function ProcessingStyles({ processingStyles }) {
                     <tr>
                         <th>ID</th>
                         <th>Process Name</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,22 +19,12 @@ function ProcessingStyles({ processingStyles }) {
                         <tr key={process.process_id}>
                             <td>{process.process_id}</td>
                             <td>{process.process_name}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Form to add Processing Style */}
+            {/* Form to add Processing Style
             <form className="recipeStatusForm" onSubmit={event => {event.preventDefault();}}>
                 <div style={{
                         display: 'flex',
@@ -57,7 +45,7 @@ function ProcessingStyles({ processingStyles }) {
                 </button>
 
                 </div>
-            </form>
+            </form>  */}
         </div>
     );
 };

@@ -1,21 +1,32 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 
-function BrewerTypes ({ brewerTypes }) {
+function BrewerTypes ({ backendURL }) {
     // Init state for storing user input
-    const [brewerType, setBrewerType] = useState('');
+    const [brewerTypes, setBrewerTypes] = useState([]);
 
-    // TODO: POST to BrewerTypes table
+    // Load data
+    const loadData = async () => {
+        try {
+            const brewerTypesRes = await fetch(`${backendURL}/api/brewertypes`);
+            setBrewerTypes(await brewerTypesRes.json());
+        } catch {
+            console.error("Error fetching BrewerTypes", error);
+        }
+    };
+    useEffect(() => {
+        loadData()
+    }, []);
+
+    // TODO: POST to BrewerTy..pes table
 
     return (
-        <>
-            <h2>Brewer Types</h2>
+        <div className="pageContent">
+            <h2>View Brewer Types</h2>
             <table border="1">
                 <thead>
                     <tr>
                         <th>Brewer ID</th>
                         <th>Brewer Type</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,22 +34,12 @@ function BrewerTypes ({ brewerTypes }) {
                         <tr key={brewerTypes.brewer_id}>
                             <td>{brewerTypes.brewer_id}</td>
                             <td>{brewerTypes.brewer_type}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Form to add Brewer Type */}
+            {/* Form to add Brewer Type 
             <form className="brewerTypeForm" onSubmit={event => {event.preventDefault();}}>
                 <div style={{
                         display: 'flex',
@@ -59,8 +60,8 @@ function BrewerTypes ({ brewerTypes }) {
                 </button>
 
                 </div>
-            </form>
-        </>
+            </form> */}
+        </div>
     )
 
 }

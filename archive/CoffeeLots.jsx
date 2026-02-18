@@ -19,8 +19,6 @@ function CoffeeLots({ lots, locations, processingStyles }) {
                         <th>Country</th>
                         <th>Elevation (m)</th>
                         <th>Process</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,22 +30,12 @@ function CoffeeLots({ lots, locations, processingStyles }) {
                             <td>{lot.country}</td>
                             <td>{lot.elevation}</td>
                             <td>{lot.process}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Form to add CoffeeLot */}
+            {/* Form to add CoffeeLot
             <form className="coffeeLotForm" onSubmit={event => {event.preventDefault();}}>
                 <div style={{
                         display: 'flex',
@@ -99,7 +87,7 @@ function CoffeeLots({ lots, locations, processingStyles }) {
                 </button>
 
                 </div>
-            </form>
+            </form>  */}
         </div>
     );
 }

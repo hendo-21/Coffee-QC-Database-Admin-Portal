@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import CoffeeLots from '../components/CoffeeLots';
-import Varietals from '../components/Varietals';
-import CoffeeLotVarietals from '../components/CoffeeLotVarietals';
-import ProcessingStyles from '../components/ProcessingStyles';
 
 function Coffees({backendURL}) {
     // Init state for fetching tables
     const [coffees, setCoffees] = useState([]);
-    const [lots, setLots] = useState([]);
-    const [varietals, setVarietals] = useState([]);
-    const [lotVarietals, setCoffeeLotVarietals] = useState([]);
-    const [processingStyles, setProcessingStyles] = useState([]);
     const [roastTypes, setRoastTypes] = useState([]);
     const [roasters, setRoasters] = useState([]);
-    const [locations, setLocations] = useState([]);
+    const [lots, setLots] = useState([]);
 
     // Init state for tracking user input
     const [newName, setNewName] = useState("");
@@ -23,39 +15,23 @@ function Coffees({backendURL}) {
 
     // Load data
     const loadData = async () => {
-
-        {/* Citation for use of AI Tools
-        Date: 02/11/26
-        Prompt(s) used: 
-            - Can this code be refactored for greater efficiency?
-            - Refactor this code using the concurrent fetching described.
-        AI Source: Microsoft Copilot VSCode integration. Model: Claude Haiku 4.5.
-        */}
-
         try {
-            const [CoffeesRes, LotsRes, VarietalsRes, CoffeeLotVarietalsRes, ProcessingStylesRes, RoastTypesRes, RoastersRes, LocationsRes] = await Promise.all([
+            const [CoffeesRes, RoastTypesRes, RoastersRes, LotsRes] = await Promise.all([
                 fetch(`${backendURL}/api/coffees`),
-                fetch(`${backendURL}/api/coffeelots`),
-                fetch(`${backendURL}/api/varietals`),
-                fetch(`${backendURL}/api/coffeelotvarietals`),
-                fetch(`${backendURL}/api/processingstyles`),
                 fetch(`${backendURL}/api/roasttypes`),
                 fetch(`${backendURL}/api/roasters`),
-                fetch(`${backendURL}/api/locations`)
+                fetch(`${backendURL}/api/coffeelots`)
             ]);
 
             setCoffees(await CoffeesRes.json());
-            setLots(await LotsRes.json());
-            setVarietals(await VarietalsRes.json());
-            setCoffeeLotVarietals(await CoffeeLotVarietalsRes.json());
-            setProcessingStyles(await ProcessingStylesRes.json());
             setRoastTypes(await RoastTypesRes.json());
             setRoasters(await RoastersRes.json());
-            setLocations(await LocationsRes.json());
+            setLots(await LotsRes.json());
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+
     useEffect(() => {
         loadData()
     }, [])
@@ -97,16 +73,7 @@ function Coffees({backendURL}) {
     */}
     return (
         <div className="pageContent">
-            <h2>Page Description</h2>
-                <p>
-                    Create, edit and delete Coffees. On this page you also have acccess to dependant subtables.
-                </p>
-                <p>
-                    Create coffee lots, varietals, assign lots to varietals, and add processing styles as needed to populate dropdowns for Coffee record creation.
-                </p>
-            <hr style={{ margin: '40px 0' }} />
-
-            <h2>Manage Coffees</h2>
+            <h2>View and Delete Coffees</h2>
 
             {/* Table for READ */}
             <table border="1" style={{ marginBottom: '20px' }}>
@@ -117,7 +84,6 @@ function Coffees({backendURL}) {
                         <th>Roaster</th>
                         <th>Lot Number</th>
                         <th>Roast Type</th>
-                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -131,11 +97,6 @@ function Coffees({backendURL}) {
                             <td>{coffee.roast}</td>
                             <td>
                                     <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
                                         Delete
                                     </button>
                             </td>
@@ -144,18 +105,9 @@ function Coffees({backendURL}) {
                 </tbody>
             </table>
 
-            {/* Form for CREATE */}
+            {/* Form for CREATE 
             <form onSubmit={addCoffee} style={{ marginTop: '20px' }}>
                 <h3 style={{ marginBottom: '10px' }}>Add New Coffee</h3>
-
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    gap: '10px',
-                    alignItems: 'flex-end'
-                }}>
-
                     <div>
                         <label>Coffee Name: </label>
                         <input
@@ -214,20 +166,7 @@ function Coffees({backendURL}) {
                     </div>
 
                     <button type="submit" style={{ padding: '5px 15px' }}>Add Coffee</button>
-                </div>
-            </form>
-
-            <hr style={{ margin: '40px 0' }} />
-            <CoffeeLots lots={lots} locations={locations} processingStyles={processingStyles}/>
-
-            <hr style={{ margin: '40px 0' }} />
-            <Varietals varietals={varietals}/>
-
-            <hr style={{ margin: '40px 0' }} />
-            <CoffeeLotVarietals lotVarietals={lotVarietals} lots={lots} varietals={varietals}/>
-
-            <hr style={{ margin: '40px 0' }} />
-            <ProcessingStyles processingStyles={processingStyles}/>
+            </form> */}
         </div>
     );
 }
