@@ -10,6 +10,7 @@ function Navigation() {
             <a href="/recipestatuses"><span>Recipe Statuses</span></a>
             <a href="/brewrecipes"><span>Brew Recipes</span></a>
             <a href="/brewresults"><span>Brew Results</span></a>
+            <button className="resetButton">Reset Database</button>
         </nav>
     )
 } export default Navigation;
