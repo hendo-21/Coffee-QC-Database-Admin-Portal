@@ -42,13 +42,20 @@ nav {
   background-color: #a94841;
 }
 
+/* Citation for use of AI Tools
+    Date: 02/18/26
+    Prompt(s) used: 
+        - Add a hober effect for the nav anchors that lightens the color to #d26b63 over the course of 0.25s.
+    AI Source: Microsoft Copilot VSCode integration.
+*/
 a {
   padding: 1rem 0;
   margin-left: 0;
   text-decoration: none;
   font-size: medium;
-  border-bottom: 2px solid #4a3e36;
+  border-bottom: 1px solid #4a3e36;
   color: white;
+  transition: background-color 0.25s ease;
 }
 
 a span {
@@ -57,6 +64,10 @@ a span {
 
 a:visited {
   text-decoration: none;
+}
+
+nav a:hover {
+  background-color: #d26b63;
 }
 
 .resetButton {
