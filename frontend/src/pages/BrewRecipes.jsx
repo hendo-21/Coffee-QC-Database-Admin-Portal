@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import BrewerTypes from '../components/BrewerTypes';
-import RecipeStatuses from '../components/RecipeStatuses';
+import BrewerTypes from './BrewerTypes';
+import RecipeStatuses from './RecipeStatuses';
 
 function BrewRecipes({ backendURL }) {
     // Init state for fetching tables
@@ -164,14 +164,6 @@ function BrewRecipes({ backendURL }) {
 
                     </div>
                 </form>
-
-                {/* Table for Brewer Types */}
-                <hr style={{ margin: '40px 0' }} />
-                <BrewerTypes brewerTypes={brewerTypes} />
-
-                {/* Table for Recipe Statuses */}
-                <hr style={{ margin: '40px 0' }} />
-                <RecipeStatuses recipeStatuses={recipeStatuses} />
             </div>
         </>
     )

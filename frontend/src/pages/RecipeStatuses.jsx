@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function RecipeStatuses({ recipeStatuses }) {
+function RecipeStatuses({ backendURL }) {
     // Init state to store user input
-    const [recipeStatus, setRecipeStatus] = useState('');
+    const [recipeStatuses, setRecipeStatus] = useState([]);
+
+    // Load Data
+    const loadData = async () => {
+        try {
+            const recipeStatusesRes = await fetch(`${backendURL}/api/recipestatuses`);
+            setRecipeStatus(await recipeStatusesRes.json());
+        } catch {
+            console.error("Error fetching RecipeStatuses", error);
+        }
+    };
+    useEffect(() => {
+        loadData()
+    }, []);
 
     // TODO: POST recipe status to db
 
     return (
-        <>
+        <div className="pageContent">
             <h2>Recipe Statuses</h2>
             <table border="1">
                 <thead>
@@ -60,7 +73,7 @@ function RecipeStatuses({ recipeStatuses }) {
 
                 </div>
             </form>
-        </>
+        </div>
     )
 }
 

@@ -1,13 +1,26 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 
-function BrewerTypes ({ brewerTypes }) {
+function BrewerTypes ({ backendURL }) {
     // Init state for storing user input
-    const [brewerType, setBrewerType] = useState('');
+    const [brewerTypes, setBrewerTypes] = useState([]);
 
-    // TODO: POST to BrewerTypes table
+    // Load data
+    const loadData = async () => {
+        try {
+            const brewerTypesRes = await fetch(`${backendURL}/api/brewertypes`);
+            setBrewerTypes(await brewerTypesRes.json());
+        } catch {
+            console.error("Error fetching BrewerTypes", error);
+        }
+    };
+    useEffect(() => {
+        loadData()
+    }, []);
+
+    // TODO: POST to BrewerTy..pes table
 
     return (
-        <>
+        <div className="pageContent">
             <h2>Brewer Types</h2>
             <table border="1">
                 <thead>
@@ -60,7 +73,7 @@ function BrewerTypes ({ brewerTypes }) {
 
                 </div>
             </form>
-        </>
+        </div>
     )
 
 }
