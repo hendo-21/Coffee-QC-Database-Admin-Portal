@@ -16,8 +16,6 @@ function Varietals({ varietals }) {
                     <tr>
                         <th>ID</th>
                         <th>Varietal Name</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,22 +23,12 @@ function Varietals({ varietals }) {
                         <tr key={varietal.varietal_id}>
                             <td>{varietal.varietal_id}</td>
                             <td>{varietal.varietal_name}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Form to add Varietal */}
+            {/* Form to add Varietal
             <form className="recipeStatusForm" onSubmit={event => {event.preventDefault();}}>
                 <div style={{
                         display: 'flex',
@@ -61,7 +49,7 @@ function Varietals({ varietals }) {
                 </button>
 
                 </div>
-            </form>
+            </form>  */}
         </div>
     );
 }

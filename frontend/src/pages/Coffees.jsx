@@ -97,16 +97,7 @@ function Coffees({backendURL}) {
     */}
     return (
         <div className="pageContent">
-            <h2>Page Description</h2>
-                <p>
-                    Create, edit and delete Coffees. On this page you also have acccess to dependant subtables.
-                </p>
-                <p>
-                    Create coffee lots, varietals, assign lots to varietals, and add processing styles as needed to populate dropdowns for Coffee record creation.
-                </p>
-            <hr style={{ margin: '40px 0' }} />
-
-            <h2>Manage Coffees</h2>
+            <h2>View Coffees</h2>
 
             {/* Table for READ */}
             <table border="1" style={{ marginBottom: '20px' }}>
@@ -117,7 +108,6 @@ function Coffees({backendURL}) {
                         <th>Roaster</th>
                         <th>Lot Number</th>
                         <th>Roast Type</th>
-                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -131,11 +121,6 @@ function Coffees({backendURL}) {
                             <td>{coffee.roast}</td>
                             <td>
                                     <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
                                         Delete
                                     </button>
                             </td>
@@ -144,18 +129,9 @@ function Coffees({backendURL}) {
                 </tbody>
             </table>
 
-            {/* Form for CREATE */}
+            {/* Form for CREATE 
             <form onSubmit={addCoffee} style={{ marginTop: '20px' }}>
                 <h3 style={{ marginBottom: '10px' }}>Add New Coffee</h3>
-
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    gap: '10px',
-                    alignItems: 'flex-end'
-                }}>
-
                     <div>
                         <label>Coffee Name: </label>
                         <input
@@ -214,8 +190,7 @@ function Coffees({backendURL}) {
                     </div>
 
                     <button type="submit" style={{ padding: '5px 15px' }}>Add Coffee</button>
-                </div>
-            </form>
+            </form> */}
 
             <hr style={{ margin: '40px 0' }} />
             <CoffeeLots lots={lots} locations={locations} processingStyles={processingStyles}/>

@@ -14,8 +14,6 @@ function CoffeeLotVarietals({ lotVarietals, lots, varietals }) {
                     <tr>
                         <th>Lot Number</th>
                         <th>Varietal Name</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,22 +21,12 @@ function CoffeeLotVarietals({ lotVarietals, lots, varietals }) {
                         <tr key={`${lotvar.lot_number}-${lotvar.varietal_name}`}>
                             <td>{lotvar.lot_number}</td>
                             <td>{lotvar.varietal_name}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Form to add CoffeeLotVarietal */}
+            {/* Form to add CoffeeLotVarietal
             <form className="coffeeLotVarietalForm" onSubmit={event => {event.preventDefault();}}>
                 <div style={{
                         display: 'flex',
@@ -57,7 +45,7 @@ function CoffeeLotVarietals({ lotVarietals, lots, varietals }) {
                             </option>
                         ))}
                     </select>
-                </p>
+                </p> 
 
                 <p>
                     <label>Varietal</label>
@@ -76,7 +64,7 @@ function CoffeeLotVarietals({ lotVarietals, lots, varietals }) {
                 </button>
 
                 </div>
-            </form>
+            </form>  */}
         </div>
     );
 }
