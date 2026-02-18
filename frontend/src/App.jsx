@@ -6,6 +6,10 @@ import Home from './pages/Home';
 import Locations from './pages/Locations';
 import Roasters from './pages/Roasters';
 import Coffees from './pages/Coffees';
+import CoffeeLots from './pages/CoffeeLots';
+import Varietals from './pages/Varietals';
+import CoffeeLotVarietals from './pages/CoffeeLotVarietals';
+import ProcessingStyles from './pages/ProcessingStyles';
 import RoastTypes from './pages/RoastTypes';
 import BrewerTypes from './pages/BrewerTypes';
 import RecipeStatuses from './pages/RecipeStatuses';
@@ -35,6 +39,10 @@ function App() {
                     <Route path="/locations" element={<Locations backendURL={backendURL} />}/>
                     <Route path="/roasters" element={<Roasters backendURL={backendURL} />} />
                     <Route path="/coffees" element={<Coffees backendURL={backendURL}/>} />
+                    <Route path="/coffeelots" element={<CoffeeLots backendURL={backendURL}/>} />
+                    <Route path="/varietals" element={<Varietals backendURL={backendURL}/>} />
+                    <Route path="/coffeelotvarietals" element={<CoffeeLotVarietals backendURL={backendURL}/>} />
+                    <Route path="/processingstyles" element={<ProcessingStyles backendURL={backendURL}/>} />
                     <Route path="/roasttypes" element={<RoastTypes backendURL={backendURL}/>} />
                     <Route path="/brewertypes" element={<BrewerTypes backendURL={backendURL}/>} />
                     <Route path="/recipestatuses" element={<RecipeStatuses backendURL={backendURL}/>} />

@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import CoffeeLots from '../components/CoffeeLots';
-import Varietals from '../components/Varietals';
-import CoffeeLotVarietals from '../components/CoffeeLotVarietals';
-import ProcessingStyles from '../components/ProcessingStyles';
 
 function Coffees({backendURL}) {
     // Init state for fetching tables
     const [coffees, setCoffees] = useState([]);
-    const [lots, setLots] = useState([]);
-    const [varietals, setVarietals] = useState([]);
-    const [lotVarietals, setCoffeeLotVarietals] = useState([]);
-    const [processingStyles, setProcessingStyles] = useState([]);
     const [roastTypes, setRoastTypes] = useState([]);
     const [roasters, setRoasters] = useState([]);
-    const [locations, setLocations] = useState([]);
+    const [lots, setLots] = useState([]);
 
     // Init state for tracking user input
     const [newName, setNewName] = useState("");
@@ -23,39 +15,23 @@ function Coffees({backendURL}) {
 
     // Load data
     const loadData = async () => {
-
-        {/* Citation for use of AI Tools
-        Date: 02/11/26
-        Prompt(s) used: 
-            - Can this code be refactored for greater efficiency?
-            - Refactor this code using the concurrent fetching described.
-        AI Source: Microsoft Copilot VSCode integration. Model: Claude Haiku 4.5.
-        */}
-
         try {
-            const [CoffeesRes, LotsRes, VarietalsRes, CoffeeLotVarietalsRes, ProcessingStylesRes, RoastTypesRes, RoastersRes, LocationsRes] = await Promise.all([
+            const [CoffeesRes, RoastTypesRes, RoastersRes, LotsRes] = await Promise.all([
                 fetch(`${backendURL}/api/coffees`),
-                fetch(`${backendURL}/api/coffeelots`),
-                fetch(`${backendURL}/api/varietals`),
-                fetch(`${backendURL}/api/coffeelotvarietals`),
-                fetch(`${backendURL}/api/processingstyles`),
                 fetch(`${backendURL}/api/roasttypes`),
                 fetch(`${backendURL}/api/roasters`),
-                fetch(`${backendURL}/api/locations`)
+                fetch(`${backendURL}/api/coffeelots`)
             ]);
 
             setCoffees(await CoffeesRes.json());
-            setLots(await LotsRes.json());
-            setVarietals(await VarietalsRes.json());
-            setCoffeeLotVarietals(await CoffeeLotVarietalsRes.json());
-            setProcessingStyles(await ProcessingStylesRes.json());
             setRoastTypes(await RoastTypesRes.json());
             setRoasters(await RoastersRes.json());
-            setLocations(await LocationsRes.json());
+            setLots(await LotsRes.json());
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+
     useEffect(() => {
         loadData()
     }, [])
@@ -97,7 +73,7 @@ function Coffees({backendURL}) {
     */}
     return (
         <div className="pageContent">
-            <h2>View Coffees</h2>
+            <h2>View and Delete Coffees</h2>
 
             {/* Table for READ */}
             <table border="1" style={{ marginBottom: '20px' }}>
@@ -191,18 +167,6 @@ function Coffees({backendURL}) {
 
                     <button type="submit" style={{ padding: '5px 15px' }}>Add Coffee</button>
             </form> */}
-
-            <hr style={{ margin: '40px 0' }} />
-            <CoffeeLots lots={lots} locations={locations} processingStyles={processingStyles}/>
-
-            <hr style={{ margin: '40px 0' }} />
-            <Varietals varietals={varietals}/>
-
-            <hr style={{ margin: '40px 0' }} />
-            <CoffeeLotVarietals lotVarietals={lotVarietals} lots={lots} varietals={varietals}/>
-
-            <hr style={{ margin: '40px 0' }} />
-            <ProcessingStyles processingStyles={processingStyles}/>
         </div>
     );
 }

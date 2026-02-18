@@ -5,6 +5,10 @@ function Navigation() {
             <a href="/locations"><span>Locations</span></a>
             <a href="/roasters"><span>Roasters</span></a>
             <a href="/coffees"><span>Coffees</span></a>
+            <a href="/coffeelots"><span>Coffee Lots</span></a>
+            <a href="/varietals"><span>Varietals</span></a>
+            <a href="/coffeelotvarietals"><span>Coffee Lot Varietals</span></a>
+            <a href="/processingstyles"><span>Processing Styles</span></a>
             <a href="/roasttypes"><span>Roast Types</span></a>
             <a href="/brewertypes"><span>Brewer Types</span></a>
             <a href="/recipestatuses"><span>Recipe Statuses</span></a>
