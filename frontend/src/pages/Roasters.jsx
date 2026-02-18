@@ -26,13 +26,7 @@ function Roasters({backendURL}) {
 
     return (
         <div className="pageContent">
-            <h2>Page Description</h2>
-                <p>
-                    Create, edit and delete Roasters from the database.
-                </p>
-            <hr style={{ margin: '40px 0' }} />
-
-            <h2>Manage Roasters</h2>
+            <h2>View Roasters</h2>
             <table border="1">
                 <thead>
                     <tr>
@@ -40,8 +34,6 @@ function Roasters({backendURL}) {
                         <th>Email</th>
                         <th>City</th>
                         <th>Country</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,21 +43,12 @@ function Roasters({backendURL}) {
                             <td>{r.email}</td>
                             <td>{r.city}</td>
                             <td>{r.country}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
+            {/* 
             <h3>Add New Roaster</h3>
             <form onSubmit={handleSubmit}>
                 <input placeholder="Name" onChange={e => setFormData({ ...formData, roaster_name: e.target.value })} />
@@ -77,7 +60,7 @@ function Roasters({backendURL}) {
                         </option>)}
                 </select>
                 <button type="submit">Add</button>
-            </form>
+            </form> */}
         </div>
     );
 }

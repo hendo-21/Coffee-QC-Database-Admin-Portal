@@ -20,7 +20,7 @@ function RoastTypes({backendURL}) {
 
     return (
         <div className="pageContent">
-            <h2>Roast Types</h2>
+            <h2>View Roast Types</h2>
             <table border="1" style={{ width: '500px' }}>
                 <thead>
                     <tr>

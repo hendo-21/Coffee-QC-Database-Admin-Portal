@@ -21,14 +21,12 @@ function BrewerTypes ({ backendURL }) {
 
     return (
         <div className="pageContent">
-            <h2>Brewer Types</h2>
+            <h2>View Brewer Types</h2>
             <table border="1">
                 <thead>
                     <tr>
                         <th>Brewer ID</th>
                         <th>Brewer Type</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,16 +34,6 @@ function BrewerTypes ({ backendURL }) {
                         <tr key={brewerTypes.brewer_id}>
                             <td>{brewerTypes.brewer_id}</td>
                             <td>{brewerTypes.brewer_type}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>

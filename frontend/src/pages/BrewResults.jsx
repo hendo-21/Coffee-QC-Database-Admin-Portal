@@ -29,13 +29,7 @@ function BrewResults({ backendURL }) {
     return (
         <>
             <div className="pageContent">
-                <h2>Page Description</h2>
-                <p>
-                    View, create and delete brew results. These are considered transaction records, so editing not available.
-                </p>
-                <hr style={{ margin: '40px 0' }} />
-
-                <h2>Manage Brew Results</h2>
+                <h2>View and Add Brew Results</h2>
                 <table border="1">
                     <thead>
                         <tr>

@@ -21,14 +21,12 @@ function RecipeStatuses({ backendURL }) {
 
     return (
         <div className="pageContent">
-            <h2>Recipe Statuses</h2>
+            <h2>View Recipe Statuses</h2>
             <table border="1">
                 <thead>
                     <tr>
                         <th>Status ID</th>
                         <th>Status Type</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,16 +34,6 @@ function RecipeStatuses({ backendURL }) {
                         <tr key={recipeStatuses.status_id}>
                             <td>{recipeStatuses.status_id}</td>
                             <td>{recipeStatuses.status_type}</td>
-                            <td>
-                                    <button type='submit'>
-                                        Edit
-                                    </button>
-                            </td>
-                            <td>
-                                    <button type='submit'>
-                                        Delete
-                                    </button>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
