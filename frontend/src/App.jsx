@@ -18,9 +18,13 @@ const backendPort = 1884;  // Use the port you assigned to the backend server, t
 const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
 
 function App() {
+    const contentStyle = {
+        flex: 1,
+        padding: "20px"
+    };
 
     return (
-        <>
+        <div className="pageContainer">
             <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -33,7 +37,7 @@ function App() {
             </Routes>
 
             <footer><p>&copy; 2026 Ian Henderson & Nicholas Park</p></footer>
-        </>
+        </div>
     );
 
 } export default App;
