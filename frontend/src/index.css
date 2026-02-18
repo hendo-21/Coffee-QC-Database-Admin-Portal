@@ -8,7 +8,7 @@ html, body {
 
 table {
   border-collapse: collapse;
-  margin-left: 32px;
+  margin-left: 16px;
 }
 
 th, td {
@@ -25,9 +25,7 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
   background-color: #ffffff;
 }
-.cuForm { 
-  margin-left: 32px;
-}
+
 input, select { 
   margin-bottom: 4px;
   margin-right: 12px;
@@ -102,6 +100,41 @@ a:visited {
 footer {
   margin-top: auto;
   padding: 5px;
-  border-top: 1px solid black;
+  border-top: 1px solid #4a3e36;
   text-align: left;
+}
+
+form {
+  margin: 1rem;
+  display:flex;
+  flex-direction: column;
+  border: 1px solid #4a3e36;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  width: 25%;
+}
+
+form h3, p {
+  padding: 0 1rem;
+  margin: 0.5rem;
+}
+
+form label {
+  display: flex;
+  justify-content: space-between;
+}
+
+label select, input {
+  padding: 0;
+  margin: 0;
+  width: 200px;
+  border: 1px solid #4a3e36;
+}
+
+input {
+  padding-left: 5px;
+}
+
+form button {
+  width: 100%;
 }

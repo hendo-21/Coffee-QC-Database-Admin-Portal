@@ -51,7 +51,7 @@ function RecipeStatuses({ backendURL }) {
                 </tbody>
             </table>
 
-            {/* Form to add Recipe Status */}
+            {/* Form to add Recipe Status 
             <form className="recipeStatusForm" onSubmit={event => {event.preventDefault();}}>
                 <div style={{
                         display: 'flex',
@@ -72,7 +72,7 @@ function RecipeStatuses({ backendURL }) {
                 </button>
 
                 </div>
-            </form>
+            </form> */}
         </div>
     )
 }

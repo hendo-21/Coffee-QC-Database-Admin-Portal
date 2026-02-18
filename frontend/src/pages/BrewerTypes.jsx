@@ -51,7 +51,7 @@ function BrewerTypes ({ backendURL }) {
                 </tbody>
             </table>
 
-            {/* Form to add Brewer Type */}
+            {/* Form to add Brewer Type 
             <form className="brewerTypeForm" onSubmit={event => {event.preventDefault();}}>
                 <div style={{
                         display: 'flex',
@@ -72,7 +72,7 @@ function BrewerTypes ({ backendURL }) {
                 </button>
 
                 </div>
-            </form>
+            </form> */}
         </div>
     )
 
