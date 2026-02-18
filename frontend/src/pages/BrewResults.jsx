@@ -99,7 +99,7 @@ function BrewResults({ backendURL }) {
 
             {/* Form for Adding a Brew Result */}
             <form onSubmit={event => { event.preventDefault(); addBrewResult(); }}>
-                <h3>Add Brew Recipe</h3>
+                <h3>Add Brew Result</h3>
                 <p>
                     <label>Recipe ID
                         <select value={selectedBrewRecipe} onChange={event => setSelectedBrewRecipe(event.target.value)} required>
