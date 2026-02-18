@@ -26,17 +26,19 @@ function App() {
     return (
         <div className="pageContainer">
             <Navigation />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/locations" element={<Locations backendURL={backendURL} />}/>
-                <Route path="/roasters" element={<Roasters backendURL={backendURL} />} />
-                <Route path="/coffees" element={<Coffees backendURL={backendURL}/>} />
-                <Route path="/brewrecipes" element={<BrewRecipes backendURL={backendURL}/>} />
-                <Route path="/brewresults" element={<BrewResults backendURL={backendURL}/>} />
-                <Route path="/create-brew-result" element={<CreateBrewRecipe backendURL={backendURL}/>} />
-            </Routes>
+            <div className="mainContent">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/locations" element={<Locations backendURL={backendURL} />}/>
+                    <Route path="/roasters" element={<Roasters backendURL={backendURL} />} />
+                    <Route path="/coffees" element={<Coffees backendURL={backendURL}/>} />
+                    <Route path="/brewrecipes" element={<BrewRecipes backendURL={backendURL}/>} />
+                    <Route path="/brewresults" element={<BrewResults backendURL={backendURL}/>} />
+                    <Route path="/create-brew-result" element={<CreateBrewRecipe backendURL={backendURL}/>} />
+                </Routes>
 
-            <footer><p>&copy; 2026 Ian Henderson & Nicholas Park</p></footer>
+                <footer><p>&copy; 2026 Ian Henderson & Nicholas Park</p></footer>
+            </div>
         </div>
     );
 

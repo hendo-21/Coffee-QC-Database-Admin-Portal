@@ -1,4 +1,3 @@
-import Navigation from '../components/Navigation';
 import { Link } from 'react-router-dom';
 
 function Home() {

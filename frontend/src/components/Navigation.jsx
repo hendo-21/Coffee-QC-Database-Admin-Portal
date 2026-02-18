@@ -1,13 +1,12 @@
 function Navigation() {
     return (
         <nav>
-            Navigation:
-            <a href="/">Home</a>
-            <a href="/locations">Locations</a>
-            <a href="/roasters">Roasters</a>
-            <a href="/coffees">Coffees</a>
-            <a href="/brewrecipes">Brew Recipes</a>
-            <a href="/brewresults">Brew Results</a>
+            <a href="/"><span>Home</span></a>
+            <a href="/locations"><span>Locations</span></a>
+            <a href="/roasters"><span>Roasters</span></a>
+            <a href="/coffees"><span>Coffees</span></a>
+            <a href="/brewrecipes"><span>Brew Recipes</span></a>
+            <a href="/brewresults"><span>Brew Results</span></a>
         </nav>
     )
 } export default Navigation;
