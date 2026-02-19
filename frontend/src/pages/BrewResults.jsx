@@ -55,6 +55,7 @@ function BrewResults({ backendURL }) {
             <table border="1">
                 <thead>
                     <tr>
+                        <th>Result ID</th>
                         <th>Recipe ID</th>
                         <th>Coffee Name</th>
                         <th>Roaster</th>
@@ -74,6 +75,7 @@ function BrewResults({ backendURL }) {
                 <tbody>
                     {brewresults.map(bres => (
                         <tr key={bres.result_id}>
+                            <td>{bres.result_id}</td>
                             <td>{bres.recipe_id}</td>
                             <td>{bres.coffee_name}</td>
                             <td>{bres.roaster}</td>

@@ -100,6 +100,7 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
     try {
         const query = `
             SELECT
+                result_id,
                 BrewRecipes.recipe_id,
                 Coffees.coffee_name AS coffee_name,
                 Roasters.roaster_name AS roaster,
@@ -116,7 +117,6 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
             FROM BrewResults
             INNER JOIN Coffees ON BrewResults.coffee_id = Coffees.coffee_id
             INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
-            INNER JOIN Locations ON CoffeeLots.location_id = Locations.location_id
             INNER JOIN Roasters ON Coffees.roaster_id = Roasters.roaster_id
             INNER JOIN BrewRecipes ON BrewResults.recipe_id = BrewRecipes.recipe_id
             INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id

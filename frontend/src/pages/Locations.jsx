@@ -43,7 +43,7 @@ function Locations({ backendURL }) {
             <table border="1">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Location ID</th>
                         <th>City</th>
                         <th>Country</th>
                     </tr>

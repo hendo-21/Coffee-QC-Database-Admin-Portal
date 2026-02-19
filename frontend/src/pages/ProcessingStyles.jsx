@@ -24,7 +24,7 @@ function ProcessingStyles({ backendURL }) {
             <table border="1">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Process ID</th>
                         <th>Process Name</th>
                     </tr>
                 </thead>

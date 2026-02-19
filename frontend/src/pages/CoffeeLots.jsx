@@ -32,7 +32,7 @@ function CoffeeLots({ backendURL }) {
             <table border="1">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Lot ID</th>
                         <th>Lot Number</th>
                         <th>City</th>
                         <th>Country</th>

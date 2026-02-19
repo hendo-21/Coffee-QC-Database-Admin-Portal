@@ -79,7 +79,7 @@ function Coffees({backendURL}) {
             <table border="1" style={{ marginBottom: '20px' }}>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Coffee ID</th>
                         <th>Coffee Name</th>
                         <th>Roaster</th>
                         <th>Lot Number</th>
