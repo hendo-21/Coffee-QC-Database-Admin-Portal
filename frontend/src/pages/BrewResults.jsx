@@ -21,6 +21,10 @@ function BrewResults({ backendURL }) {
     const [tdsReading, setTdsReading] = useState('');
     const [selectedRating, setSelectedRating] = useState('');
 
+    // State for tracking Bulk Delete user input
+    const [deleteCoffee, setDeleteCoffee] = useState('');
+    const [deleteRecipe, setDeleteRecipe] = useState('');
+
     // Load Data
     const loadData = async () => {
         try{
@@ -100,6 +104,33 @@ function BrewResults({ backendURL }) {
             </table>
 
             {/* Form for Adding a Brew Result */}
+            <form onSubmit={event => { event.preventDefault(); }}>
+                <h3>Bulk Delete</h3>
+                <p>Select a Coffee and Brew Recipe to delete all records matching records</p>
+                <p>
+                    <label>
+                        <select value={deleteCoffee} onChange={event => setDeleteCoffee(event.target.value)} required>
+                            <option value="">-- Select a Coffee --</option>
+                            {coffees.map(c => (
+                                <option key={c.coffee_name} value={c.coffee_name}>{c.coffee_name}</option>
+                            ))}
+                        </select>
+                    </label>
+                </p>
+
+                <p>
+                        <select value={deleteRecipe} onChange={event => setDeleteRecipe(event.target.value)} required>
+                            <option value="">-- Select a Brew Recipe --</option>
+                            {brewRecipes.map(br => (
+                                <option key={br.recipe_id} value={br.recipe_id}>{br.recipe_id}</option>
+                            ))}
+                        </select>
+                </p>
+
+                <p>
+                    <button>Delete Multiple Records</button>
+                </p>
+            </form>
             <form onSubmit={event => { event.preventDefault(); addBrewResult(); }}>
                 <h3>Add Brew Result</h3>
                 <p>
@@ -201,7 +232,7 @@ function BrewResults({ backendURL }) {
                 
                 <p>
                     <button type="submit">
-                        Add
+                        Add Brew Result
                     </button>
                 </p>
             </form>
