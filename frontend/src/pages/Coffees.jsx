@@ -73,7 +73,7 @@ function Coffees({backendURL}) {
     */}
     return (
         <div className="pageContent">
-            <h2>View and Delete Coffees</h2>
+            <h2>View, Add and Delete Coffees</h2>
 
             {/* Table for READ */}
             <table border="1" style={{ marginBottom: '20px' }}>

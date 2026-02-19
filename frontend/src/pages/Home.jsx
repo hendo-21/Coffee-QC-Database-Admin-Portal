@@ -19,7 +19,7 @@ function Home() {
 
                     <Link to="/coffees">
                         <span className="homepageIndexElement">Coffees:</span>
-                        <span>View Coffees and delete them from the database.</span>
+                        <span>View, Add, and Delete coffees from the database.</span>
                     </Link>
 
                     <Link to="/coffeelots">
