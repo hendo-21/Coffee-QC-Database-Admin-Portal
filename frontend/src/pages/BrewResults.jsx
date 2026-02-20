@@ -106,7 +106,9 @@ function BrewResults({ backendURL }) {
             {/* Form for Adding a Brew Result */}
             <form onSubmit={event => { event.preventDefault(); }}>
                 <h3>Bulk Delete</h3>
-                <p>Select a Coffee and Brew Recipe to delete all records matching records</p>
+                <p>Select a Coffee and Brew Recipe to delete all matching Brew Result records.</p>
+                <p>Note: deleting a record from Coffees OR BrewRecipes will also remove all records that are associated with either the coffee or recipe.
+                </p>
                 <p>
                     <label>
                         <select value={deleteCoffee} onChange={event => setDeleteCoffee(event.target.value)} required>
