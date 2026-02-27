@@ -35,7 +35,7 @@ app.get('/api/locations', asyncHandler(async (req, res) => {
     try {
         const [result] = await db.query('SELECT * FROM Locations');
         res.status(200).json(result);
-    } catch {
+    } catch (err) {
         console.error("SQL Error in Locations:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -52,7 +52,7 @@ app.get('/api/roasters', asyncHandler(async (req, res) => {
             `;
         const [roasters] = await db.query(sql);
         res.status(200).json(roasters)
-    } catch {
+    } catch (err) {
         console.error("SQL Error in Roasters:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -76,7 +76,7 @@ app.get('/api/brewrecipes', asyncHandler(async (req, res) => {
             `;
         const [brewrecipes] = await db.query(query);
         res.status(200).json(brewrecipes)
-    } catch (error) {
+    } catch (err) {
         console.error("SQL Error in BrewRecipes:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -90,7 +90,7 @@ app.get('/api/brewertypes', asyncHandler(async (req, res) => {
             `;
         const [brewertypes] = await db.query(query);
         res.status(200).json(brewertypes)
-    } catch (error) {
+    } catch (err) {
         console.error("SQL Error in BrewerTypes:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -125,8 +125,8 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
             `;
         const [brewresults] = await db.query(query);
         res.status(200).json(brewresults)
-    } catch (error) {
-        console.error("Error executing queries:", error);
+    } catch (err) {
+        console.error("Error executing queries:", err);
         res.status(500).send("An error occurred while executing the database queries.");
     }
 }));
@@ -140,9 +140,9 @@ app.get('/api/recipestatuses', asyncHandler(async (req, res) => {
             `;
         const [brewertypes] = await db.query(query);
         res.status(200).json(brewertypes)
-    } catch (error) {
+    } catch (err) {
         console.error("SQL Error in RecipeStatuses:", err.message);
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ err: err.message });
     }
 }));
 
@@ -193,7 +193,7 @@ app.get('/api/coffeelots', asyncHandler(async (req, res) => {
         return res.status(200).json(lots || []);
     } catch (err) {
         console.error("SQL Error in CoffeeLots:", err.message);
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ err: err.message });
     }
 }));
 
@@ -209,7 +209,7 @@ app.get('/api/varietals', asyncHandler(async (req, res) => {
         return res.status(200).json(varietals || []);
     } catch (err) {
         console.error("SQL Error in Varietals:", err.message);
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ err: err.message });
     }
 }));
 
@@ -229,7 +229,7 @@ app.get('/api/coffeelotvarietals', asyncHandler(async (req, res) => {
         return res.status(200).json(lotVarietals || []);
     } catch (err) {
         console.error("SQL Error in CoffeeLotVarietals:", err.message);
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ err: err.message });
     }
 }));
 
@@ -245,7 +245,7 @@ app.get(`/api/processingstyles`, asyncHandler(async (req, res) => {
         return res.status(200).json(processes || []);
     } catch (err) {
         console.error("SQL Error in ProcessingStyles:", err.message);
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ err: err.message });
     }
 }));
 
@@ -261,7 +261,7 @@ app.get('/api/roasttypes', asyncHandler(async (req, res) => {
         return res.status(200).json(roastTypes || []);
     } catch (err) {
         console.error("SQL Error in RoastTypes:", err.message);
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ err: err.message });
     }
 }));
 
