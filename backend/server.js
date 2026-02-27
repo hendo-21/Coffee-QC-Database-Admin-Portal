@@ -5,6 +5,7 @@
 
 // ########################################
 // ########## SETUP
+require('dotenv').config();
 
 // asyncHandler
 const asyncHandler = require('express-async-handler');
@@ -73,8 +74,8 @@ app.get('/api/brewrecipes', asyncHandler(async (req, res) => {
             INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id
             INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
             `;
-            const [brewrecipes] = await db.query(query);
-            res.status(200).json(brewrecipes)
+        const [brewrecipes] = await db.query(query);
+        res.status(200).json(brewrecipes)
     } catch (error) {
         console.error("SQL Error in BrewRecipes:", err.message);
         return res.status(500).json({ error: err.message });
@@ -87,8 +88,8 @@ app.get('/api/brewertypes', asyncHandler(async (req, res) => {
         const query = `
             SELECT * FROM BrewerTypes
             `;
-            const [brewertypes] = await db.query(query);
-            res.status(200).json(brewertypes)
+        const [brewertypes] = await db.query(query);
+        res.status(200).json(brewertypes)
     } catch (error) {
         console.error("SQL Error in BrewerTypes:", err.message);
         return res.status(500).json({ error: err.message });
@@ -122,8 +123,8 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
             INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
             INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id;
             `;
-            const [brewresults] = await db.query(query);
-            res.status(200).json(brewresults)
+        const [brewresults] = await db.query(query);
+        res.status(200).json(brewresults)
     } catch (error) {
         console.error("Error executing queries:", error);
         res.status(500).send("An error occurred while executing the database queries.");
@@ -137,8 +138,8 @@ app.get('/api/recipestatuses', asyncHandler(async (req, res) => {
             SELECT * FROM RecipeStatuses
             ORDER BY status_id ASC
             `;
-            const [brewertypes] = await db.query(query);
-            res.status(200).json(brewertypes)
+        const [brewertypes] = await db.query(query);
+        res.status(200).json(brewertypes)
     } catch (error) {
         console.error("SQL Error in RecipeStatuses:", err.message);
         return res.status(500).json({ error: err.message });
