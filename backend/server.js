@@ -22,7 +22,6 @@ const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
 
-
 const PORT = 1884;
 
 // ########################################
@@ -121,7 +120,8 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
             INNER JOIN Roasters ON Coffees.roaster_id = Roasters.roaster_id
             INNER JOIN BrewRecipes ON BrewResults.recipe_id = BrewRecipes.recipe_id
             INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
-            INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id;
+            INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id
+            ORDER BY result_id
             `;
         const [brewresults] = await db.query(query);
         res.status(200).json(brewresults)
