@@ -267,6 +267,18 @@ app.get('/api/roasttypes', asyncHandler(async (req, res) => {
 
 // POST ROUTES
 
+// RESET DB
+app.post('/api/reset-db', asyncHandler(async (req, res) => {
+    try {
+        const sql = "CALL sp_reset_db();"
+        await db.query(sql);
+        return res.status(200).json({ message: "Database reset successfully." });
+    } catch (err) {
+        console.error("SQL Error in Reset DB:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}));
+
 // PUT ROUTES
 
 // DELETEROUTES

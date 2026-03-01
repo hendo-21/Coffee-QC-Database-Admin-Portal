@@ -1,4 +1,30 @@
 function Navigation() {
+
+    const handleResetDatabase = async () => {
+        if (window.confirm("Are you sure you want to reset the database?")) {
+            try {
+                const response = await fetch('/api/reset-db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    alert("Database reset successfully.");
+                    window.location.reload();
+                } else {
+                    const errorData = await response.json();
+                    alert("Error: " + errorData.error);
+                }
+            } catch (err) {
+                console.error("Connection error:", err);
+                alert("Could not reach the server");
+            }
+
+        }
+    };
+
+
     return (
         <nav>
             <a href="/"><span>Home</span></a>
@@ -14,7 +40,7 @@ function Navigation() {
             <a href="/recipestatuses"><span>Recipe Statuses</span></a>
             <a href="/brewrecipes"><span>Brew Recipes</span></a>
             <a href="/brewresults"><span>Brew Results</span></a>
-            <button className="resetButton">Reset Database</button>
+            <button className="resetButton" onClick={handleResetDatabase}>Reset Database</button>
         </nav>
     )
 } export default Navigation;
