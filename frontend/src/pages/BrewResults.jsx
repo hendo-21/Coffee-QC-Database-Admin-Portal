@@ -54,13 +54,25 @@ function BrewResults({ backendURL }) {
     }
 
     const handleSingleDelete = async (result_id_to_delete) => {
-        const deleteRes = await fetch(`/api/brewresults/${result_id_to_delete}`, { method: 'DELETE' });
-        if(deleteRes.status === 204) {
-            setBrewResults(brewResults => brewResults.filter(br => br.result_id !== result_id_to_delete));
+        const rid = parseInt(result_id_to_delete);
+        const deleteRes = await fetch(`/api/brewresults/${rid}`, { method: 'DELETE' });
+        if(deleteRes.status === 200) {
+            setBrewResults(brewResults => brewResults.filter(br => br.result_id !== rid));
         } else {
             console.log("Failed to delete Brew Result.");
         }
     };
+
+    const handleBulkDelete = async (delete_recipe_id, delete_coffee_id) => {
+        const rid = parseInt(delete_recipe_id);
+        const cid = parseInt(delete_coffee_id);
+        const bulkDeleteRes = await fetch(`/api/brewresults/${rid}/${cid}`, { method: 'DELETE'});
+        if(bulkDeleteRes.status === 204) {
+            setBrewResults(brewResults => brewResults.filter(br => !((br.recipe_id === rid) && (br.coffee_id === cid))));
+        } else {
+            console.log("Failed to delete multiple Brew Result records");
+        }
+    }
 
     return (
         <div className="pageContent">
@@ -112,7 +124,7 @@ function BrewResults({ backendURL }) {
                 </tbody>
             </table>
 
-            {/* Form for Adding a Brew Result */}
+            {/* Form for bulk deleting Brew Results */}
             <form onSubmit={event => { event.preventDefault(); }}>
                 <h3>Bulk Delete</h3>
                 <p>Select a Coffee and Brew Recipe to delete all matching Brew Result records.</p>
@@ -123,7 +135,7 @@ function BrewResults({ backendURL }) {
                         <select value={deleteCoffee} onChange={event => setDeleteCoffee(event.target.value)} required>
                             <option value="">-- Select a Coffee --</option>
                             {coffees.map(c => (
-                                <option key={c.coffee_name} value={c.coffee_name}>{c.coffee_name}</option>
+                                <option key={c.coffee_id} value={c.coffee_id}>{c.coffee_name}</option>
                             ))}
                         </select>
                     </label>
@@ -139,9 +151,11 @@ function BrewResults({ backendURL }) {
                 </p>
 
                 <p>
-                    <button>Delete Multiple Records</button>
+                    <button onClick={() => handleBulkDelete(deleteRecipe, deleteCoffee)}>Delete Multiple Records</button>
                 </p>
             </form>
+
+            {/* Form for adding a Brew Result */}
             <form onSubmit={event => { event.preventDefault(); addBrewResult(); }}>
                 <h3>Add Brew Result</h3>
                 <p>

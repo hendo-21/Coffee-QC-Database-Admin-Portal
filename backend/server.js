@@ -102,6 +102,7 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
             SELECT
                 result_id,
                 BrewRecipes.recipe_id,
+                Coffees.coffee_id,
                 Coffees.coffee_name AS coffee_name,
                 Roasters.roaster_name AS roaster,
                 RecipeStatuses.status_type AS recipe_status,
@@ -281,15 +282,25 @@ app.post('/api/reset-db', asyncHandler(async (req, res) => {
 
 // PUT ROUTES
 
-// DELETEROUTES
+// DELETE ROUTES
 app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
     try {
-        console.log(req.params.result_id);
         const call_sp_sql = `CALL sp_delete_one_brew_result(${req.params.result_id})`;
-        await db.query(call_sp_sql);
-        return res.status(204).json(res.body);
+        const query_result = await db.query(call_sp_sql);
+        const deleted_result_id = (query_result[0][0][0].deleted_result_id);
+        return res.status(200).json({ deleted_brew_result_id: deleted_result_id});
     } catch (err) {
-        console.error("SQL Error in delete_one_brew_result SP:", err.message);
+        console.error("SQL Error in delete_one_brew_result:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}));
+
+app.delete('/api/brewresults/:recipe_id/:coffee_id', asyncHandler(async (req, res) => {
+    try {
+        const call_sp_sql = `CALL sp_delete_many_brew_results(${req.params.recipe_id}, ${req.params.coffee_id})`;        const query_result = await db.query(call_sp_sql);
+        return res.status(204).json(call_sp_sql);
+    } catch (err) {
+        console.error("SQL Error in sp_delete_many_brew_results:", err.message);
         return res.status(500).json({ error: err.message });
     }
 }));
