@@ -73,13 +73,13 @@ function Coffees({backendURL}) {
     */}
     return (
         <div className="pageContent">
-            <h2>View and Delete Coffees</h2>
+            <h2>View, Add and Delete Coffees</h2>
 
             {/* Table for READ */}
             <table border="1" style={{ marginBottom: '20px' }}>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Coffee ID</th>
                         <th>Coffee Name</th>
                         <th>Roaster</th>
                         <th>Lot Number</th>
@@ -105,68 +105,74 @@ function Coffees({backendURL}) {
                 </tbody>
             </table>
 
-            {/* Form for CREATE 
+            {/* Form for CREATE */}
             <form onSubmit={addCoffee} style={{ marginTop: '20px' }}>
-                <h3 style={{ marginBottom: '10px' }}>Add New Coffee</h3>
-                    <div>
-                        <label>Coffee Name: </label>
-                        <input
-                            value={newName}
-                            onChange={e => setNewName(e.target.value)}
-                            placeholder="Enter Coffee Name"
-                            required
-                        />
-                    </div>
+                <h3>Add New Coffee</h3>
+                    <p>
+                        <label>Coffee Name:
+                            <input
+                                value={newName}
+                                onChange={e => setNewName(e.target.value)}
+                                placeholder="Enter Coffee Name"
+                                required
+                            />
+                        </label>
+                    </p>
 
-                    <div>
-                        <label>Roaster: </label>
-                        <select
-                            value={newRoasterId}
-                            onChange={e => setNewRoasterId(e.target.value)}
-                            required
-                        >
-                            <option value="">Select Roaster</option>
-                            {roasters.map(roaster => (
-                                <option key={roaster.roaster_id} value={roaster.roaster_id}>
-                                    {roaster.roaster_name}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <p>
+                        <label>Roaster:
+                            <select
+                                value={newRoasterId}
+                                onChange={e => setNewRoasterId(e.target.value)}
+                                required
+                            >
+                                <option value="">Select Roaster</option>
+                                {roasters.map(roaster => (
+                                    <option key={roaster.roaster_id} value={roaster.roaster_id}>
+                                        {roaster.roaster_name}</option>
+                                ))}
+                            </select>
+                        </label>
+                    </p>
 
-                    <div>
-                        <label>Lot: </label>
-                        <select
-                            value={newLotId}
-                            onChange={e => setNewLotId(e.target.value)}
-                            placeholder="Enter Lot ID"
-                            required
-                        >
-                            <option value="">Select Lot</option>
-                            {lots.map(lot => (
-                                <option key={lot.lot_id} value={lot.lot_id}>
-                                    {lot.lot_number}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <p>
+                        <label>Lot:
+                            <select
+                                value={newLotId}
+                                onChange={e => setNewLotId(e.target.value)}
+                                placeholder="Enter Lot ID"
+                                required
+                            >
+                                <option value="">Select Lot</option>
+                                {lots.map(lot => (
+                                    <option key={lot.lot_id} value={lot.lot_id}>
+                                        {lot.lot_number}</option>
+                                ))}
+                            </select>
+                        </label>
+                    </p>
 
-                    <div>
-                        <label>Roast Type: </label>
-                        <select
-                            value={newRoastTypeId}
-                            onChange={e => setNewRoastTypeId(e.target.value)}
-                            placeholder="Enter Roast Type ID"
-                            required
-                        >
-                            <option value="">Select Roast Type</option>
-                            {roastTypes.map(roasttype => (
-                                <option key={roasttype.roast_type_id} value={roasttype.roast_type_id}>
-                                    {roasttype.roast_name}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <button type="submit" style={{ padding: '5px 15px' }}>Add Coffee</button>
-            </form> */}
+                    <p>
+                        <label>Roast Type:
+                            <select
+                                value={newRoastTypeId}
+                                onChange={e => setNewRoastTypeId(e.target.value)}
+                                placeholder="Enter Roast Type ID"
+                                required
+                            >
+                                <option value="">Select Roast Type</option>
+                                {roastTypes.map(roasttype => (
+                                    <option key={roasttype.roast_type_id} value={roasttype.roast_type_id}>
+                                        {roasttype.roast_name}</option>
+                                ))}
+                            </select>
+                        </label>
+                    </p>
+                    
+                    <p>
+                        <button type="submit">Add Coffee</button>
+                    </p>
+            </form>
         </div>
     );
 }

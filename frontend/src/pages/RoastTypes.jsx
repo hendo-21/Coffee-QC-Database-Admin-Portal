@@ -24,7 +24,7 @@ function RoastTypes({backendURL}) {
             <table border="1" style={{ width: '500px' }}>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Roast ID</th>
                         <th>Roast Type</th>
                     </tr>
                 </thead>

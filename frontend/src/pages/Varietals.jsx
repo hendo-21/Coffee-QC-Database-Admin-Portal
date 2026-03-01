@@ -24,7 +24,7 @@ function Varietals({ backendURL }) {
             <table border="1">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Varietal ID</th>
                         <th>Varietal Name</th>
                     </tr>
                 </thead>

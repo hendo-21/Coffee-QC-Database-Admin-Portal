@@ -30,6 +30,7 @@ function Roasters({backendURL}) {
             <table border="1">
                 <thead>
                     <tr>
+                        <th>Roaster ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>City</th>
@@ -39,6 +40,7 @@ function Roasters({backendURL}) {
                 <tbody>
                     {Array.isArray(roasters) && roasters.map(r => (
                         <tr key={r.roaster_id}>
+                            <td>{r.roaster_id}</td>
                             <td>{r.roaster_name}</td>
                             <td>{r.email}</td>
                             <td>{r.city}</td>

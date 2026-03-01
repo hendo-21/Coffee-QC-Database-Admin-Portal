@@ -19,7 +19,7 @@ function Home() {
 
                     <Link to="/coffees">
                         <span className="homepageIndexElement">Coffees:</span>
-                        <span>View Coffees and delete them from the database.</span>
+                        <span>View, Add, and Delete coffees from the database.</span>
                     </Link>
 
                     <Link to="/coffeelots">
@@ -59,12 +59,12 @@ function Home() {
 
                     <Link to="/brewrecipes">
                         <span className="homepageIndexElement">Brew Recipes: </span>
-                        <span>Manage all brewing-recipe related information including Brewer Types and Recipe Statuses.</span>
+                        <span>View, edit, and delete and delete Brew Recipes</span>
                     </Link>
 
                     <Link to="/brewresults">
                         <span className="homepageIndexElement">Brew Results: </span>
-                        <span>View and add Brew Results.</span>
+                        <span>View, add, and delete Brew Results.</span>
                     </Link>
                 </div>
             </div>

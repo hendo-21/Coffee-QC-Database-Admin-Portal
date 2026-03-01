@@ -59,7 +59,7 @@ function BrewRecipes({ backendURL }) {
     return (
         <>
             <div className="pageContent">
-                <h2>View and Edit Brew Recipes</h2>
+                <h2>View, Edit and Delete Brew Recipes</h2>
                 {/* Table for BrewRecipes */}
                 <table border="1">
                     <thead>
@@ -72,6 +72,7 @@ function BrewRecipes({ backendURL }) {
                             <th>Target Water Temp</th>
                             <th>Target Brew Time</th>
                             <th>Recipe Status</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +86,9 @@ function BrewRecipes({ backendURL }) {
                                 <td>{br.target_water_temp}</td>
                                 <td>{br.target_brew_time}</td>
                                 <td>{br.status}</td>
+                                <td>
+                                    <button>Delete</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

@@ -21,9 +21,8 @@ const app = express();
 const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
-
-
-const PORT = 1884;
+// 1884
+const PORT = 1890;
 
 // ########################################
 // ########## ROUTE HANDLERS
@@ -35,7 +34,7 @@ app.get('/api/locations', asyncHandler(async (req, res) => {
     try {
         const [result] = await db.query('SELECT * FROM Locations');
         res.status(200).json(result);
-    } catch {
+    } catch (err) {
         console.error("SQL Error in Locations:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -52,7 +51,7 @@ app.get('/api/roasters', asyncHandler(async (req, res) => {
             `;
         const [roasters] = await db.query(sql);
         res.status(200).json(roasters)
-    } catch {
+    } catch (err) {
         console.error("SQL Error in Roasters:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -76,7 +75,7 @@ app.get('/api/brewrecipes', asyncHandler(async (req, res) => {
             `;
         const [brewrecipes] = await db.query(query);
         res.status(200).json(brewrecipes)
-    } catch (error) {
+    } catch (err) {
         console.error("SQL Error in BrewRecipes:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -90,7 +89,7 @@ app.get('/api/brewertypes', asyncHandler(async (req, res) => {
             `;
         const [brewertypes] = await db.query(query);
         res.status(200).json(brewertypes)
-    } catch (error) {
+    } catch (err) {
         console.error("SQL Error in BrewerTypes:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -101,7 +100,9 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
     try {
         const query = `
             SELECT
+                result_id,
                 BrewRecipes.recipe_id,
+                Coffees.coffee_id,
                 Coffees.coffee_name AS coffee_name,
                 Roasters.roaster_name AS roaster,
                 RecipeStatuses.status_type AS recipe_status,
@@ -117,16 +118,16 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
             FROM BrewResults
             INNER JOIN Coffees ON BrewResults.coffee_id = Coffees.coffee_id
             INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
-            INNER JOIN Locations ON CoffeeLots.location_id = Locations.location_id
             INNER JOIN Roasters ON Coffees.roaster_id = Roasters.roaster_id
             INNER JOIN BrewRecipes ON BrewResults.recipe_id = BrewRecipes.recipe_id
             INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
-            INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id;
+            INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id
+            ORDER BY result_id
             `;
         const [brewresults] = await db.query(query);
         res.status(200).json(brewresults)
-    } catch (error) {
-        console.error("Error executing queries:", error);
+    } catch (err) {
+        console.error("Error executing queries:", err);
         res.status(500).send("An error occurred while executing the database queries.");
     }
 }));
@@ -140,7 +141,7 @@ app.get('/api/recipestatuses', asyncHandler(async (req, res) => {
             `;
         const [brewertypes] = await db.query(query);
         res.status(200).json(brewertypes)
-    } catch (error) {
+    } catch (err) {
         console.error("SQL Error in RecipeStatuses:", err.message);
         return res.status(500).json({ error: err.message });
     }
@@ -281,7 +282,28 @@ app.post('/api/reset-db', asyncHandler(async (req, res) => {
 
 // PUT ROUTES
 
-// DELETEROUTES
+// DELETE ROUTES
+app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
+    try {
+        const call_sp_sql = `CALL sp_delete_one_brew_result(${req.params.result_id})`;
+        const query_result = await db.query(call_sp_sql);
+        const deleted_result_id = (query_result[0][0][0].deleted_result_id);
+        return res.status(200).json({ deleted_brew_result_id: deleted_result_id});
+    } catch (err) {
+        console.error("SQL Error in delete_one_brew_result:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}));
+
+app.delete('/api/brewresults/:recipe_id/:coffee_id', asyncHandler(async (req, res) => {
+    try {
+        const call_sp_sql = `CALL sp_delete_many_brew_results(${req.params.recipe_id}, ${req.params.coffee_id})`;        const query_result = await db.query(call_sp_sql);
+        return res.status(204).json(call_sp_sql);
+    } catch (err) {
+        console.error("SQL Error in sp_delete_many_brew_results:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}));
 
 
 // ########################################
