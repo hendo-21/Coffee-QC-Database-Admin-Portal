@@ -21,8 +21,8 @@ const app = express();
 const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
-
-const PORT = 1884;
+// 1884
+const PORT = 1890;
 
 // ########################################
 // ########## ROUTE HANDLERS
@@ -282,6 +282,17 @@ app.post('/api/reset-db', asyncHandler(async (req, res) => {
 // PUT ROUTES
 
 // DELETEROUTES
+app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
+    try {
+        console.log(req.params.result_id);
+        const call_sp_sql = `CALL sp_delete_one_brew_result(${req.params.result_id})`;
+        await db.query(call_sp_sql);
+        return res.status(204).json(res.body);
+    } catch (err) {
+        console.error("SQL Error in delete_one_brew_result SP:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}));
 
 
 // ########################################

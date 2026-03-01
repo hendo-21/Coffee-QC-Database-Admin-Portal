@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function BrewResults({ backendURL }) {
     // Init state for fetching tables
-    const [brewresults, setBrewResults] = useState([]);
+    const [brewResults, setBrewResults] = useState([]);
     const [brewRecipes, setBrewRecipes] = useState([]);
     const [coffees, setCoffees] = useState([]);
     const [recipeStatuses, setRecipeStatuses] = useState([]);
@@ -53,6 +53,15 @@ function BrewResults({ backendURL }) {
         // post data
     }
 
+    const handleSingleDelete = async (result_id_to_delete) => {
+        const deleteRes = await fetch(`/api/brewresults/${result_id_to_delete}`, { method: 'DELETE' });
+        if(deleteRes.status === 204) {
+            setBrewResults(brewResults => brewResults.filter(br => br.result_id !== result_id_to_delete));
+        } else {
+            console.log("Failed to delete Brew Result.");
+        }
+    };
+
     return (
         <div className="pageContent">
             <h2>View, Add, and Delete Brew Results</h2>
@@ -77,7 +86,7 @@ function BrewResults({ backendURL }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {brewresults.map(bres => (
+                    {brewResults.map(bres => (
                         <tr key={bres.result_id}>
                             <td>{bres.result_id}</td>
                             <td>{bres.recipe_id}</td>
@@ -94,7 +103,7 @@ function BrewResults({ backendURL }) {
                             <td>{bres.ext_yield}</td>
                             <td>{bres.rating}</td>
                             <td>
-                                    <button type='submit'>
+                                    <button type='submit' onClick={() => handleSingleDelete(bres.result_id)}>
                                         Delete
                                     </button>
                             </td>
