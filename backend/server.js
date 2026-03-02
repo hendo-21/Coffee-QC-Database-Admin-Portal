@@ -268,6 +268,65 @@ app.get('/api/roasttypes', asyncHandler(async (req, res) => {
 
 // POST ROUTES
 
+{/* Citation for use of AI Tools
+Date: 03/02/26
+Prompts used: 
+    1. Explain escaping, string interpolation, and parameterized queries
+    2. Implement parameterized queries.
+    3. Explain why a stored procedure with OUT parameter does not return value to app like SELECT does.
+AI Source: Microsoft Copilot VSCode integration.
+*/}
+app.post('/api/brewresults/add', asyncHandler(async (req, res) => {
+    try {
+        const sql =`CALL sp_insert_brew_result(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const values = [
+            req.body.selectedBrewRecipe,
+            req.body.selectedCoffeeID,
+            req.body.dose,
+            req.body.bevYield,
+            req.body.grindSize,
+            req.body.waterTemp,
+            req.body.brewTime,
+            req.body.tdsReading,
+            req.body.extYield,
+            req.body.selectedRating
+        ];
+        const result = await db.query(sql, values);
+
+        // Get the newly added record and return it to frontend to render in table
+        const added_result_sql = `SELECT
+                result_id,
+                BrewRecipes.recipe_id,
+                Coffees.coffee_id,
+                Coffees.coffee_name AS coffee_name,
+                Roasters.roaster_name AS roaster,
+                RecipeStatuses.status_type AS recipe_status,
+                BrewerTypes.brewer_type AS brewer,
+                actual_dose,
+                actual_yield,
+                actual_grind_size,
+                actual_water_temp,
+                actual_brew_time,
+                tds_reading,
+                ext_yield,
+                rating	
+            FROM BrewResults
+            INNER JOIN Coffees ON BrewResults.coffee_id = Coffees.coffee_id
+            INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
+            INNER JOIN Roasters ON Coffees.roaster_id = Roasters.roaster_id
+            INNER JOIN BrewRecipes ON BrewResults.recipe_id = BrewRecipes.recipe_id
+            INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
+            INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id
+            WHERE result_id = ${result[0][0][0]['result_id']}`
+        const added_result = await db.query(added_result_sql);
+        return res.status(201).json(added_result[0][0]);
+    } catch (err){
+        console.error("SQL Error adding Brew Result:", err.message);
+        return res.status(500).json({error: err.message});
+    }
+}))
+
+
 // RESET DB
 app.post('/api/reset-db', asyncHandler(async (req, res) => {
     try {
@@ -287,7 +346,7 @@ app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
     try {
         const call_sp_sql = `CALL sp_delete_one_brew_result(${req.params.result_id})`;
         const query_result = await db.query(call_sp_sql);
-        const deleted_result_id = (query_result[0][0][0].deleted_result_id);
+        const deleted_result_id = query_result[0][0][0].deleted_result_id;
         return res.status(200).json({ deleted_brew_result_id: deleted_result_id});
     } catch (err) {
         console.error("SQL Error in delete_one_brew_result:", err.message);
@@ -297,8 +356,9 @@ app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
 
 app.delete('/api/brewresults/:recipe_id/:coffee_id', asyncHandler(async (req, res) => {
     try {
-        const call_sp_sql = `CALL sp_delete_many_brew_results(${req.params.recipe_id}, ${req.params.coffee_id})`;        const query_result = await db.query(call_sp_sql);
-        return res.status(204).json(call_sp_sql);
+        const call_sp_sql = `CALL sp_delete_many_brew_results(${req.params.recipe_id}, ${req.params.coffee_id})`;
+        await db.query(call_sp_sql);
+        return res.status(204).send();
     } catch (err) {
         console.error("SQL Error in sp_delete_many_brew_results:", err.message);
         return res.status(500).json({ error: err.message });
