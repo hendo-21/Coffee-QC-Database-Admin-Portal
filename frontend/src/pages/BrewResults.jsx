@@ -31,17 +31,17 @@ function BrewResults({ backendURL }) {
     const loadData = async () => {
         try{
             const [brewResultsRes, brewRecipeRes, coffeesRes, statusRes, brewerTypesRes] = await Promise.all([
-                    fetch(`${backendURL}/api/brewresults`),    
-                    fetch(`${backendURL}/api/brewrecipes`),
-                    fetch(`${backendURL}/api/coffees`),
-                    fetch(`${backendURL}/api/recipestatuses`),
-                    fetch(`${backendURL}/api/brewertypes`)
-        ]);
-        setBrewResults(await brewResultsRes.json());
-        setBrewRecipes(await brewRecipeRes.json());
-        setCoffees(await coffeesRes.json());
-        setRecipeStatuses(await statusRes.json());
-        setBrewerTypes(await brewerTypesRes.json());
+                fetch(`${backendURL}/api/brewresults`),    
+                fetch(`${backendURL}/api/brewrecipes`),
+                fetch(`${backendURL}/api/coffees`),
+                fetch(`${backendURL}/api/recipestatuses`),
+                fetch(`${backendURL}/api/brewertypes`)
+            ]);
+            setBrewResults(await brewResultsRes.json());
+            setBrewRecipes(await brewRecipeRes.json());
+            setCoffees(await coffeesRes.json());
+            setRecipeStatuses(await statusRes.json());
+            setBrewerTypes(await brewerTypesRes.json());
         } catch {
             console.error('Error fetching data:', error);
         }
@@ -57,7 +57,6 @@ function BrewResults({ backendURL }) {
         and update the input value to use state instead of inline calculation.
     AI Source: Microsoft Copilot VSCode integration.
     */}
-    // Auto calculate extYield when dose, bev yield, and tds reading change
     useEffect(() => {
         if (dose && bevYield && tdsReading) {
             const calculated = ((tdsReading * bevYield) / dose).toFixed(2);
@@ -114,6 +113,12 @@ function BrewResults({ backendURL }) {
         if(response.status === 201) {
             const newRow = await response.json()
             console.log("Added brew result");
+
+            {/* Citation for following code:
+                Date: 03/02/26
+                Adapted from: React ES6 Spread Operator
+                Source URL: https://www.w3schools.com/react/react_es6_spread.asp */}
+
             // Add the new result to the brewResults state array to rerender with new records
             setBrewResults(brewResults => [...brewResults, newRow]);
         } else {
@@ -300,12 +305,6 @@ function BrewResults({ backendURL }) {
                     </label>
                 </p>
 
-                {/* Citation for use of AI Tools
-                Date: 02/11/26
-                Prompt used: 
-                    Edit this label so that it autopopulates with a number that is calculated with the formula ((tdsReading * bevYield) / dose). 
-                AI Source: Microsoft Copilot VSCode integration. Model: Claude Haiku 4.5
-                */}
                 <p>
                     <label>EXT Yield
                         <input type="number" step="0.01" id="extYield" name="extYield" min="0" placeholder="auto-calculated" 

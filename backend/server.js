@@ -24,6 +24,12 @@ app.use(express.json()); // this is needed for post requests
 // 1884
 const PORT = 1884;
 
+
+// Citation for following code:
+// Date: 02/09/26
+// Adapted from:
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
 // ########################################
 // ########## ROUTE HANDLERS
 
@@ -271,7 +277,7 @@ app.get('/api/roasttypes', asyncHandler(async (req, res) => {
 {/* Citation for use of AI Tools
 Date: 03/02/26
 Prompts used: 
-    1. Explain escaping, string interpolation, and parameterized queries
+    1. Explain escaping, string interpolation, and parameterized queries.
     2. Implement parameterized queries.
     3. Explain why a stored procedure with OUT parameter does not return value to app like SELECT does.
 AI Source: Microsoft Copilot VSCode integration.
