@@ -11,6 +11,7 @@ function BrewResults({ backendURL }) {
 
     // Init state for tracking user input
     const [selectedCoffee, setSelectedCoffee] = useState('');
+    const [selectedCoffeeID, setSelectedCoffeeID] = useState('');
     const [selectedBrewRecipe, setSelectedBrewRecipe] = useState('');
     const [selectedBrewerType, setSelectedBrewerType] = useState('');
     const [dose, setDose] = useState('');
@@ -19,6 +20,7 @@ function BrewResults({ backendURL }) {
     const [waterTemp, setWaterTemp] = useState('');
     const [brewTime, setBrewTime] = useState('');
     const [tdsReading, setTdsReading] = useState('');
+    const [extYield, setExtYield] = useState('');
     const [selectedRating, setSelectedRating] = useState('');
 
     // State for tracking Bulk Delete user input
@@ -29,17 +31,17 @@ function BrewResults({ backendURL }) {
     const loadData = async () => {
         try{
             const [brewResultsRes, brewRecipeRes, coffeesRes, statusRes, brewerTypesRes] = await Promise.all([
-                    fetch(`${backendURL}/api/brewresults`),    
-                    fetch(`${backendURL}/api/brewrecipes`),
-                    fetch(`${backendURL}/api/coffees`),
-                    fetch(`${backendURL}/api/recipestatuses`),
-                    fetch(`${backendURL}/api/brewertypes`)
-        ]);
-        setBrewResults(await brewResultsRes.json());
-        setBrewRecipes(await brewRecipeRes.json());
-        setCoffees(await coffeesRes.json());
-        setRecipeStatuses(await statusRes.json());
-        setBrewerTypes(await brewerTypesRes.json());
+                fetch(`${backendURL}/api/brewresults`),    
+                fetch(`${backendURL}/api/brewrecipes`),
+                fetch(`${backendURL}/api/coffees`),
+                fetch(`${backendURL}/api/recipestatuses`),
+                fetch(`${backendURL}/api/brewertypes`)
+            ]);
+            setBrewResults(await brewResultsRes.json());
+            setBrewRecipes(await brewRecipeRes.json());
+            setCoffees(await coffeesRes.json());
+            setRecipeStatuses(await statusRes.json());
+            setBrewerTypes(await brewerTypesRes.json());
         } catch {
             console.error('Error fetching data:', error);
         }
@@ -48,14 +50,88 @@ function BrewResults({ backendURL }) {
         loadData()
     }, []);
 
-    // TODO
-    const addBrewResult = async () => {
-        // post data
+    {/* Citation for use of AI Tools
+    Date: 03/02/26
+    Prompt used: 
+        Add a useEffect hook to update the extYield state whenever dose, bevYield, or tdsReading changes, 
+        and update the input value to use state instead of inline calculation.
+    AI Source: Microsoft Copilot VSCode integration.
+    */}
+    useEffect(() => {
+        if (dose && bevYield && tdsReading) {
+            const calculated = ((tdsReading * bevYield) / dose).toFixed(2);
+            setExtYield(calculated);
+        } else {
+            setExtYield('');
+        }
+    }, [dose, bevYield, tdsReading]);
+
+    // Set coffee_id when user selects coffee in Add Brew Result form
+    useEffect(() => {
+        if(selectedCoffee) {
+            const coffee = coffees.find(c => c.coffee_name === selectedCoffee);
+            setSelectedCoffeeID(coffee.coffee_id);
+        } else {
+            setSelectedCoffeeID('');
+        }
+    }, [selectedCoffee]);
+
+    // Auto fill the Add Brew Result form with data from the selected recipe
+    const onRecipeSelect = (e) => {
+        const recipeId = Number(e.target.value);
+        setSelectedBrewRecipe(recipeId);
+        const recipe = brewRecipes.find(r => r.recipe_id === recipeId);
+        if(recipe) {
+            setSelectedBrewerType(recipe.brewer_type);
+            setDose(recipe.target_dose);
+            setYield(recipe.target_yield);
+            setGrindSize(recipe.target_grind_size);
+            setWaterTemp(recipe.target_water_temp);
+            setBrewTime(recipe.target_brew_time);
+        }
     }
 
+    // Add brew result to the database
+    const addBrewResult = async () => {
+        const newBrewResult = {
+            selectedBrewRecipe,
+            selectedCoffeeID,
+            dose,
+            bevYield,
+            grindSize,
+            waterTemp,
+            brewTime,
+            tdsReading,
+            extYield,
+            selectedRating
+        }
+        const response = await fetch(`${backendURL}/api/brewresults/add`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newBrewResult)
+        })
+        if(response.status === 201) {
+            const newRow = await response.json()
+            console.log("Added brew result");
+
+            {/* Citation for following code:
+                Date: 03/02/26
+                Adapted from: React ES6 Spread Operator
+                Source URL: https://www.w3schools.com/react/react_es6_spread.asp */}
+
+            // Add the new result to the brewResults state array to rerender with new records
+            setBrewResults(brewResults => [...brewResults, newRow]);
+        } else {
+            console.log("Failed to add Brew Result");
+        }
+
+        
+    }
+
+    // Handle user clicking Delete button on a record in the table
     const handleSingleDelete = async (result_id_to_delete) => {
         const rid = parseInt(result_id_to_delete);
-        const deleteRes = await fetch(`/api/brewresults/${rid}`, { method: 'DELETE' });
+        const deleteRes = await fetch(`${backendURL}/api/brewresults/${rid}`, { method: 'DELETE' });
         if(deleteRes.status === 200) {
             setBrewResults(brewResults => brewResults.filter(br => br.result_id !== rid));
         } else {
@@ -63,10 +139,11 @@ function BrewResults({ backendURL }) {
         }
     };
 
+    // Handle the user completing the Bulk Delete form
     const handleBulkDelete = async (delete_recipe_id, delete_coffee_id) => {
         const rid = parseInt(delete_recipe_id);
         const cid = parseInt(delete_coffee_id);
-        const bulkDeleteRes = await fetch(`/api/brewresults/${rid}/${cid}`, { method: 'DELETE'});
+        const bulkDeleteRes = await fetch(`${backendURL}/api/brewresults/${rid}/${cid}`, { method: 'DELETE'});
         if(bulkDeleteRes.status === 204) {
             setBrewResults(brewResults => brewResults.filter(br => !((br.recipe_id === rid) && (br.coffee_id === cid))));
         } else {
@@ -160,7 +237,7 @@ function BrewResults({ backendURL }) {
                 <h3>Add Brew Result</h3>
                 <p>
                     <label>Recipe ID
-                        <select value={selectedBrewRecipe} onChange={event => setSelectedBrewRecipe(event.target.value)} required>
+                        <select value={selectedBrewRecipe} onChange={event => onRecipeSelect(event)} required>
                             <option value="">-- Select a Recipe --</option>
                             {brewRecipes.map(r => (
                                     <option key={r.recipe_id} value={r.recipe_id}>{r.recipe_id}</option>
@@ -182,62 +259,56 @@ function BrewResults({ backendURL }) {
 
                 <p>
                     <label>Brewer Type
-                        <input type="text" id="brewerType" name="brewerType" placeholder="autofills when recipe selected" readOnly></input>
-                    </label>
+                        <input type="text" id="brewerType" name="brewerType" value={selectedBrewerType}placeholder="autofills when recipe selected" readOnly></input>
+                    </label> 
                 </p>
 
                 <p>
                     <label>Actual Dose
-                        <input type="number" step="0.01" id="dose" name="dose" min="0" placeholder="autofills when recipe selected" required 
+                        <input type="number" step="0.01" id="dose" name="dose" min="0" max="999.99" value={dose} placeholder="autofills when recipe selected" required 
                         onChange={ event => { setDose(event.target.valueAsNumber) } }></input>
                     </label>
                 </p>
 
                 <p>
                     <label>Actual Yield
-                        <input type="number" step="0.01" id="yield" name="yield" min="0" placeholder="autofills when recipe selected" required 
+                        <input type="number" step="0.01" id="yield" name="yield" min="0" max="9999.99" value={bevYield} placeholder="autofills when recipe selected" required 
                         onChange={ event => { setYield(event.target.valueAsNumber) } }></input>
                     </label>
                 </p>
 
                 <p>
                     <label>Actual Grind Size
-                        <input type="number" step="0.01" id="grindSize" name="grindSize" min="0" placeholder="autofills when recipe selected" required 
+                        <input type="number" step="0.01" id="grindSize" name="grindSize" min="0" max="99.99" value={grindSize} placeholder="autofills when recipe selected" required 
                         onChange={ event => { setGrindSize(event.target.valueAsNumber) } }></input>
                     </label>
                 </p>
 
                 <p>
                     <label>Actual Water Temp
-                        <input type="number" step="0.01" id="waterTemp" name="waterTemp" min="0" placeholder="autofills when recipe selected" required 
+                        <input type="number" step="0.01" id="waterTemp" name="waterTemp" min="0" max="999.99" value={waterTemp} placeholder="autofills when recipe selected" required 
                         onChange={ event => { setWaterTemp(event.target.valueAsNumber) } }></input>
                     </label>
                 </p>
 
                 <p>
                     <label>Actual Brew Time
-                        <input type="number" step="0.01" id="brewTime" name="brewTime" min="0" placeholder="autofills when recipe selected" required 
+                        <input type="text" id="brewTime" name="brewTime" min="0" value={brewTime} placeholder="autofills when recipe selected" required 
                         onChange={ event => { setBrewTime(event.target.valueAsNumber) } }></input>
                     </label>
                 </p>
 
                 <p>
                     <label>TDS Reading
-                        <input type="number" step="0.01" id="tdsReading" name="tdsReading" min="0" placeholder="ex. 1.43" required 
+                        <input type="number" step="0.01" id="tdsReading" name="tdsReading" min="0" max="9.99" placeholder="ex. 1.43" required 
                         onChange={ event => { setTdsReading(event.target.valueAsNumber) } }></input>
                     </label>
                 </p>
 
-                {/* Citation for use of AI Tools
-                Date: 02/11/26
-                Prompt used: 
-                    Edit this label so that it autopopulates with a number that is calculated with the formula ((tdsReading * bevYield) / dose). 
-                AI Source: Microsoft Copilot VSCode integration. Model: Claude Haiku 4.5
-                */}
                 <p>
                     <label>EXT Yield
                         <input type="number" step="0.01" id="extYield" name="extYield" min="0" placeholder="auto-calculated" 
-                        value={dose && bevYield && tdsReading ? ((tdsReading * bevYield) / dose).toFixed(2) : ''} 
+                        value={extYield} 
                         readOnly></input>
                     </label>
                 </p>
