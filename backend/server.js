@@ -22,7 +22,7 @@ const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
 // 1884
-const PORT = 1890;
+const PORT = 1884;
 
 // ########################################
 // ########## ROUTE HANDLERS

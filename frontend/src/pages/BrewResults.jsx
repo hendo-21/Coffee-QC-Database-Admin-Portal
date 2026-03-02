@@ -106,7 +106,7 @@ function BrewResults({ backendURL }) {
             extYield,
             selectedRating
         }
-        const response = await fetch(`api/brewresults/add`, {
+        const response = await fetch(`${backendURL}/api/brewresults/add`, {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(newBrewResult)
@@ -126,7 +126,7 @@ function BrewResults({ backendURL }) {
     // Handle user clicking Delete button on a record in the table
     const handleSingleDelete = async (result_id_to_delete) => {
         const rid = parseInt(result_id_to_delete);
-        const deleteRes = await fetch(`/api/brewresults/${rid}`, { method: 'DELETE' });
+        const deleteRes = await fetch(`${backendURL}/api/brewresults/${rid}`, { method: 'DELETE' });
         if(deleteRes.status === 200) {
             setBrewResults(brewResults => brewResults.filter(br => br.result_id !== rid));
         } else {
@@ -138,7 +138,7 @@ function BrewResults({ backendURL }) {
     const handleBulkDelete = async (delete_recipe_id, delete_coffee_id) => {
         const rid = parseInt(delete_recipe_id);
         const cid = parseInt(delete_coffee_id);
-        const bulkDeleteRes = await fetch(`/api/brewresults/${rid}/${cid}`, { method: 'DELETE'});
+        const bulkDeleteRes = await fetch(`${backendURL}/api/brewresults/${rid}/${cid}`, { method: 'DELETE'});
         if(bulkDeleteRes.status === 204) {
             setBrewResults(brewResults => brewResults.filter(br => !((br.recipe_id === rid) && (br.coffee_id === cid))));
         } else {

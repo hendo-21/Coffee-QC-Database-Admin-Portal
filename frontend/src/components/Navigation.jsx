@@ -1,9 +1,9 @@
-function Navigation() {
+function Navigation({ backendURL }) {
 
     const handleResetDatabase = async () => {
         if (window.confirm("Are you sure you want to reset the database?")) {
             try {
-                const response = await fetch('/api/reset-db', {
+                const response = await fetch(`${backendURL}/api/reset-db`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
