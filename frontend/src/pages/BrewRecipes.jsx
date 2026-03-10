@@ -56,6 +56,17 @@ function BrewRecipes({ backendURL }) {
     // TODO: POST new recipe to db
 
 
+    // Delete a Brew Recipe
+    const handleRecipeDelete = async (recipe_id_to_delete) => {
+        const rid = parseInt(recipe_id_to_delete);
+        const deleteRes = await fetch(`${backendURL}/api/brewrecipes/${rid}`, { method: 'DELETE' });
+        if (deleteRes.status === 204) {
+            setBrewRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.recipe_id !== rid));
+        } else {
+            console.error("Failed to delete Brew Recipe record.");
+        }
+    };
+
     return (
         <>
             <div className="pageContent">
@@ -87,7 +98,9 @@ function BrewRecipes({ backendURL }) {
                                 <td>{br.target_brew_time}</td>
                                 <td>{br.status}</td>
                                 <td>
-                                    <button>Delete</button>
+                                    <button type='button' onClick={() => handleRecipeDelete(br.recipe_id)}>
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -100,18 +113,18 @@ function BrewRecipes({ backendURL }) {
 
                     <p>
                         <label>Recipe ID
-                            <select 
-                                value={selectedBrewRecipe} 
-                                onChange={event => 
-                                    {onRecipeSelect(event);
-                                }} 
+                            <select
+                                value={selectedBrewRecipe}
+                                onChange={event => {
+                                    onRecipeSelect(event);
+                                }}
                                 required>
                                 <option value="">-- Select a Recipe --</option>
                                 {brewRecipes.map(br => (
-                                        <option key={br.recipe_id} value={br.recipe_id}>
-                                            {br.recipe_id}
-                                        </option>
-                                    ))}
+                                    <option key={br.recipe_id} value={br.recipe_id}>
+                                        {br.recipe_id}
+                                    </option>
+                                ))}
                             </select>
                         </label>
                     </p>
@@ -121,46 +134,46 @@ function BrewRecipes({ backendURL }) {
                             <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
                                 <option value=""></option>
                                 {brewerTypes.map(type => (
-                                        <option key={type.brewer_id} value={type.brewer_type}>
-                                                {type.brewer_type}
-                                        </option>
-                                    ))}
+                                    <option key={type.brewer_id} value={type.brewer_type}>
+                                        {type.brewer_type}
+                                    </option>
+                                ))}
                             </select>
                         </label>
-                    </p>                    
+                    </p>
 
                     <p>
                         <label>Target Dose
-                            <input type="number" step="0.01" id="targetDose" name="targetDose" value={targetDose} min="0" placeholder="eg. 15.00" required 
-                            onChange={ event => { setTargetDose(event.target.valueAsNumber) } }></input>
+                            <input type="number" step="0.01" id="targetDose" name="targetDose" value={targetDose} min="0" placeholder="eg. 15.00" required
+                                onChange={event => { setTargetDose(event.target.valueAsNumber) }}></input>
                         </label>
                     </p>
 
                     <p>
                         <label>Target Yield
-                            <input type="number" step="0.01" id="targetYield" name="targetYield" value={targetYield}min="0" placeholder="eg. 240.00" required 
-                            onChange={ event => { setTargetYield(event.target.valueAsNumber) } }></input>
+                            <input type="number" step="0.01" id="targetYield" name="targetYield" value={targetYield} min="0" placeholder="eg. 240.00" required
+                                onChange={event => { setTargetYield(event.target.valueAsNumber) }}></input>
                         </label>
                     </p>
-                    
+
                     <p>
                         <label>Target Grind Size
-                            <input type="number" step="0.01" id="targetGrindSize" name="targetGrindSize" value={targetGrindSize}min="0" placeholder="eg. 14.00" required 
-                            onChange={ event => { setTargetGrindSize(event.target.valueAsNumber) } }></input>
+                            <input type="number" step="0.01" id="targetGrindSize" name="targetGrindSize" value={targetGrindSize} min="0" placeholder="eg. 14.00" required
+                                onChange={event => { setTargetGrindSize(event.target.valueAsNumber) }}></input>
                         </label>
                     </p>
 
                     <p>
                         <label>Target Water Temp
-                            <input type="number" step="0.01" id="targetWaterTemp" name="targetWaterTemp" value={targetWaterTemp} min="0" placeholder="eg. 96.00" required 
-                            onChange={ event => { setTargetYield(event.target.valueAsNumber) } }></input>
+                            <input type="number" step="0.01" id="targetWaterTemp" name="targetWaterTemp" value={targetWaterTemp} min="0" placeholder="eg. 96.00" required
+                                onChange={event => { setTargetYield(event.target.valueAsNumber) }}></input>
                         </label>
                     </p>
 
                     <p>
                         <label>Target Brew Time
-                            <input type="text" step="0.01" id="targetBrewTime" name="targetBrewTime" value={targetBrewTime} min="0" placeholder="eg. 00:04:00" required 
-                            onChange={ event => { setTargetYield(event.target.value) } }></input>
+                            <input type="text" step="0.01" id="targetBrewTime" name="targetBrewTime" value={targetBrewTime} min="0" placeholder="eg. 00:04:00" required
+                                onChange={event => { setTargetYield(event.target.value) }}></input>
                         </label>
                     </p>
 
@@ -169,10 +182,10 @@ function BrewRecipes({ backendURL }) {
                             <select value={selectedRecipeStatus} onChange={event => setSelectedRecipeStatus(event.target.value)} required>
                                 <option value="">-- Select Recipe Status --</option>
                                 {recipeStatuses.map(status => (
-                                        <option key={status.status_id} value={status.status_type}>
-                                                {status.status_type}
-                                        </option>
-                                    ))}
+                                    <option key={status.status_id} value={status.status_type}>
+                                        {status.status_type}
+                                    </option>
+                                ))}
                             </select>
                         </label>
                     </p>
@@ -186,6 +199,6 @@ function BrewRecipes({ backendURL }) {
             </div>
         </>
     )
-} 
+}
 
 export default BrewRecipes;
