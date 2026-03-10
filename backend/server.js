@@ -284,7 +284,7 @@ AI Source: Microsoft Copilot VSCode integration.
 */}
 app.post('/api/brewresults/add', asyncHandler(async (req, res) => {
     try {
-        const sql =`CALL sp_insert_brew_result(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const sql = `CALL sp_insert_brew_result(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const values = [
             req.body.selectedBrewRecipe,
             req.body.selectedCoffeeID,
@@ -326,9 +326,9 @@ app.post('/api/brewresults/add', asyncHandler(async (req, res) => {
             WHERE result_id = ${result[0][0][0]['result_id']}`
         const added_result = await db.query(added_result_sql);
         return res.status(201).json(added_result[0][0]);
-    } catch (err){
+    } catch (err) {
         console.error("SQL Error adding Brew Result:", err.message);
-        return res.status(500).json({error: err.message});
+        return res.status(500).json({ error: err.message });
     }
 }))
 
@@ -353,7 +353,7 @@ app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
         const call_sp_sql = `CALL sp_delete_one_brew_result(${req.params.result_id})`;
         const query_result = await db.query(call_sp_sql);
         const deleted_result_id = query_result[0][0][0].deleted_result_id;
-        return res.status(200).json({ deleted_brew_result_id: deleted_result_id});
+        return res.status(200).json({ deleted_brew_result_id: deleted_result_id });
     } catch (err) {
         console.error("SQL Error in delete_one_brew_result:", err.message);
         return res.status(500).json({ error: err.message });
@@ -367,6 +367,29 @@ app.delete('/api/brewresults/:recipe_id/:coffee_id', asyncHandler(async (req, re
         return res.status(204).send();
     } catch (err) {
         console.error("SQL Error in sp_delete_many_brew_results:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}));
+
+app.delete('/api/coffees/:coffee_id', asyncHandler(async (req, res) => {
+    try {
+        const call_sp_sql = `CALL sp_delete_coffee(${req.params.coffee_id})`;
+        await db.query(call_sp_sql);
+        return res.status(204).send();
+    } catch (err) {
+        console.error("SQL Error in sp_delete_coffee:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}));
+
+
+app.delete('/api/brewrecipes/:recipe_id', asyncHandler(async (req, res) => {
+    try {
+        const call_sp_sql = `CALL sp_delete_brew_recipe(${req.params.recipe_id})`;
+        await db.query(call_sp_sql);
+        return res.status(204).send();
+    } catch (err) {
+        console.error("SQL Error in sp_delete_brew_recipe:", err.message);
         return res.status(500).json({ error: err.message });
     }
 }));
