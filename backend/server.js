@@ -330,7 +330,37 @@ app.post('/api/brewresults/add', asyncHandler(async (req, res) => {
         console.error("SQL Error adding Brew Result:", err.message);
         return res.status(500).json({ error: err.message });
     }
-}))
+}));
+
+app.post('/api/coffees/add', asyncHandler(async (req, res) => {
+    try {
+        const sql = `CALL sp_insert_coffee(?, ?, ?, ?)`
+        const values = [
+            req.body.coffee_name,
+            req.body.roaster_id,
+            req.body.roast_type_id,
+            req.body.lot_id
+        ];
+        const result = await db.query(sql, values);
+        const added_coffe_sql = `
+            SELECT 
+                coffee_id, 
+                coffee_name,
+                Roasters.roaster_name AS roaster,
+                CoffeeLots.lot_number,
+                RoastTypes.roast_name AS roast
+            FROM Coffees
+            INNER JOIN Roasters ON Coffees.roaster_id = Roasters.roaster_id
+            INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
+            INNER JOIN RoastTypes ON Coffees.roast_type_id = RoastTypes.roast_type_id
+            WHERE Coffees.coffee_id = ${result[0][0][0]['coffee_id']}`
+        const added_coffee_result = await db.query(added_coffe_sql);
+        return res.status(201).json(added_coffee_result[0][0]);
+    } catch (err){
+        console.log("SQL error adding Coffee:", err.message)
+        return res.send(500).json({error: err.message})
+    }
+}));
 
 
 // RESET DB
