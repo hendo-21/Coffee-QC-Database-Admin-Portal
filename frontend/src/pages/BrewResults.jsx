@@ -89,7 +89,7 @@ function BrewResults({ backendURL }) {
             setWaterTemp(recipe.target_water_temp);
             setBrewTime(recipe.target_brew_time);
         }
-    }
+    };
 
     // Add brew result to the database
     const addBrewResult = async () => {
@@ -123,10 +123,8 @@ function BrewResults({ backendURL }) {
             setBrewResults(brewResults => [...brewResults, newRow]);
         } else {
             console.log("Failed to add Brew Result");
-        }
-
-        
-    }
+        }   
+    };
 
     // Handle user clicking Delete button on a record in the table
     const handleSingleDelete = async (result_id_to_delete) => {

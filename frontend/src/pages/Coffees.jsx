@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Coffees({ backendURL = "http://localhost:1885" }) {
+function Coffees({ backendURL }) {
     // Init state for fetching tables
     const [coffees, setCoffees] = useState([]);
     const [roastTypes, setRoastTypes] = useState([]);
@@ -42,12 +42,12 @@ function Coffees({ backendURL = "http://localhost:1885" }) {
 
         const newCoffee = {
             coffee_name: newName,
-            roaster_id: newRoasterId,
-            lot_id: newLotId,
-            roast_type_id: newRoastTypeId
+            roaster_id: Number(newRoasterId),
+            lot_id: Number(newLotId),
+            roast_type_id: Number(newRoastTypeId)
         };
 
-        fetch('/api/coffees', {
+        fetch(`${backendURL}/api/coffees/add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newCoffee)
