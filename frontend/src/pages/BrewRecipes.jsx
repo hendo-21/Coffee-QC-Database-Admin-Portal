@@ -37,25 +37,6 @@ function BrewRecipes({ backendURL }) {
         loadData()
     }, []);
 
-    // Fill form with existing data when recipe ID is selected
-    const onRecipeSelect = (e) => {
-        const newRecipeID = Number(e.target.value);
-        setSelectedBrewRecipe(newRecipeID);
-        const recipe = brewRecipes.find(r => r.recipe_id === newRecipeID);
-        if (recipe) {
-            setSelectedBrewerType(recipe.brewer_type)
-            setTargetDose(recipe.target_dose);
-            setTargetYield(recipe.target_yield);
-            setTargetGrindSize(recipe.target_grind_size);
-            setTargetWaterTemp(recipe.target_water_temp);
-            setTargetBrewTime(recipe.target_brew_time);
-            setSelectedRecipeStatus(recipe.status);
-        }
-    };
-
-    // TODO: POST new recipe to db
-
-
     // Delete a Brew Recipe
     const handleRecipeDelete = async (recipe_id_to_delete) => {
         const rid = parseInt(recipe_id_to_delete);
@@ -66,6 +47,67 @@ function BrewRecipes({ backendURL }) {
             console.error("Failed to delete Brew Recipe record.");
         }
     };
+
+    // Fill form with existing data when recipe ID is selected
+    const onRecipeSelect = async (e) => {
+        const newRecipeID = Number(e.target.value);
+        setSelectedBrewRecipe(newRecipeID);
+        const recipe = brewRecipes.find(r => r.recipe_id === newRecipeID);
+        if (recipe) {
+            setSelectedBrewerType(recipe.brewer_type)
+            setTargetDose(Number(recipe.target_dose));
+            setTargetYield(Number(recipe.target_yield));
+            setTargetGrindSize(Number(recipe.target_grind_size));
+            setTargetWaterTemp(Number(recipe.target_water_temp));
+            setTargetBrewTime(recipe.target_brew_time);
+            setSelectedRecipeStatus(recipe.status);
+        }
+    };
+
+    // Update a brew recipe in the database
+    const updateBrewRecipe = async () => {
+        // Get the status id
+        const recipeStatus = recipeStatuses.find(rs => rs.status_type === selectedRecipeStatus);
+        const rsId = recipeStatus.status_id;
+
+        // Get the brewer id
+        const brewerType = brewerTypes.find(bt => bt.brewer_type === selectedBrewerType);
+        const btId = brewerType.brewer_id;
+
+        // Make the request
+        const updatedRecipe = {
+            btId,
+            targetDose,
+            targetYield,
+            targetGrindSize,
+            targetWaterTemp,
+            targetBrewTime,
+            rsId
+        };
+        const response = await fetch (`${backendURL}/api/brewresults/${selectedBrewRecipe}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(updatedRecipe)
+        });
+        if (response.status === 200) {
+            loadData();
+        } else {
+            console.log(`Error updating recipe. Error: ${response.status}.`)
+        }
+
+        // Clear the form
+        setSelectedBrewRecipe("");
+        setSelectedBrewerType("");
+        setTargetDose("");
+        setTargetYield("");
+        setTargetGrindSize("");
+        setTargetWaterTemp("");
+        setTargetBrewTime("");
+        setSelectedRecipeStatus("");
+    } 
+
+
+
 
     return (
         <>
@@ -108,7 +150,7 @@ function BrewRecipes({ backendURL }) {
                 </table>
 
                 {/* Form for Edit Brew Recipes */}
-                <form onSubmit={event => { event.preventDefault(); }}>
+                <form onSubmit={event => { event.preventDefault(); updateBrewRecipe(); }}>
                     <h3>Edit Brew Recipe</h3>
 
                     <p>

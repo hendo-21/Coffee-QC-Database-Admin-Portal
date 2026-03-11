@@ -15,14 +15,13 @@ import BrewerTypes from './pages/BrewerTypes';
 import RecipeStatuses from './pages/RecipeStatuses';
 import BrewRecipes from './pages/BrewRecipes';
 import BrewResults from './pages/BrewResults';
-import CreateBrewResult from './pages/CreateBrewResult';
 
 // Components
 import Navigation from './components/Navigation';
 
 // Define the backend port and URL for API requests
 // 1884
-const backendPort = 1884;  // Use the port you assigned to the backend server, this would normally go in a .env file
+const backendPort = 1890;  // Use the port you assigned to the backend server, this would normally go in a .env file
 const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
 
 function App() {
@@ -49,7 +48,6 @@ function App() {
                     <Route path="/recipestatuses" element={<RecipeStatuses backendURL={backendURL}/>} />
                     <Route path="/brewrecipes" element={<BrewRecipes backendURL={backendURL}/>} />
                     <Route path="/brewresults" element={<BrewResults backendURL={backendURL}/>} />
-                    <Route path="/create-brew-result" element={<CreateBrewResult backendURL={backendURL}/>} />
                 </Routes>
 
                 <footer><p>&copy; 2026 Ian Henderson & Nicholas Park</p></footer>

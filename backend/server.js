@@ -22,7 +22,7 @@ const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
 // 1884
-const PORT = 1884;
+const PORT = 1890;
 
 
 // Citation for following code:
@@ -280,8 +280,10 @@ Prompts used:
     1. Explain escaping, string interpolation, and parameterized queries.
     2. Implement parameterized queries.
     3. Explain why a stored procedure with OUT parameter does not return value to app like SELECT does.
-AI Source: Microsoft Copilot VSCode integration.
+AI Source: GitHub Copilot VSCode integration.
 */}
+
+// Add a record to the Brew Results table
 app.post('/api/brewresults/add', asyncHandler(async (req, res) => {
     try {
         const sql = `CALL sp_insert_brew_result(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
@@ -332,6 +334,7 @@ app.post('/api/brewresults/add', asyncHandler(async (req, res) => {
     }
 }));
 
+// Add a record to the Coffees table
 app.post('/api/coffees/add', asyncHandler(async (req, res) => {
     try {
         const sql = `CALL sp_insert_coffee(?, ?, ?, ?)`
@@ -342,6 +345,8 @@ app.post('/api/coffees/add', asyncHandler(async (req, res) => {
             req.body.lot_id
         ];
         const result = await db.query(sql, values);
+
+        // Get the added coffee
         const added_coffe_sql = `
             SELECT 
                 coffee_id, 
@@ -362,8 +367,7 @@ app.post('/api/coffees/add', asyncHandler(async (req, res) => {
     }
 }));
 
-
-// RESET DB
+// Reset database
 app.post('/api/reset-db', asyncHandler(async (req, res) => {
     try {
         const sql = "CALL sp_reset_db();"
@@ -375,9 +379,52 @@ app.post('/api/reset-db', asyncHandler(async (req, res) => {
     }
 }));
 
+
 // PUT ROUTES
 
+// Updates a brew result record. Cascades to brew results table
+app.put('/api/brewresults/:result_id', asyncHandler( async (req, res) => {
+    try {
+        const sql = "CALL sp_update_brew_recipe(?, ?, ?, ?, ?, ?, ?, ?)"
+        const values = [
+            req.params.result_id,
+            req.body.btId,
+            req.body.targetDose,
+            req.body.targetYield,
+            req.body.targetGrindSize,
+            req.body.targetWaterTemp,
+            req.body.targetBrewTime,
+            req.body.rsId
+        ]
+        const result = await db.query(sql, values);
+
+        // Get updated recipe data
+        const updated_recipe_sql = `
+                SELECT
+                recipe_id,
+                BrewerTypes.brewer_type,
+                target_dose,
+                target_yield,
+                target_grind_size,
+                target_water_temp,
+                target_brew_time,
+                RecipeStatuses.status_type AS status
+            FROM BrewRecipes
+            INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id
+            INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
+            WHERE BrewRecipes.recipe_id = ${result[0][0][0]['recipe_id']}
+        `
+        const updated_recipe_result = await db.query(updated_recipe_sql);
+        res.status(200).json(updated_recipe_result[0][0]);
+    } catch (err) {
+        console.error("SQL error in update_brew_recipe:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+}));
+
 // DELETE ROUTES
+
+// Delete one brew result record from the table
 app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
     try {
         const call_sp_sql = `CALL sp_delete_one_brew_result(${req.params.result_id})`;
@@ -390,6 +437,7 @@ app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
     }
 }));
 
+// Delete many brew result records from the table
 app.delete('/api/brewresults/:recipe_id/:coffee_id', asyncHandler(async (req, res) => {
     try {
         const call_sp_sql = `CALL sp_delete_many_brew_results(${req.params.recipe_id}, ${req.params.coffee_id})`;
@@ -401,6 +449,7 @@ app.delete('/api/brewresults/:recipe_id/:coffee_id', asyncHandler(async (req, re
     }
 }));
 
+// Delete one coffee record from the table. Cascades delete to brew results table
 app.delete('/api/coffees/:coffee_id', asyncHandler(async (req, res) => {
     try {
         const call_sp_sql = `CALL sp_delete_coffee(${req.params.coffee_id})`;
@@ -412,7 +461,7 @@ app.delete('/api/coffees/:coffee_id', asyncHandler(async (req, res) => {
     }
 }));
 
-
+// Delete one brew recipe record from the table. Cascades delete to brew results table
 app.delete('/api/brewrecipes/:recipe_id', asyncHandler(async (req, res) => {
     try {
         const call_sp_sql = `CALL sp_delete_brew_recipe(${req.params.recipe_id})`;
