@@ -10,7 +10,7 @@ This is the term project for Oregon State University's CS340: Intro to Databases
 - DML queries and user input representation adapted from bsg_sample_data_manipulation_queries.sql
 - Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323336?module_item_id=26243423
 
-#### server.js
+#### server.js (Setup & Listener)
 - Date: 02/09/26
 - Code for the SETUP and LISTENER sections were copied from class explorations.
 - Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
@@ -86,7 +86,7 @@ This is the term project for Oregon State University's CS340: Intro to Databases
 - Prompt(s) used:
     1. Refactored data fetching to use Promise.all() for concurrent fetching.
     2. Add a useEffect hook to update extYield from dose, bevYield, and tdsReading.
-- AI Source: GitHub Copilot VSCode integration and Microsoft Copilot VSCode integration.
+- AI Source: GitHub Copilot VSCode integration.
 
 #### BrewResults.jsx
 - Date: 03/02/26
