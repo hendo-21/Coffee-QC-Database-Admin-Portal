@@ -1,3 +1,10 @@
+-- Citation for following code:
+-- Date: 02/27/26
+-- All SPs are adapted from PL/SQL Assignment starter code (plsql_student_shell_files)
+-- Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323329
+
+
+-- Reset database IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_reset_db;
 
 DELIMITER / /
@@ -224,3 +231,226 @@ BEGIN
 END //
 
 DELIMITER;
+
+-- Insert a Brew Result IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_insert_brew_result;
+DELIMITER //
+CREATE PROCEDURE sp_insert_brew_result(
+    IN recipe_id INT,
+    IN coffee_id INT,
+    IN actual_dose DECIMAL(5,2),
+    IN actual_yield DECIMAL(6,2),
+    IN actual_grind_size DECIMAL(4,2),
+    IN actual_water_temp DECIMAL(5,2),
+    IN actual_brew_time TIME,
+    IN tds_reading DECIMAL(3,2),
+    IN ext_yield DECIMAL(4,2),
+    IN rating INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- In case of an error, set the result_id to -99
+        SELECT -99 AS result_id;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO BrewResults (
+        recipe_id,
+        coffee_id,
+        actual_dose,
+        actual_yield,
+        actual_grind_size,
+        actual_water_temp,
+        actual_brew_time,
+        tds_reading,
+        ext_yield,
+        rating
+    )
+    VALUES (
+        recipe_id,
+        coffee_id,
+        actual_dose,
+        actual_yield,
+        actual_grind_size,
+        actual_water_temp,
+        actual_brew_time,
+        tds_reading,
+        ext_yield,
+        rating
+    );
+
+    SELECT LAST_INSERT_ID() AS result_id;
+    COMMIT;
+END// 
+DELIMITER ;
+
+-- Bulk delete brew results IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_delete_many_brew_results;
+DELIMITER //
+CREATE PROCEDURE sp_delete_many_brew_results(IN p_recipe_id INT, IN p_coffee_id INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Bulk delete error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM BrewResults 
+        WHERE recipe_id = p_recipe_id AND 
+        coffee_id = p_coffee_id;
+
+    -- Return recipe_id and coffee_id of deleted to rerender table
+    SELECT p_recipe_id, p_coffee_id AS bulk_delete_result;
+
+    COMMIT;
+END //
+DELIMITER ;
+
+-- Delete a Brew Recipe IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_delete_brew_recipe;
+DELIMITER //
+CREATE PROCEDURE sp_delete_brew_recipe(IN p_recipe_id INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Delete error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM BrewRecipes WHERE recipe_id = p_recipe_id;
+
+    -- Return recipe_id of deleted record to rerender
+    SELECT p_recipe_id AS deleted_recipe_id;
+
+    COMMIT;
+END //
+DELIMITER ;
+
+-- Update a brew recipe NOT IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_update_brew_recipe;
+DELIMITER //
+
+CREATE PROCEDURE sp_update_brew_recipe(
+    IN p_recipe_id INT,
+    IN p_brewer_id INT,
+    IN p_target_dose DECIMAL(5,2), 
+    IN p_target_yield DECIMAL(6,2), 
+    IN p_target_grind_size DECIMAL(4,2), 
+    IN p_target_water_temp DECIMAL(5,2), 
+    IN p_target_brew_time TIME, 
+    IN p_status_id INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Update error!' AS result;
+        ROLLBACK;
+    END;
+    
+    START TRANSACTION;
+        UPDATE BrewRecipes
+        SET
+            brewer_id = p_brewer_id,
+            target_dose = p_target_dose,
+            target_yield = p_target_yield,
+            target_grind_size = p_target_grind_size,
+            target_water_temp = p_target_water_temp,
+            target_brew_time = p_target_brew_time,
+            status_id = p_status_id
+        WHERE recipe_id = p_recipe_id;
+    
+    -- Return the updated recipe for React to render
+        SELECT
+            recipe_id,
+            BrewerTypes.brewer_type,
+            target_dose,
+            target_yield,
+            target_grind_size,
+            target_water_temp,
+            target_brew_time,
+            RecipeStatuses.status_type AS status
+        FROM BrewRecipes
+        INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id
+        INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
+        WHERE BrewRecipes.recipe_id = p_recipe_id;
+    
+    COMMIT;
+END //
+
+DELIMITER ;
+
+-- Insert a Coffee IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_insert_coffee;
+DELIMITER //
+CREATE PROCEDURE sp_insert_coffee(
+    IN p_coffee_name VARCHAR(50),
+    IN p_roaster_id INT,
+    IN p_roast_type_id INT,
+    IN p_lot_id INT
+)
+BEGIN
+    DECLARE new_coffee_id INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO Coffees (
+        coffee_name,
+        roaster_id,
+        roast_type_id,
+        lot_id
+    )
+    VALUES (
+        p_coffee_name,
+        p_roaster_id,
+        p_roast_type_id,
+        p_lot_id
+    );
+    
+    -- Return the new record so that React can render at bottom of table
+    SET new_coffee_id = LAST_INSERT_ID();
+    SELECT 
+        coffee_id, 
+        coffee_name,
+        Roasters.roaster_name AS roaster,
+        CoffeeLots.lot_number,
+        RoastTypes.roast_name AS roast
+    FROM Coffees
+    INNER JOIN Roasters ON Coffees.roaster_id = Roasters.roaster_id
+    INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
+    INNER JOIN RoastTypes ON Coffees.roast_type_id = RoastTypes.roast_type_id
+    WHERE Coffees.coffee_id = new_coffee_id;
+
+    COMMIT;
+END// 
+DELIMITER ;
+
+-- Delete a coffee IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_delete_coffee;
+DELIMITER //
+CREATE PROCEDURE sp_delete_coffee(IN p_coffee_id INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Delete error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM Coffees WHERE coffee_id = p_coffee_id;
+
+    -- Return deleted ID to re-render table
+    SELECT p_coffee_id AS deleted_coffee_id;
+
+    COMMIT;
+END //
+DELIMITER ;

@@ -1,6 +1,6 @@
 // Citation for following code:
 // Date: 02/09/26
-// Copied from:
+// Code for the SETUP and LISTENER sections were copied from class explorations.
 // Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
 
 // ########################################
@@ -22,12 +22,12 @@ const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
 // 1884
-const PORT = 1884;
+const PORT = 1890;
 
 
 // Citation for following code:
 // Date: 02/09/26
-// Adapted from:
+// Code for ROUTEN HANDLERS section was Adapted from:
 // Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
 
 // ########################################
@@ -35,10 +35,10 @@ const PORT = 1884;
 
 // READ ROUTES
 
-// GET Locations
+// Read Locations table
 app.get('/api/locations', asyncHandler(async (req, res) => {
     try {
-        const [result] = await db.query('SELECT * FROM Locations');
+        const [result] = await db.query('SELECT location_id, city, country FROM Locations');
         res.status(200).json(result);
     } catch (err) {
         console.error("SQL Error in Locations:", err.message);
@@ -46,7 +46,7 @@ app.get('/api/locations', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET Roasters with Join
+// Read Roasters table joined with Locations table
 app.get('/api/roasters', asyncHandler(async (req, res) => {
     // We join 'roasters' (r) and 'Locations' (l) using city and country
     try {
@@ -63,7 +63,7 @@ app.get('/api/roasters', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET BrewRecipes
+// Read BrewRecipes table joined with BrewerTypes and RecipeStatuses tables
 app.get('/api/brewrecipes', asyncHandler(async (req, res) => {
     try {
         const query = `
@@ -87,12 +87,10 @@ app.get('/api/brewrecipes', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET BrewerTypes
+// Read BrewerTypes table
 app.get('/api/brewertypes', asyncHandler(async (req, res) => {
     try {
-        const query = `
-            SELECT * FROM BrewerTypes
-            `;
+        const query = `SELECT brewer_id, brewer_type FROM BrewerTypes`;
         const [brewertypes] = await db.query(query);
         res.status(200).json(brewertypes)
     } catch (err) {
@@ -101,7 +99,7 @@ app.get('/api/brewertypes', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET BrewResults
+// Read BrewResults table joined with Coffees, CoffeeLots, Roasters, BrewRecipes, RecipeStatuses, and BrewerTypes tables
 app.get('/api/brewresults', asyncHandler(async (req, res) => {
     try {
         const query = `
@@ -138,7 +136,7 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET RecipeStatuses
+// Read RecipeStatuses table
 app.get('/api/recipestatuses', asyncHandler(async (req, res) => {
     try {
         const query = `
@@ -153,7 +151,7 @@ app.get('/api/recipestatuses', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET Coffees
+// Read Coffees table joined with Roasters, CoffeeLots, and RoastTypes tables
 app.get('/api/coffees', asyncHandler(async (req, res) => {
     try {
         const sql = `
@@ -179,7 +177,7 @@ app.get('/api/coffees', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET CoffeeLots
+// Read CoffeeLots table joined with Locations and ProcessingStyles tables
 app.get('/api/coffeelots', asyncHandler(async (req, res) => {
     try {
         const sql = `
@@ -204,11 +202,11 @@ app.get('/api/coffeelots', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET Varietals
+// Read Varietals table
 app.get('/api/varietals', asyncHandler(async (req, res) => {
     try {
         const sql = `
-        SELECT * FROM Varietals
+        SELECT varietal_id, varietal_name FROM Varietals
         ORDER BY varietal_id ASC
         `;
         const [varietals] = await db.query(sql);
@@ -220,7 +218,7 @@ app.get('/api/varietals', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET CoffeeLotVarietals
+// Read CoffeeLotVarietals table joined with CoffeeLots and Varietals tables
 app.get('/api/coffeelotvarietals', asyncHandler(async (req, res) => {
     try {
         const sql = `
@@ -240,11 +238,11 @@ app.get('/api/coffeelotvarietals', asyncHandler(async (req, res) => {
     }
 }));
 
-// GET ProcessingStyles
+// Read ProcessingStyles table
 app.get(`/api/processingstyles`, asyncHandler(async (req, res) => {
     try {
         const sql = `
-        SELECT * FROM ProcessingStyles
+        SELECT process_id, process_name FROM ProcessingStyles
         ORDER BY process_id ASC
         `;
         const [processes] = await db.query(sql);
@@ -256,11 +254,11 @@ app.get(`/api/processingstyles`, asyncHandler(async (req, res) => {
     }
 }));
 
-// GET RoastTypes
+// Read RoastTypes table
 app.get('/api/roasttypes', asyncHandler(async (req, res) => {
     try {
         const sql = `
-        SELECT * FROM RoastTypes
+        SELECT roast_type_id, roast_name FROM RoastTypes
         ORDER BY roast_type_id ASC
         `;
         const [roastTypes] = await db.query(sql);
@@ -278,7 +276,7 @@ app.get('/api/roasttypes', asyncHandler(async (req, res) => {
 Date: 03/02/26
 Prompts used: 
     1. Explain escaping, string interpolation, and parameterized queries.
-    2. Implement parameterized queries.
+    2. Refactor snippet using parameterized queries.
     3. Explain why a stored procedure with OUT parameter does not return value to app like SELECT does.
 AI Source: GitHub Copilot VSCode integration.
 */}

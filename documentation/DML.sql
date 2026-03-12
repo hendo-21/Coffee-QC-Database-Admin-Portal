@@ -1,5 +1,31 @@
+-- Authors: Ian Henderson & Nicholas Park
+-- Group 12: Socal Schemas
+
+
+-- Citation for following code:
+-- Date: 02/12/26
+-- Queries and user input representation adapted from bsg_sample_data_manipulation_queries.sql
+-- Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323336?module_item_id=26243423
+
+
+-- CUD implementation are on the listed entities below. Read implemented for all entities.
+-- Leaving in non-implemented CUD queries per Lindsey Clement, ULA, recc, and for future development.
+-- CUD entities:
+-- -- CREATE:
+-- -- -- Coffees - M:N relationship with BrewRecipes
+-- -- -- BrewResults - also acts as intersection table that resolves M:N between Coffees and BrewRecipes
+-- -- UPDATE: 
+-- -- -- BrewRecipes (M:N with Coffees)
+-- -- DELETE: 
+-- -- -- Coffees (M:N with BrewRecipes) 
+-- -- -- BrewRecipes (M:N with Coffees)
+-- -- -- BrewResults
+
+-- User inputs are denoted with the character : 
+
+
 /* Roasters */
--- READ -- 
+-- READ -- for populating Roasters page; join with Locations for better UX
 SELECT roaster_id, roaster_name, email, Locations.city, Locations.country
 FROM Roasters
 INNER JOIN Locations ON Roasters.location_id = Locations.location_id;
@@ -7,10 +33,6 @@ INNER JOIN Locations ON Roasters.location_id = Locations.location_id;
 -- CREATE --
 INSERT INTO Roasters (roaster_name, email, location_id)
 VALUES (:roaster_name_input, :email_input, :location_id_from_dropdown);
-
--- Test query
-INSERT INTO Roasters (roaster_name, email, location_id)
-VALUES ('Test Roaster', 'test@test.com', 3);
 
 -- UPDATE -- 
 UPDATE Roasters
@@ -20,135 +42,83 @@ SET
 	location_id = :new_location_id_from_dropdown
 WHERE roaster_id = :roaster_id_to_update;
 
--- Test query
-UPDATE Roasters
-SET
-	roaster_name = 'New Test Roaster Name',
-	email = 'new_test@test.com',
-	location_id = 1
-WHERE roaster_id = 5;
-
 -- DELETE --
 DELETE FROM Roasters
 WHERE roaster_id = :roaster_id_to_delete;
 
--- Test query
-DELETE FROM Roasters
-WHERE roaster_id = :roaster_id_to_delete;
-
-
 
 /* RoastTypes */
---- READ --- 
-SELECT * FROM RoastTypes;
+--- READ --- to populate Roast Types page 
+SELECT roast_type_id, roast_name 
+FROM RoastTypes;
 
 -- CREATE --
 INSERT INTO RoastTypes (roast_name) 
 VALUES (:nameInput);
 
--- Test query
-INSERT INTO RoastTypes (roast_name) 
-VALUES ('French');
-
 -- UPDATE -- 
 UPDATE RoastTypes SET roast_name = :newNameInput 
 WHERE roast__type_id = :roast_id_to_update;
 
--- Test query
-UPDATE RoastTypes SET roast_name = 'City' 
-WHERE roast_type_id = 5;
-
 -- DELETE -- 
 DELETE FROM RoastTypes WHERE roast_type_id = :roast_id_to_delete;
 
--- Test query
-DELETE FROM RoastTypes WHERE roast_type_id = 5;
-
-
 
 /* ProcessingStyles */
--- READ --
-SELECT * FROM ProcessingStyles;
+-- READ -- to populate the Processing Styles page
+SELECT process_id, process_name
+FROM ProcessingStyles;
 
 -- CREATE -- 
 INSERT INTO ProcessingStyles (process_name)
 VALUES (:nameInput);
 
--- Test query
-INSERT INTO ProcessingStyles (process_name)
-VALUES ('Yeast innoculated');
-
 -- UPDATE --
 UPDATE ProcessingStyles SET process_name = :newNameInput
 WHERE process_id = :process_id_to_update;
 
--- Test query
-UPDATE ProcessingStyles SET process_name = 'Co-fermented'
-WHERE process_id = 5;
-
 -- DELETE --
 DELETE FROM ProcessingStyles WHERE process_id = :process_id_to_delete;
 
--- Test query
-DELETE FROM ProcessingStyles WHERE process_id = 5;
-
 
 /* BrewerTypes */
--- READ --
-SELECT * FROM BrewerTypes;
+-- READ -- to populate the Brewer Types page
+SELECT brewer_id, brewer_type
+FROM BrewerTypes;
 
 -- CREATE -- 
 INSERT INTO BrewerTypes (brewer_type) 
 VALUES (:typeInput);
 
--- Test query
-INSERT INTO BrewerTypes (brewer_type) 
-VALUES ('April Hybrid');
-
 -- UPDATE -- 
 UPDATE BrewerTypes SET brewer_type = :newTypeInput
 WHERE brewer_id = :brewer_id_to_update;
 
--- Test query
-UPDATE BrewerTypes SET brewer_type = 'Origami'
-WHERE brewer_id = 6;
-
 -- DELETE -- 
 DELETE FROM BrewerTypes WHERE brewer_id = :brewer_id_to_delete;
 
--- Test query
-DELETE FROM BrewerTypes WHERE brewer_id = 6;
-
 
 /* Locations */
--- READ --
-SELECT * FROM Locations;
+-- READ -- to populate the Locations page
+SELECT location_id, city, country 
+FROM Locations;
 
 -- CREATE -- 
 INSERT INTO Locations (city, country) 
 VALUES (:typeInput, :typeInput);
 
--- Test query
-INSERT INTO Locations (city, country) 
-VALUES ('Los Angeles', 'USA');
-
 -- UPDATE -- 
 UPDATE Locations SET city = :newTypeInput, country = :newTypeInput
 WHERE location_id = :location_id_to_update;
 
--- Test query
-UPDATE Locations SET city = 'San Jose', country = 'USA'
-WHERE location_id = 8;
-
 -- DELETE --
 DELETE FROM Locations WHERE location_id = :location_id_to_delete
 
--- Test query
-DELETE FROM Locations WHERE location_id = 8;
-
 
 /* Coffees */
--- READ --
+-- READ -- 
+-- to populate the Coffees page; join with Roasters, CoffeeLots, and RoastTypes
+-- in order to present pertinent origin and roast information to user
 SELECT 
 	coffee_id, 
 	coffee_name,
@@ -161,21 +131,13 @@ INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
 INNER JOIN RoastTypes ON Coffees.roast_type_id = RoastTypes.roast_type_id;
 
 -- CREATE -- 
+-- add a coffee to the database (M:N relationship addition)
 INSERT INTO Coffees (coffee_name, roaster_id, lot_id, roast_type_id)
 VALUES (
 	:coffee_name_input,
 	:roaster_id_from_dropdown,
 	:lot_id_from_dropdown,
 	:roast_type_id_from_dropdown
-);
-
--- Test query
-INSERT INTO Coffees (coffee_name, roaster_id, lot_id, roast_type_id)
-VALUES (
-	'New Coffee',
-	1,
-	3,
-	2
 );
 
 -- UPDATE -- 
@@ -187,50 +149,31 @@ SET
 	roaster_type_id = :new_roast_type_from_dropdown
 WHERE coffee_id = :coffee_id_to_update;
 
--- Test query
-UPDATE Coffees 
-SET
-	coffee_name = 'Updated Coffee Name',
-	roaster_id = 1,
-	lot_id = 3,
-	roast_type_id = 3
-WHERE coffee_id = 6;
-
 -- DELETE --
+-- disassociate a Coffee from a Brew Method (M:N relationship deletion) with CASCADE
 DELETE FROM Coffees
-WHERE coffee_id = 6;
+WHERE coffee_id = :coffee_id_to_delete;
 
 
 
 /* Varietals */
--- READ --
-SELECT * FROM Varietals;
+-- READ -- for populating the Varietals page
+SELECT varietal_id, varietal_name 
+FROM Varietals;
 
 -- CREATE -- 
 INSERT INTO Varietals (varietal_name) 
 VALUES (:typeInput);
 
--- Test query
-INSERT INTO Varietals (varietal_name) 
-VALUES ('Ethiopian landrace');
-
 -- UPDATE -- 
 UPDATE Varietals SET varietal_name = :newTypeInput
 WHERE varietal_id = :varietal_id_to_update;
 
--- Test query
-UPDATE Varietals SET varietal_name = 'Ethiopia landrace'
-WHERE varietal_id = 10;
-
 -- DELETE -- 
 DELETE FROM Varietals WHERE varietal_id = :varietal_id_to_delete;
 
--- Test query
-DELETE FROM Varietals WHERE varietal_id = 10;
-
-
 /* CoffeeLots */
--- READ --
+-- READ -- for populating the CoffeeLots page
 SELECT
 	lot_id,
 	lot_number,
@@ -251,15 +194,6 @@ VALUES (
     :process_id_from_dropdown
 );
 
--- Test query
-INSERT INTO CoffeeLots (lot_number, location_id, meters_elevation, process_id) 
-VALUES (
-    '123456',
-    4,
-    1625,
-    1
-);
-
 -- UPDATE --
 UPDATE CoffeeLots SET 
     lot_number = :lot_number_input,
@@ -268,24 +202,13 @@ UPDATE CoffeeLots SET
     process_id = :process_id_from_dropdown
 WHERE lot_id = :lot_id_to_update;
 
--- Test query
-UPDATE CoffeeLots SET 
-    lot_number = '1200',
-    location_id = 4,
-    meters_elevation = 1650,
-    process_id = 1
-WHERE lot_id = 6;
-
 -- DELETE -- 
 DELETE FROM CoffeeLots WHERE lot_id = :lot_id_to_update;
 
--- Test query
-DELETE FROM CoffeeLots WHERE lot_id = 6;
-
-
 
 /* CoffeeLotVarietals */
--- READ --
+-- READ -- for populating the CoffeeLotVarietals page
+-- joins CoffeeLots and Varietals to FKs as user-friendly names
 SELECT CoffeeLots.lot_number, Varietals.varietal_name
 FROM CoffeeLotVarietals
 INNER JOIN CoffeeLots ON CoffeeLotVarietals.lot_id = CoffeeLots.lot_id
@@ -298,14 +221,7 @@ VALUES (
 	:varietal_id_from_dropdown
 );
 
--- Test query
-INSERT INTO CoffeeLotVarietals (lot_id, varietal_id)
-VALUES (
-	5,
-	5
-);
-
--- UPDATE -- This is giving duplicate entry syntax error
+-- UPDATE --
 UPDATE CoffeeLotVarietals
 SET
 	lot_id = new_lot_id_from_dropdown,
@@ -316,14 +232,10 @@ WHERE lot_id = :lot_id_to_update AND varietal_id_to_update;
 DELETE FROM CoffeeLotVarietals
 WHERE lot_id = :lot_id_to_delete AND varietal_id = :varietal_id_to_delete;
 
--- Test query
-DELETE FROM CoffeeLotVarietals
-WHERE lot_id = 5 AND varietal_id = 8;
-
-
 
 /* BrewRecipes */
--- READ --
+-- READ -- for populating the BrewRecipes page
+-- joins BrewerTypes and RecipeStatuses to display FKs for user-friendly names
 SELECT
 	recipe_id,
 	BrewerTypes.brewer_type,
@@ -357,27 +269,8 @@ VALUES (
 	status_id = :status_id_from_dropdown
 );
 
--- Test query
-INSERT INTO BrewRecipes (
-    brewer_id,
-    target_dose, 
-    target_yield, 
-    target_grind_size, 
-    target_water_temp, 
-    target_brew_time, 
-    status_id
-)
-VALUES (
-	2,
-	13,
-	200,
-	14.5,
-	95,
-	'00:02:30',
-	2
-);
-
--- UPDATE -- 
+-- UPDATE -- update a brew recipe's data based on submission of Edit Brew Recipe form
+-- (M:N relationship update with CASCADE)
 UPDATE BrewRecipes
 SET
 	brewer_id = :new_brewer_id_from_dropdown,
@@ -389,50 +282,37 @@ SET
 	status_id = new_status_id_from_dropdown
 WHERE recipe_id = :recipe_id_to_update;
 
--- Test query
-UPDATE BrewRecipes
-SET
-	brewer_id = 2,
-	target_dose = 12,
-	target_yield = 200,
-	target_grind_size = 14,
-	target_water_temp = 95,
-	target_brew_time = '00:02:15',
-	status_id = 1
-WHERE recipe_id = 5;
-
 -- DELETE -- 
 DELETE FROM BrewRecipes WHERE recipe_id = :recipe_id_to_delete;
 
--- Test query
-DELETE FROM BrewRecipes WHERE recipe_id = 5;
-
 /* BrewResults */
--- READ --
+-- READ -- for populating the Brew Results page
+-- joins multiple tables to present FKs as user-friendly names
 SELECT
-	BrewRecipes.recipe_id,
+    result_id,
+    BrewRecipes.recipe_id,
     Coffees.coffee_name AS coffee_name,
     Roasters.roaster_name AS roaster,
-	RecipeStatuses.status_type AS recipe_status,
-	BrewerTypes.brewer_type AS brewer,
-	actual_dose,
-	actual_yield,
-	actual_grind_size,
-	actual_water_temp,
-	actual_brew_time,
-	tds_reading,
+    RecipeStatuses.status_type AS recipe_status,
+    BrewerTypes.brewer_type AS brewer,
+    actual_dose,
+    actual_yield,
+    actual_grind_size,
+    actual_water_temp,
+    actual_brew_time,
+    tds_reading,
     ext_yield,
     rating	
 FROM BrewResults
 INNER JOIN Coffees ON BrewResults.coffee_id = Coffees.coffee_id
 INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
-INNER JOIN Locations ON CoffeeLots.location_id = Locations.location_id
 INNER JOIN Roasters ON Coffees.roaster_id = Roasters.roaster_id
 INNER JOIN BrewRecipes ON BrewResults.recipe_id = BrewRecipes.recipe_id
 INNER JOIN RecipeStatuses ON BrewRecipes.status_id = RecipeStatuses.status_id
 INNER JOIN BrewerTypes ON BrewRecipes.brewer_id = BrewerTypes.brewer_id;
 
--- CREATE -- 
+-- CREATE -- associate a Coffee with a BrewRecipe via form submission
+-- (M:N relationship addition)
 INSERT INTO BrewResults (
     coffee_id,
     recipe_id,
@@ -446,8 +326,8 @@ INSERT INTO BrewResults (
     rating
 )
 VALUES (
-    :coffee_id_input,
-    :recipe_id_input,
+    :coffee_id_dropdown_input,
+    :recipe_id_dropdown_input,
     :actual_dose_input,
     :actual_yield_input,
     :actual_grind_size_input,
@@ -458,37 +338,11 @@ VALUES (
     :rating_input
 )
 
--- Test query
-INSERT INTO BrewResults (
-    coffee_id,
-    recipe_id,
-    actual_dose,
-    actual_yield,
-    actual_grind_size,
-    actual_water_temp,
-    actual_brew_time,
-    tds_reading,
-    ext_yield,
-    rating
-)
-VALUES (
-    2,
-    3,
-    14.9,
-    242.25,
-    10.00,
-    94.30,
-    '00:03:48',
-    1.44,
-    ROUND((1.44 * 242.25) / 14.9, 2),
-    4
-);
-
 -- UPDATE --
 UPDATE BrewResults
 SET
-    coffee_id = :coffee_id_input,
-    recipe_id = :recipe_id_input,
+    coffee_id = :coffee_id_dropdown_input,
+    recipe_id = :recipe_id_dropdown_input,
     actual_dose = :actual_dose_input,
     actual_yield = :actual_yield_input,
     actual_grind_size = :actual_grind_size_input,
@@ -499,23 +353,10 @@ SET
     :rating_input
 WHERE result_id = :result_id_to_update;
 
--- Test query
-UPDATE BrewResults
-SET
-    coffee_id = 2,
-    recipe_id = 3,
-    actual_dose = 14.9,
-    actual_yield = 242.25,
-    actual_grind_size = 10.00,
-    actual_water_temp = 94.30,
-    actual_brew_time = '00:03:52',
-    tds_reading = 1.54,
-    ext_yield = ROUND((1.54 * 242.25) / 14.9, 2),
-    rating = 5
-WHERE result_id = 6; 
-
--- DELETE -- 
+-- DELETE -- delete a Brew Result
 DELETE FROM BrewResults WHERE result_id = :result_id_to_delete;
 
--- Test query
-DELETE FROM BrewResults WHERE result_id = 6;
+-- DELETE -- disassociate a Coffee from a BrewRecipe (M:N relationship deletion)
+DELETE FROM BrewResults WHERE coffee_id 
+= :coffee_id_from_coffee_brew_results AND recipe_id
+= :brew_recipes_from_brew_results;
