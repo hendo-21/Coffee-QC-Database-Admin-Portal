@@ -1,3 +1,8 @@
+// Citation for use of AI Tools:
+// Date: 02/18/26
+// Prompts used: footer lock to bottom of page, nav link padding, left-side nav layout, refactor pages to standalone components.
+// AI Source: GitHub Copilot VSCode integration.
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 

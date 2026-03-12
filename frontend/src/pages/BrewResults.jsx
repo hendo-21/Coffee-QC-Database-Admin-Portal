@@ -1,3 +1,8 @@
+// Citation for use of AI Tools:
+// Date: 02/18/26
+// Prompts used: refactored data fetching to use Promise.all() for concurrent fetching.
+// AI Source: GitHub Copilot VSCode integration.
+
 import React, { useState, useEffect } from 'react';
 
 function BrewResults({ backendURL }) {

@@ -1,3 +1,8 @@
+// Citation for use of AI Tools:
+// Date: 02/18/26
+// Prompts used: refactored to standalone page component from Coffees.jsx, left-side nav layout, table min-width.
+// AI Source: GitHub Copilot VSCode integration.
+
 import React, { useState, useEffect } from 'react';
 
 function ProcessingStyles({ backendURL }) {

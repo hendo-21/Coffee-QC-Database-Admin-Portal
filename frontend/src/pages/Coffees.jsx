@@ -1,3 +1,8 @@
+// Citation for use of AI Tools:
+// Date: 02/18/26
+// Prompts used: refactored data fetching to use Promise.all() for concurrent fetching.
+// AI Source: GitHub Copilot VSCode integration.
+
 import React, { useState, useEffect } from 'react';
 
 function Coffees({ backendURL }) {
@@ -73,15 +78,6 @@ function Coffees({ backendURL }) {
         }
     };
 
-    {/* Citation for use of AI Tools
-    Date: 02/11/26
-    Prompt(s) used: 
-        - Would it be better to have CoffeeLots, Varietals, CoffeeLotVarietals, 
-        and ProcessingStyles as separate components that are imported into Coffees? Explain why.
-        - Create individual component files for each function just mentioned using the form elements already in this file. 
-        Import those components to this component (Coffees.jsx) and pass the data to each newly created component file as appropriate.
-    AI Source: Microsoft Copilot VSCode integration. Model: Claude Haiku 4.5.
-    */}
     return (
         <div className="pageContent">
             <h2>View, Add and Delete Coffees</h2>
