@@ -1,3 +1,9 @@
+// Citation for use of AI Tools:
+// Date: 02/23/26
+// Prompts used: multi-table dropdown form, recipe status and brewer type dropdown inputs.
+//      Refactored data fetching to use Promise.all() for concurrent fetching.
+// AI Source: GitHub Copilot VSCode integration.
+
 import React, { useState, useEffect } from 'react';
 import BrewerTypes from './BrewerTypes';
 import RecipeStatuses from './RecipeStatuses';

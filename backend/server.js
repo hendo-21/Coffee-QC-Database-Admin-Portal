@@ -3,6 +3,11 @@
 // Code for the SETUP and LISTENER sections were copied from class explorations.
 // Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
 
+// Citation for use of AI Tools:
+// Date: 03/02/26
+// Prompts used: parameterized queries, string interpolation, stored procedure OUT parameters. Detailed prompts below/in README.
+// AI Source: GitHub Copilot VSCode integration.
+
 // ########################################
 // ########## SETUP
 require('dotenv').config();

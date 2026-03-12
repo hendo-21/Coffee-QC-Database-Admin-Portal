@@ -1,3 +1,8 @@
+// Citation for use of AI Tools:
+// Date: 02/18/26
+// Prompts used: left-side nav layout, refactor pages to standalone components.
+// AI Source: GitHub Copilot VSCode integration.
+
 function Navigation({ backendURL }) {
 
     const handleResetDatabase = async () => {

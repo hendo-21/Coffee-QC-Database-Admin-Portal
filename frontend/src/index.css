@@ -1,3 +1,15 @@
+/* 
+  Citation for use of AI Tools:
+   Date: 02/18/26
+   Prompts used:
+    - Add a hover effect for the nav anchors that lightens the color to #d26b63 over the course of 0.25s.
+    - How can I lock the footer to the bottom of the page when viewing in the browser?
+    - I'd like to provide some padding on the top and bottom of the links within the homepageIndex class. How can I achieve that?
+    - How can I locate nav elements on the left side of the page rather than the top?
+    - Update index.css and component divs so that tables across all pages are min 50% page width.
+   AI Source: GitHub Copilot VSCode integration. 
+*/
+
 html, body {
   margin: 0;
   padding: 0;
@@ -42,12 +54,6 @@ nav {
   background-color: #a94841;
 }
 
-/* Citation for use of AI Tools
-    Date: 02/18/26
-    Prompt(s) used: 
-        - Add a hober effect for the nav anchors that lightens the color to #d26b63 over the course of 0.25s.
-    AI Source: Microsoft Copilot VSCode integration.
-*/
 a {
   padding: 1rem 0;
   margin-left: 0;
