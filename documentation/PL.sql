@@ -3,7 +3,6 @@
 -- All SPs are adapted from PL/SQL Assignment starter code (plsql_student_shell_files)
 -- Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323329
 
-
 -- Reset database IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_reset_db;
 
@@ -234,7 +233,9 @@ DELIMITER;
 
 -- Insert a Brew Result IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_insert_brew_result;
-DELIMITER //
+
+DELIMITER / /
+
 CREATE PROCEDURE sp_insert_brew_result(
     IN recipe_id INT,
     IN coffee_id INT,
@@ -284,12 +285,15 @@ BEGIN
 
     SELECT LAST_INSERT_ID() AS result_id;
     COMMIT;
-END// 
-DELIMITER ;
+END //
+
+DELIMITER;
 
 -- Bulk delete brew results IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_delete_many_brew_results;
-DELIMITER //
+
+DELIMITER / /
+
 CREATE PROCEDURE sp_delete_many_brew_results(IN p_recipe_id INT, IN p_coffee_id INT)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -308,11 +312,14 @@ BEGIN
 
     COMMIT;
 END //
-DELIMITER ;
+
+DELIMITER;
 
 -- Delete a Brew Recipe IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_delete_brew_recipe;
-DELIMITER //
+
+DELIMITER / /
+
 CREATE PROCEDURE sp_delete_brew_recipe(IN p_recipe_id INT)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -329,11 +336,13 @@ BEGIN
 
     COMMIT;
 END //
-DELIMITER ;
+
+DELIMITER;
 
 -- Update a brew recipe NOT IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_update_brew_recipe;
-DELIMITER //
+
+DELIMITER / /
 
 CREATE PROCEDURE sp_update_brew_recipe(
     IN p_recipe_id INT,
@@ -382,11 +391,13 @@ BEGIN
     COMMIT;
 END //
 
-DELIMITER ;
+DELIMITER;
 
 -- Insert a Coffee IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_insert_coffee;
-DELIMITER //
+
+DELIMITER / /
+
 CREATE PROCEDURE sp_insert_coffee(
     IN p_coffee_name VARCHAR(50),
     IN p_roaster_id INT,
@@ -431,12 +442,15 @@ BEGIN
     WHERE Coffees.coffee_id = new_coffee_id;
 
     COMMIT;
-END// 
-DELIMITER ;
+END//
+
+DELIMITER;
 
 -- Delete a coffee IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_delete_coffee;
-DELIMITER //
+
+DELIMITER / /
+
 CREATE PROCEDURE sp_delete_coffee(IN p_coffee_id INT)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -453,4 +467,27 @@ BEGIN
 
     COMMIT;
 END //
-DELIMITER ;
+
+DELIMITER;
+
+-- Update CoffeeLotVarietal IMPLEMENTED
+DROP PROCEDURE IF EXISTS UpdateCoffeeLotVarietal;
+
+DELIMITER / /
+
+CREATE PROCEDURE UpdateCoffeeLotVarietal(
+    IN p_old_lot_id INT,
+    IN p_old_varietal_id INT,
+    IN p_new_lot_id INT,
+    IN p_new_varietal_id INT
+)
+BEGIN
+    UPDATE CoffeeLotVarietals
+    SET lot_id = p_new_lot_id,
+        varietal_id = p_new_varietal_id
+    WHERE lot_id = p_old_lot_id AND varietal_id = p_old_varietal_id;
+
+    COMMIT;
+END //
+
+DELIMITER;
