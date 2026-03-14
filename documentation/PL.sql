@@ -475,7 +475,7 @@ DROP PROCEDURE IF EXISTS UpdateCoffeeLotVarietal;
 
 DELIMITER / /
 
-CREATE PROCEDURE UpdateCoffeeLotVarietal(
+CREATE PROCEDURE sp_update_coffee_lot_varietal(
     IN p_old_lot_id INT,
     IN p_old_varietal_id INT,
     IN p_new_lot_id INT,
