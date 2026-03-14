@@ -471,7 +471,7 @@ END //
 DELIMITER;
 
 -- Update CoffeeLotVarietal IMPLEMENTED
-DROP PROCEDURE IF EXISTS UpdateCoffeeLotVarietal;
+DROP PROCEDURE IF EXISTS sp_update_coffee_lot_varietal;
 
 DELIMITER / /
 
