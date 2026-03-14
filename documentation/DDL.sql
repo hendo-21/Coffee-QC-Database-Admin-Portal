@@ -463,6 +463,8 @@ CREATE DEFINER=`cs340_parknic`@`%` PROCEDURE `sp_update_coffee_lot_varietals` (I
     SET lot_id = p_new_lot_id,
         varietal_id = p_new_varietal_id
     WHERE lot_id = p_old_lot_id AND varietal_id = p_old_varietal_id;
+    
+    COMMIT;
 END$$
 
 DELIMITER;
