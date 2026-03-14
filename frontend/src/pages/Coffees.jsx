@@ -116,64 +116,64 @@ function Coffees({ backendURL }) {
             <form onSubmit={addCoffee} style={{ marginTop: '20px' }}>
                 <h3>Add New Coffee</h3>
                 <p>
-                    <label>Coffee Name:
-                        <input
-                            value={newName}
-                            onChange={e => setNewName(e.target.value)}
-                            placeholder="Enter Coffee Name"
-                            required
-                        />
-                    </label>
+                    <label>Coffee Name:</label>
+                    <input
+                        id="newCoffeeName"
+                        value={newName}
+                        onChange={e => setNewName(e.target.value)}
+                        placeholder="Enter Coffee Name"
+                        required
+                    />
                 </p>
 
                 <p>
-                    <label>Roaster:
-                        <select
-                            value={newRoasterId}
-                            onChange={e => setNewRoasterId(e.target.value)}
-                            required
-                        >
-                            <option value="">Select Roaster</option>
-                            {roasters.map(roaster => (
-                                <option key={roaster.roaster_id} value={roaster.roaster_id}>
-                                    {roaster.roaster_name}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label>Roaster:</label>
+                    <select
+                        id="newRoasterId"
+                        value={newRoasterId}
+                        onChange={e => setNewRoasterId(e.target.value)}
+                        required
+                    >
+                        <option value="">Select Roaster</option>
+                        {roasters.map(roaster => (
+                            <option key={roaster.roaster_id} value={roaster.roaster_id}>
+                                {roaster.roaster_name}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>
-                    <label>Lot:
-                        <select
-                            value={newLotId}
-                            onChange={e => setNewLotId(e.target.value)}
-                            placeholder="Enter Lot ID"
-                            required
-                        >
-                            <option value="">Select Lot</option>
-                            {lots.map(lot => (
-                                <option key={lot.lot_id} value={lot.lot_id}>
-                                    {lot.lot_number}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label>Lot:</label>
+                    <select
+                        id="newLotId"
+                        value={newLotId}
+                        onChange={e => setNewLotId(e.target.value)}
+                        placeholder="Enter Lot ID"
+                        required
+                    >
+                        <option value="">Select Lot</option>
+                        {lots.map(lot => (
+                            <option key={lot.lot_id} value={lot.lot_id}>
+                                {lot.lot_number}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>
-                    <label>Roast Type:
-                        <select
-                            value={newRoastTypeId}
-                            onChange={e => setNewRoastTypeId(e.target.value)}
-                            placeholder="Enter Roast Type ID"
-                            required
-                        >
-                            <option value="">Select Roast Type</option>
-                            {roastTypes.map(roasttype => (
-                                <option key={roasttype.roast_type_id} value={roasttype.roast_type_id}>
-                                    {roasttype.roast_name}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label>Roast Type:</label>
+                    <select
+                        id="newRoastTypeId"
+                        value={newRoastTypeId}
+                        onChange={e => setNewRoastTypeId(e.target.value)}
+                        placeholder="Enter Roast Type ID"
+                        required
+                    >
+                        <option value="">Select Roast Type</option>
+                        {roastTypes.map(roasttype => (
+                            <option key={roasttype.roast_type_id} value={roasttype.roast_type_id}>
+                                {roasttype.roast_name}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>

@@ -204,30 +204,31 @@ function BrewResults({ backendURL }) {
                 </tbody>
             </table>
 
+            {/* Add a horizontal divider to the page to separate table from form */}
+            <hr/>
+
             {/* Form for bulk deleting Brew Results */}
             <form onSubmit={event => { event.preventDefault(); }}>
                 <h3>Bulk Delete</h3>
                 <p>Select a Coffee and Brew Recipe to delete all matching Brew Result records.</p>
-                <p>Note: deleting a record from Coffees OR BrewRecipes will also remove all records that are associated with either the coffee or recipe.
-                </p>
                 <p>
-                    <label>
-                        <select value={deleteCoffee} onChange={event => setDeleteCoffee(event.target.value)} required>
-                            <option value="">-- Select a Coffee --</option>
-                            {coffees.map(c => (
-                                <option key={c.coffee_id} value={c.coffee_id}>{c.coffee_name}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label htmlFor="deleteCoffee">Coffee</label>
+                    <select id="deleteCoffee" value={deleteCoffee} onChange={event => setDeleteCoffee(event.target.value)} required>
+                        <option value="">-- Select a Coffee --</option>
+                        {coffees.map(c => (
+                            <option key={c.coffee_id} value={c.coffee_id}>{c.coffee_name}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>
-                        <select value={deleteRecipe} onChange={event => setDeleteRecipe(event.target.value)} required>
-                            <option value="">-- Select a Brew Recipe --</option>
-                            {brewRecipes.map(br => (
-                                <option key={br.recipe_id} value={br.recipe_id}>{br.recipe_id}</option>
-                            ))}
-                        </select>
+                    <label htmlFor="deleteRecipe">Brew Recipe</label>
+                    <select id="deleteRecipe" value={deleteRecipe} onChange={event => setDeleteRecipe(event.target.value)} required>
+                        <option value="">-- Select a Brew Recipe --</option>
+                        {brewRecipes.map(br => (
+                            <option key={br.recipe_id} value={br.recipe_id}>{br.recipe_id}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>
@@ -235,98 +236,90 @@ function BrewResults({ backendURL }) {
                 </p>
             </form>
 
+            {/* Add a horizontal divider to the page to separate table from form */}
+            <hr/>
+
             {/* Form for adding a Brew Result */}
             <form onSubmit={event => { event.preventDefault(); addBrewResult(); }}>
                 <h3>Add Brew Result</h3>
                 <p>
-                    <label>Recipe ID
-                        <select value={selectedBrewRecipe} onChange={event => onRecipeSelect(event)} required>
-                            <option value="">-- Select a Recipe --</option>
-                            {brewRecipes.map(r => (
-                                    <option key={r.recipe_id} value={r.recipe_id}>{r.recipe_id}</option>
-                                ))}
-                        </select>
-                    </label>
+                    <label>Recipe ID</label>
+                    <select id="selectedBrewRecipe" value={selectedBrewRecipe} onChange={event => onRecipeSelect(event)} required>
+                        <option value="">-- Select a Recipe --</option>
+                        {brewRecipes.map(r => (
+                                <option key={r.recipe_id} value={r.recipe_id}>{r.recipe_id}</option>
+                            ))}
+                    </select>
                 </p>
 
                 <p>
-                    <label>Coffee Name
-                        <select value={selectedCoffee} onChange={event => setSelectedCoffee(event.target.value)} required>
-                            <option value="">-- Select a Coffee --</option>
-                            {coffees.map(coffee => (
-                                    <option key={coffee.coffee_id} value={coffee.coffee_name}>{coffee.coffee_name}</option>
-                                ))}
-                        </select>
-                    </label>
+                    <label>Coffee Name</label>
+                    <select id="selectedCoffee" value={selectedCoffee} onChange={event => setSelectedCoffee(event.target.value)} required>
+                        <option value="">-- Select a Coffee --</option>
+                        {coffees.map(coffee => (
+                                <option key={coffee.coffee_id} value={coffee.coffee_name}>{coffee.coffee_name}</option>
+                            ))}
+                    </select>
                 </p>
 
                 <p>
-                    <label>Brewer Type
-                        <input type="text" id="brewerType" name="brewerType" value={selectedBrewerType}placeholder="autofills when recipe selected" readOnly></input>
-                    </label> 
+                    <label>Brewer Type</label>
+                    <input type="text" id="brewerType" name="brewerType" value={selectedBrewerType} placeholder="autofills when recipe selected" readOnly></input>
                 </p>
 
                 <p>
-                    <label>Actual Dose
-                        <input type="number" step="0.01" id="dose" name="dose" min="0" max="999.99" value={dose} placeholder="autofills when recipe selected" required 
-                        onChange={ event => { setDose(event.target.valueAsNumber) } }></input>
-                    </label>
+                    <label>Actual Dose</label>
+                    <input type="number" step="0.01" id="dose" name="dose" min="0" max="999.99" value={dose} placeholder="autofills when recipe selected" required 
+                    onChange={ event => { setDose(event.target.valueAsNumber) } }></input>
                 </p>
 
                 <p>
-                    <label>Actual Yield
-                        <input type="number" step="0.01" id="yield" name="yield" min="0" max="9999.99" value={bevYield} placeholder="autofills when recipe selected" required 
-                        onChange={ event => { setYield(event.target.valueAsNumber) } }></input>
-                    </label>
+                    <label>Actual Yield</label>
+                    <input type="number" step="0.01" id="yield" name="yield" min="0" max="9999.99" value={bevYield} placeholder="autofills when recipe selected" required 
+                    onChange={ event => { setYield(event.target.valueAsNumber) } }></input>
                 </p>
 
                 <p>
-                    <label>Actual Grind Size
-                        <input type="number" step="0.01" id="grindSize" name="grindSize" min="0" max="99.99" value={grindSize} placeholder="autofills when recipe selected" required 
-                        onChange={ event => { setGrindSize(event.target.valueAsNumber) } }></input>
-                    </label>
+                    <label>Actual Grind Size</label>
+                    <input type="number" step="0.01" id="grindSize" name="grindSize" min="0" max="99.99" value={grindSize} placeholder="autofills when recipe selected" required 
+                    onChange={ event => { setGrindSize(event.target.valueAsNumber) } }></input>
                 </p>
 
                 <p>
-                    <label>Actual Water Temp
-                        <input type="number" step="0.01" id="waterTemp" name="waterTemp" min="0" max="999.99" value={waterTemp} placeholder="autofills when recipe selected" required 
-                        onChange={ event => { setWaterTemp(event.target.valueAsNumber) } }></input>
-                    </label>
+                    <label>Actual Water Temp</label>
+                    <input type="number" step="0.01" id="waterTemp" name="waterTemp" min="0" max="999.99" value={waterTemp} placeholder="autofills when recipe selected" required 
+                    onChange={ event => { setWaterTemp(event.target.valueAsNumber) } }></input>
                 </p>
 
                 <p>
-                    <label>Actual Brew Time
-                        <input type="text" id="brewTime" name="brewTime" min="0" value={brewTime} placeholder="autofills when recipe selected" required 
-                        onChange={ event => { setBrewTime(event.target.valueAsNumber) } }></input>
-                    </label>
+                    <label>Actual Brew Time</label>
+                    <input type="text" id="brewTime" name="brewTime" min="0" value={brewTime} placeholder="autofills when recipe selected" required 
+                    onChange={ event => { setBrewTime(event.target.valueAsNumber) } }></input>
                 </p>
 
                 <p>
-                    <label>TDS Reading
-                        <input type="number" step="0.01" id="tdsReading" name="tdsReading" min="0" max="9.99" placeholder="ex. 1.43" required 
-                        onChange={ event => { setTdsReading(event.target.valueAsNumber) } }></input>
-                    </label>
+                    <label>TDS Reading</label>
+                    <input type="number" step="0.01" id="tdsReading" name="tdsReading" min="0" max="9.99" placeholder="ex. 1.43" required 
+                    onChange={ event => { setTdsReading(event.target.valueAsNumber) } }></input>
                 </p>
 
                 <p>
-                    <label>EXT Yield
-                        <input type="number" step="0.01" id="extYield" name="extYield" min="0" placeholder="auto-calculated" 
-                        value={extYield} 
-                        readOnly></input>
-                    </label>
+                    <label>EXT Yield</label>
+                    <input type="number" step="0.01" id="extYield" name="extYield" min="0" placeholder="auto-calculated" 
+                    value={extYield} 
+                    readOnly></input>
                 </p>
 
                 <p>
-                    <label>Rating
-                        <select value={selectedRating} onChange={event => setSelectedRating(event.target.value)} required>
-                            <option value="">-- Select a rating --</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </label>
+                    <label>Rating</label>
+                    <select id="selectedRating" value={selectedRating} onChange={event => setSelectedRating(event.target.value)} required>
+                        <option value="">-- Select a rating --</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
                 </p>
                 
                 <p>

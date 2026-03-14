@@ -209,10 +209,15 @@ DELETE FROM CoffeeLots WHERE lot_id = :lot_id_to_update;
 /* CoffeeLotVarietals */
 -- READ -- for populating the CoffeeLotVarietals page
 -- joins CoffeeLots and Varietals to FKs as user-friendly names
-SELECT CoffeeLots.lot_number, Varietals.varietal_name
+SELECT
+    CoffeeLotVarietals.lot_id,
+    CoffeeLotVarietals.varietal_id,
+    CoffeeLots.lot_number,
+    Varietals.varietal_name
 FROM CoffeeLotVarietals
-INNER JOIN CoffeeLots ON CoffeeLotVarietals.lot_id = CoffeeLots.lot_id
-INNER JOIN Varietals ON CoffeeLotVarietals.varietal_id = Varietals.varietal_id;
+JOIN CoffeeLots ON CoffeeLotVarietals.lot_id = CoffeeLots.lot_id
+JOIN Varietals ON CoffeeLotVarietals.varietal_id = Varietals.varietal_id
+ORDER BY CoffeeLots.lot_number ASC;
 
 -- CREATE --
 INSERT INTO CoffeeLotVarietals (lot_id, varietal_id)
