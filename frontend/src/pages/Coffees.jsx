@@ -69,12 +69,20 @@ function Coffees({ backendURL }) {
 
     // 3. Delete a Coffee
     const handleCoffeeDelete = async (coffee_id_to_delete) => {
-        const cid = parseInt(coffee_id_to_delete);
-        const deleteRes = await fetch(`${backendURL}/api/coffees/${cid}`, { method: 'DELETE' });
-        if (deleteRes.status === 204) {
-            setCoffees(prevCoffees => prevCoffees.filter(coffee => coffee.coffee_id !== cid));
-        } else {
-            console.error("Failed to delete Coffee record.");
+        if(window.confirm("Are you sure you want to delete this coffee? This will also delete associated records in Brew Results.")) {
+            try {
+                const cid = parseInt(coffee_id_to_delete);
+                const deleteRes = await fetch(`${backendURL}/api/coffees/${cid}`, { method: 'DELETE' });
+                if (deleteRes.status === 204) {
+                    setCoffees(prevCoffees => prevCoffees.filter(coffee => coffee.coffee_id !== cid));
+                } else {
+                    alert("Failed to delete coffee.");
+                    console.log("Failed to delete coffee with status:", deleteRes.status);
+                }
+            } catch (err) {
+                alert("Could not connect to the server.");
+                console.error("Connection error:", err);
+            }
         }
     };
 
@@ -103,7 +111,7 @@ function Coffees({ backendURL }) {
                             <td>{coffee.lot_number}</td>
                             <td>{coffee.roast}</td>
                             <td>
-                                <button type='button' onClick={() => handleCoffeeDelete(coffee.coffee_id)}>
+                                <button className="deleteButton" type='button' onClick={() => handleCoffeeDelete(coffee.coffee_id)}>
                                     Delete
                                 </button>
                             </td>
@@ -111,6 +119,9 @@ function Coffees({ backendURL }) {
                     ))}
                 </tbody>
             </table>
+
+            {/* Add a horizontal divider to the page to separate table from form */}
+            <hr/>
 
             {/* Form for CREATE */}
             <form onSubmit={addCoffee} style={{ marginTop: '20px' }}>

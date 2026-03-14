@@ -145,8 +145,8 @@ function BrewResults({ backendURL }) {
                     console.log("Failed to delete with status:", deleteRes.status);
                 }
             } catch (err) {
-                console.error("Connection error:", err);
                 alert("Could not connect to the server.");
+                console.error("Connection error:", err);
             }
         }
     };
@@ -191,7 +191,7 @@ function BrewResults({ backendURL }) {
                         <th>TDS Reading</th>
                         <th>Ext Yield</th>
                         <th>Rating</th>
-                        <th>Delete</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,7 +212,7 @@ function BrewResults({ backendURL }) {
                             <td>{bres.ext_yield}</td>
                             <td>{bres.rating}</td>
                             <td>
-                                    <button type='submit' onClick={() => handleSingleDelete(bres.result_id)}>
+                                    <button  className="deleteButton" type='submit' onClick={() => handleSingleDelete(bres.result_id)}>
                                         Delete
                                     </button>
                             </td>
@@ -220,38 +220,6 @@ function BrewResults({ backendURL }) {
                     ))}
                 </tbody>
             </table>
-
-            {/* Add a horizontal divider to the page to separate table from form */}
-            <hr/>
-
-            {/* Form for bulk deleting Brew Results */}
-            <form onSubmit={event => { event.preventDefault(); }}>
-                <h3>Bulk Delete</h3>
-                <p>Select a Coffee and Brew Recipe to delete all matching Brew Result records.</p>
-                <p>
-                    <label htmlFor="deleteCoffee">Coffee</label>
-                    <select id="deleteCoffee" value={deleteCoffee} onChange={event => setDeleteCoffee(event.target.value)} required>
-                        <option value="">-- Select a Coffee --</option>
-                        {coffees.map(c => (
-                            <option key={c.coffee_id} value={c.coffee_id}>{c.coffee_name}</option>
-                        ))}
-                    </select>
-                </p>
-
-                <p>
-                    <label htmlFor="deleteRecipe">Brew Recipe</label>
-                    <select id="deleteRecipe" value={deleteRecipe} onChange={event => setDeleteRecipe(event.target.value)} required>
-                        <option value="">-- Select a Brew Recipe --</option>
-                        {brewRecipes.map(br => (
-                            <option key={br.recipe_id} value={br.recipe_id}>{br.recipe_id}</option>
-                        ))}
-                    </select>
-                </p>
-
-                <p>
-                    <button onClick={() => handleBulkDelete(deleteRecipe, deleteCoffee)}>Delete Multiple Records</button>
-                </p>
-            </form>
 
             {/* Add a horizontal divider to the page to separate table from form */}
             <hr/>
@@ -343,6 +311,38 @@ function BrewResults({ backendURL }) {
                     <button type="submit">
                         Add Brew Result
                     </button>
+                </p>
+            </form>
+
+            {/* Add a horizontal divider to the page to separate table from form */}
+            <hr/>
+
+            {/* Form for bulk deleting Brew Results */}
+            <form onSubmit={event => { event.preventDefault(); }}>
+                <h3>Bulk Delete</h3>
+                <p>Select a Coffee and Brew Recipe to delete all matching Brew Result records.</p>
+                <p>
+                    <label htmlFor="deleteCoffee">Coffee</label>
+                    <select id="deleteCoffee" value={deleteCoffee} onChange={event => setDeleteCoffee(event.target.value)} required>
+                        <option value="">-- Select a Coffee --</option>
+                        {coffees.map(c => (
+                            <option key={c.coffee_id} value={c.coffee_id}>{c.coffee_name}</option>
+                        ))}
+                    </select>
+                </p>
+
+                <p>
+                    <label htmlFor="deleteRecipe">Brew Recipe</label>
+                    <select id="deleteRecipe" value={deleteRecipe} onChange={event => setDeleteRecipe(event.target.value)} required>
+                        <option value="">-- Select a Brew Recipe --</option>
+                        {brewRecipes.map(br => (
+                            <option key={br.recipe_id} value={br.recipe_id}>{br.recipe_id}</option>
+                        ))}
+                    </select>
+                </p>
+
+                <p>
+                    <button  className="deleteButton" onClick={() => handleBulkDelete(deleteRecipe, deleteCoffee)}>Delete Multiple Records</button>
                 </p>
             </form>
         </div>
