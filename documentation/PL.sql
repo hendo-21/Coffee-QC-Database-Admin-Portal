@@ -491,3 +491,48 @@ BEGIN
 END //
 
 DELIMITER;
+
+-- Add CoffeeLotVarietal IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_add_coffee_lot_varietal;
+
+DELIMITER / /
+
+CREATE PROCEDURE sp_add_coffee_lot_varietal(
+    IN p_lot_id INT,
+    IN p_varietal_id INT
+)
+BEGIN
+    START TRANSACTION;
+
+    INSERT INTO CoffeeLotVarietals (
+        lot_id,
+        varietal_id
+    )
+    VALUES (
+        p_lot_id,
+        p_varietal_id
+    );
+END //
+
+DELIMITER;
+
+-- Delete a Coffee Lot Varietal record IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_delete_coffeelotvarietal;
+
+DELIMITER / /
+
+CREATE PROCEDURE sp_delete_coffeelotvarietal(IN p_lot_id INT, p_varietal_id INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Delete error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM CoffeeLotVarietals 
+        WHERE lot_id = p_lot_id AND varietal_id = p_varietal_id;
+    COMMIT;
+END //
+
+DELIMITER;

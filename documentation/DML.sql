@@ -172,6 +172,8 @@ WHERE varietal_id = :varietal_id_to_update;
 -- DELETE -- 
 DELETE FROM Varietals WHERE varietal_id = :varietal_id_to_delete;
 
+
+
 /* CoffeeLots */
 -- READ -- for populating the CoffeeLots page
 SELECT
@@ -204,6 +206,7 @@ WHERE lot_id = :lot_id_to_update;
 
 -- DELETE -- 
 DELETE FROM CoffeeLots WHERE lot_id = :lot_id_to_update;
+
 
 
 /* CoffeeLotVarietals */
@@ -365,3 +368,10 @@ DELETE FROM BrewResults WHERE result_id = :result_id_to_delete;
 DELETE FROM BrewResults WHERE coffee_id 
 = :coffee_id_from_coffee_brew_results AND recipe_id
 = :brew_recipes_from_brew_results;
+
+
+
+/* RecipeStatuses */
+-- READ -- for populating the Recipe Statuses page
+SELECT status_id, status_type FROM RecipeStatuses
+ORDER BY status_id ASC;
