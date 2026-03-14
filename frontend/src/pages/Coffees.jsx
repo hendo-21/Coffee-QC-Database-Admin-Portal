@@ -1,6 +1,6 @@
 // Citation for use of AI Tools:
 // Date: 02/18/26
-// Prompts used: refactored data fetching to use Promise.all() for concurrent fetching.
+// Prompts used: Refactor data fetching to use Promise.all() for concurrent fetching.
 // AI Source: GitHub Copilot VSCode integration.
 
 import React, { useState, useEffect } from 'react';
@@ -74,7 +74,7 @@ function Coffees({ backendURL }) {
                 const cid = parseInt(coffee_id_to_delete);
                 const deleteRes = await fetch(`${backendURL}/api/coffees/${cid}`, { method: 'DELETE' });
                 if (deleteRes.status === 204) {
-                    setCoffees(prevCoffees => prevCoffees.filter(coffee => coffee.coffee_id !== cid));
+                    loadData();
                 } else {
                     alert("Failed to delete coffee.");
                     console.log("Failed to delete coffee with status:", deleteRes.status);
@@ -124,7 +124,7 @@ function Coffees({ backendURL }) {
             <hr/>
 
             {/* Form for CREATE */}
-            <form onSubmit={addCoffee} style={{ marginTop: '20px' }}>
+            <form onSubmit={addCoffee}>
                 <h3>Add New Coffee</h3>
                 <p>
                     <label>Coffee Name:</label>
