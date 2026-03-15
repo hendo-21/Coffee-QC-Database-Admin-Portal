@@ -175,8 +175,8 @@ function CoffeeLotVarietals({ backendURL }) {
                                 }
                             </td>
                             <td>
-                                {isEditing ? (<button type="button" onClick={updateVarietal}>Save</button>)
-                                : (<button type="button" onClick={() => {
+                                {isEditing ? (<button className="editButton"type="button" onClick={updateVarietal}>Save</button>)
+                                : (<button className= "editButton" type="button" onClick={() => {
                                     setOldLotId(lotvar.lot_id);
                                     setOldVarietalId(lotvar.varietal_id);
                                     setNewVarietalId(lotvar.varietal_id);

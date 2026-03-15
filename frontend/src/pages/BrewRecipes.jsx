@@ -143,7 +143,7 @@ function BrewRecipes({ backendURL }) {
                                 <td>{br.target_brew_time}</td>
                                 <td>{br.status}</td>
                                 <td>
-                                    <button type='button' onClick={() => handleRecipeDelete(br.recipe_id)}>
+                                    <button className="deleteButton" type='button' onClick={() => handleRecipeDelete(br.recipe_id)}>
                                         Delete
                                     </button>
                                 </td>
