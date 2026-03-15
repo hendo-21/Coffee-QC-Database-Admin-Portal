@@ -251,8 +251,7 @@ CREATE PROCEDURE sp_insert_brew_result(
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
-        -- In case of an error, set the result_id to -99
-        SELECT -99 AS result_id;
+        SELECT 'Insert error!' AS result;
         ROLLBACK;
     END;
 
@@ -502,6 +501,12 @@ CREATE PROCEDURE sp_add_coffee_lot_varietal(
     IN p_varietal_id INT
 )
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Insert error!' AS result;
+        ROLLBACK;
+    END;
+
     START TRANSACTION;
 
     INSERT INTO CoffeeLotVarietals (
@@ -512,6 +517,8 @@ BEGIN
         p_lot_id,
         p_varietal_id
     );
+
+    COMMIT;
 END //
 
 DELIMITER;

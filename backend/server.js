@@ -392,7 +392,7 @@ app.post('/api/coffeelotvarietals', asyncHandler(async (req, res) => {
 // Reset database
 app.post('/api/reset-db', asyncHandler(async (req, res) => {
     try {
-        const sql = "CALL sp_reset_db();"
+        const sql = "CALL sp_reset_db()";
         await db.query(sql);
         return res.status(200).json({ message: "Database reset successfully." });
     } catch (err) {
