@@ -172,6 +172,8 @@ WHERE varietal_id = :varietal_id_to_update;
 -- DELETE -- 
 DELETE FROM Varietals WHERE varietal_id = :varietal_id_to_delete;
 
+
+
 /* CoffeeLots */
 -- READ -- for populating the CoffeeLots page
 SELECT
@@ -206,13 +208,19 @@ WHERE lot_id = :lot_id_to_update;
 DELETE FROM CoffeeLots WHERE lot_id = :lot_id_to_update;
 
 
+
 /* CoffeeLotVarietals */
 -- READ -- for populating the CoffeeLotVarietals page
 -- joins CoffeeLots and Varietals to FKs as user-friendly names
-SELECT CoffeeLots.lot_number, Varietals.varietal_name
+SELECT
+    CoffeeLotVarietals.lot_id,
+    CoffeeLotVarietals.varietal_id,
+    CoffeeLots.lot_number,
+    Varietals.varietal_name
 FROM CoffeeLotVarietals
-INNER JOIN CoffeeLots ON CoffeeLotVarietals.lot_id = CoffeeLots.lot_id
-INNER JOIN Varietals ON CoffeeLotVarietals.varietal_id = Varietals.varietal_id;
+JOIN CoffeeLots ON CoffeeLotVarietals.lot_id = CoffeeLots.lot_id
+JOIN Varietals ON CoffeeLotVarietals.varietal_id = Varietals.varietal_id
+ORDER BY CoffeeLots.lot_number ASC;
 
 -- CREATE --
 INSERT INTO CoffeeLotVarietals (lot_id, varietal_id)
@@ -360,3 +368,10 @@ DELETE FROM BrewResults WHERE result_id = :result_id_to_delete;
 DELETE FROM BrewResults WHERE coffee_id 
 = :coffee_id_from_coffee_brew_results AND recipe_id
 = :brew_recipes_from_brew_results;
+
+
+
+/* RecipeStatuses */
+-- READ -- for populating the Recipe Statuses page
+SELECT status_id, status_type FROM RecipeStatuses
+ORDER BY status_id ASC;

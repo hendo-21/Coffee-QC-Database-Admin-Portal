@@ -32,7 +32,7 @@ const PORT = 1890;
 
 // Citation for following code:
 // Date: 02/09/26
-// Code for ROUTEN HANDLERS section was Adapted from:
+// Code for ROUTE HANDLERS section was Adapted from:
 // Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
 
 // ########################################
@@ -145,7 +145,7 @@ app.get('/api/brewresults', asyncHandler(async (req, res) => {
 app.get('/api/recipestatuses', asyncHandler(async (req, res) => {
     try {
         const query = `
-            SELECT * FROM RecipeStatuses
+            SELECT status_id, status_type FROM RecipeStatuses
             ORDER BY status_id ASC
             `;
         const [brewertypes] = await db.query(query);
@@ -228,7 +228,10 @@ app.get('/api/coffeelotvarietals', asyncHandler(async (req, res) => {
     try {
         const sql = `
         SELECT
-            CoffeeLots.lot_number, Varietals.varietal_name
+            CoffeeLotVarietals.lot_id,
+            CoffeeLotVarietals.varietal_id,
+            CoffeeLots.lot_number,
+            Varietals.varietal_name
         FROM CoffeeLotVarietals
         JOIN CoffeeLots ON CoffeeLotVarietals.lot_id = CoffeeLots.lot_id
         JOIN Varietals ON CoffeeLotVarietals.varietal_id = Varietals.varietal_id
@@ -286,7 +289,7 @@ Prompts used:
 AI Source: GitHub Copilot VSCode integration.
 */}
 
-// Add a record to the Brew Results table
+// Add a record to the Brew Results table (M:N Create)
 app.post('/api/brewresults/add', asyncHandler(async (req, res) => {
     try {
         const sql = `CALL sp_insert_brew_result(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
@@ -370,10 +373,26 @@ app.post('/api/coffees/add', asyncHandler(async (req, res) => {
     }
 }));
 
+// Add a record to the CoffeeLotsTable (M:N Create)
+app.post('/api/coffeelotvarietals', asyncHandler(async (req, res) => {
+    try {
+        const sql = "CALL sp_add_coffee_lot_varietal(?, ?)";
+        const values = [
+            req.body.lot_id,
+            req.body.varietal_id
+        ]
+        await db.query(sql, values)
+        return res.status(200).json({ message: "Coffee Lot Varietal record added successfully." });
+    } catch (err) {
+        console.log("SQL error adding CoffeeLotVarietals record:", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}))
+
 // Reset database
 app.post('/api/reset-db', asyncHandler(async (req, res) => {
     try {
-        const sql = "CALL sp_reset_db();"
+        const sql = "CALL sp_reset_db()";
         await db.query(sql);
         return res.status(200).json({ message: "Database reset successfully." });
     } catch (err) {
@@ -384,6 +403,24 @@ app.post('/api/reset-db', asyncHandler(async (req, res) => {
 
 
 // PUT ROUTES
+
+// Updates a Coffee Lot Varietal record (M:N with CoffeeLots and Varietals)
+app.put('/api/coffeelotvarietals/:lot_id/', asyncHandler( async(req,res) => {
+    try {
+        const sql = `CALL sp_update_coffee_lot_varietal(?, ?, ?, ?)`;
+        const values = [
+            req.params.lot_id,
+            req.body.old_varietal_id,
+            req.params.lot_id,
+            req.body.new_varietal_id
+        ];
+        await db.query(sql, values);
+        return res.status(200).json({ message: "Coffee lot varietal updated successfully." });
+    } catch (err) {
+        console.log("SQL error in sp_update_coffee_lot_varietals", err.message);
+        return res.status(500).json({ error: err.message});
+    }
+}));
 
 // Updates a brew result record. Cascades to brew results table
 app.put('/api/brewresults/:result_id', asyncHandler( async (req, res) => {
@@ -427,7 +464,19 @@ app.put('/api/brewresults/:result_id', asyncHandler( async (req, res) => {
 
 // DELETE ROUTES
 
-// Delete one brew result record from the table
+// Delete a record from the Coffee Lot Varietals table (Delete on M:N)
+app.delete('/api/coffeelotvarietals/:lot_id/:varietal_id', asyncHandler(async (req, res) => {
+    try{
+        const sql = `CALL sp_delete_coffeelotvarietal(${req.params.lot_id}, ${req.params.varietal_id})`;
+        await db.query(sql);
+        return res.status(204).send();
+    } catch (err) {
+        console.error("SQL error in sp_delete_coffeelotvarietal", err.message);
+        return res.status(500).json({ error: err.message });
+    }
+}))
+
+// Delete one brew result record from the table (Delete on M:N)
 app.delete('/api/brewresults/:result_id', asyncHandler(async (req, res) => {
     try {
         const call_sp_sql = `CALL sp_delete_one_brew_result(${req.params.result_id})`;

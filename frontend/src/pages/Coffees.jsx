@@ -1,6 +1,6 @@
 // Citation for use of AI Tools:
 // Date: 02/18/26
-// Prompts used: refactored data fetching to use Promise.all() for concurrent fetching.
+// Prompts used: Refactor data fetching to use Promise.all() for concurrent fetching.
 // AI Source: GitHub Copilot VSCode integration.
 
 import React, { useState, useEffect } from 'react';
@@ -69,12 +69,20 @@ function Coffees({ backendURL }) {
 
     // 3. Delete a Coffee
     const handleCoffeeDelete = async (coffee_id_to_delete) => {
-        const cid = parseInt(coffee_id_to_delete);
-        const deleteRes = await fetch(`${backendURL}/api/coffees/${cid}`, { method: 'DELETE' });
-        if (deleteRes.status === 204) {
-            setCoffees(prevCoffees => prevCoffees.filter(coffee => coffee.coffee_id !== cid));
-        } else {
-            console.error("Failed to delete Coffee record.");
+        if(window.confirm("Are you sure you want to delete this coffee? This will also delete associated records in Brew Results.")) {
+            try {
+                const cid = parseInt(coffee_id_to_delete);
+                const deleteRes = await fetch(`${backendURL}/api/coffees/${cid}`, { method: 'DELETE' });
+                if (deleteRes.status === 204) {
+                    loadData();
+                } else {
+                    alert("Failed to delete coffee.");
+                    console.log("Failed to delete coffee with status:", deleteRes.status);
+                }
+            } catch (err) {
+                alert("Could not connect to the server.");
+                console.error("Connection error:", err);
+            }
         }
     };
 
@@ -103,7 +111,7 @@ function Coffees({ backendURL }) {
                             <td>{coffee.lot_number}</td>
                             <td>{coffee.roast}</td>
                             <td>
-                                <button type='button' onClick={() => handleCoffeeDelete(coffee.coffee_id)}>
+                                <button className="deleteButton" type='button' onClick={() => handleCoffeeDelete(coffee.coffee_id)}>
                                     Delete
                                 </button>
                             </td>
@@ -112,68 +120,71 @@ function Coffees({ backendURL }) {
                 </tbody>
             </table>
 
+            {/* Add a horizontal divider to the page to separate table from form */}
+            <hr/>
+
             {/* Form for CREATE */}
-            <form onSubmit={addCoffee} style={{ marginTop: '20px' }}>
+            <form onSubmit={addCoffee}>
                 <h3>Add New Coffee</h3>
                 <p>
-                    <label>Coffee Name:
-                        <input
-                            value={newName}
-                            onChange={e => setNewName(e.target.value)}
-                            placeholder="Enter Coffee Name"
-                            required
-                        />
-                    </label>
+                    <label>Coffee Name:</label>
+                    <input
+                        id="newCoffeeName"
+                        value={newName}
+                        onChange={e => setNewName(e.target.value)}
+                        placeholder="Enter Coffee Name"
+                        required
+                    />
                 </p>
 
                 <p>
-                    <label>Roaster:
-                        <select
-                            value={newRoasterId}
-                            onChange={e => setNewRoasterId(e.target.value)}
-                            required
-                        >
-                            <option value="">Select Roaster</option>
-                            {roasters.map(roaster => (
-                                <option key={roaster.roaster_id} value={roaster.roaster_id}>
-                                    {roaster.roaster_name}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label>Roaster:</label>
+                    <select
+                        id="newRoasterId"
+                        value={newRoasterId}
+                        onChange={e => setNewRoasterId(e.target.value)}
+                        required
+                    >
+                        <option value="">Select Roaster</option>
+                        {roasters.map(roaster => (
+                            <option key={roaster.roaster_id} value={roaster.roaster_id}>
+                                {roaster.roaster_name}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>
-                    <label>Lot:
-                        <select
-                            value={newLotId}
-                            onChange={e => setNewLotId(e.target.value)}
-                            placeholder="Enter Lot ID"
-                            required
-                        >
-                            <option value="">Select Lot</option>
-                            {lots.map(lot => (
-                                <option key={lot.lot_id} value={lot.lot_id}>
-                                    {lot.lot_number}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label>Lot:</label>
+                    <select
+                        id="newLotId"
+                        value={newLotId}
+                        onChange={e => setNewLotId(e.target.value)}
+                        placeholder="Enter Lot ID"
+                        required
+                    >
+                        <option value="">Select Lot</option>
+                        {lots.map(lot => (
+                            <option key={lot.lot_id} value={lot.lot_id}>
+                                {lot.lot_number}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>
-                    <label>Roast Type:
-                        <select
-                            value={newRoastTypeId}
-                            onChange={e => setNewRoastTypeId(e.target.value)}
-                            placeholder="Enter Roast Type ID"
-                            required
-                        >
-                            <option value="">Select Roast Type</option>
-                            {roastTypes.map(roasttype => (
-                                <option key={roasttype.roast_type_id} value={roasttype.roast_type_id}>
-                                    {roasttype.roast_name}</option>
-                            ))}
-                        </select>
-                    </label>
+                    <label>Roast Type:</label>
+                    <select
+                        id="newRoastTypeId"
+                        value={newRoastTypeId}
+                        onChange={e => setNewRoastTypeId(e.target.value)}
+                        placeholder="Enter Roast Type ID"
+                        required
+                    >
+                        <option value="">Select Roast Type</option>
+                        {roastTypes.map(roasttype => (
+                            <option key={roasttype.roast_type_id} value={roasttype.roast_type_id}>
+                                {roasttype.roast_name}</option>
+                        ))}
+                    </select>
                 </p>
 
                 <p>

@@ -112,9 +112,6 @@ function BrewRecipes({ backendURL }) {
         setSelectedRecipeStatus("");
     } 
 
-
-
-
     return (
         <>
             <div className="pageContent">
@@ -146,7 +143,7 @@ function BrewRecipes({ backendURL }) {
                                 <td>{br.target_brew_time}</td>
                                 <td>{br.status}</td>
                                 <td>
-                                    <button type='button' onClick={() => handleRecipeDelete(br.recipe_id)}>
+                                    <button className="deleteButton" type='button' onClick={() => handleRecipeDelete(br.recipe_id)}>
                                         Delete
                                     </button>
                                 </td>
@@ -155,13 +152,17 @@ function BrewRecipes({ backendURL }) {
                     </tbody>
                 </table>
 
+                {/* Add a horizontal divider to the page to separate table from form */}
+                <hr/>
+
                 {/* Form for Edit Brew Recipes */}
                 <form onSubmit={event => { event.preventDefault(); updateBrewRecipe(); }}>
                     <h3>Edit Brew Recipe</h3>
+                    <p>Select a recipe via the Recipe ID dropdown and the other fields will auto-populate.</p>
 
                     <p>
-                        <label>Recipe ID
-                            <select
+                        <label>Recipe ID</label>
+                        <select
                                 value={selectedBrewRecipe}
                                 onChange={event => {
                                     onRecipeSelect(event);
@@ -173,74 +174,66 @@ function BrewRecipes({ backendURL }) {
                                         {br.recipe_id}
                                     </option>
                                 ))}
-                            </select>
-                        </label>
+                        </select>
                     </p>
 
                     <p>
-                        <label>Brewer Type
-                            <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
+                        <label>Brewer Type</label>
+                        <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
                                 <option value=""></option>
                                 {brewerTypes.map(type => (
                                     <option key={type.brewer_id} value={type.brewer_type}>
                                         {type.brewer_type}
                                     </option>
                                 ))}
-                            </select>
-                        </label>
+                        </select>
                     </p>
 
                     <p>
-                        <label>Target Dose
-                            <input type="number" step="0.01" id="targetDose" name="targetDose" value={targetDose} min="0" placeholder="eg. 15.00" required
+                        <label>Target Dose</label>
+                        <input type="number" step="0.01" id="targetDose" name="targetDose" value={targetDose} min="0" placeholder="eg. 15.00" required
                                 onChange={event => { setTargetDose(event.target.valueAsNumber) }}></input>
-                        </label>
                     </p>
 
                     <p>
-                        <label>Target Yield
-                            <input type="number" step="0.01" id="targetYield" name="targetYield" value={targetYield} min="0" placeholder="eg. 240.00" required
+                        <label>Target Yield</label>
+                        <input type="number" step="0.01" id="targetYield" name="targetYield" value={targetYield} min="0" placeholder="eg. 240.00" required
                                 onChange={event => { setTargetYield(event.target.valueAsNumber) }}></input>
-                        </label>
                     </p>
 
                     <p>
-                        <label>Target Grind Size
-                            <input type="number" step="0.01" id="targetGrindSize" name="targetGrindSize" value={targetGrindSize} min="0" placeholder="eg. 14.00" required
+                        <label>Target Grind Size</label>
+                        <input type="number" step="0.01" id="targetGrindSize" name="targetGrindSize" value={targetGrindSize} min="0" placeholder="eg. 14.00" required
                                 onChange={event => { setTargetGrindSize(event.target.valueAsNumber) }}></input>
-                        </label>
                     </p>
 
                     <p>
-                        <label>Target Water Temp
-                            <input type="number" step="0.01" id="targetWaterTemp" name="targetWaterTemp" value={targetWaterTemp} min="0" placeholder="eg. 96.00" required
+                        <label>Target Water Temp</label>
+                        <input type="number" step="0.01" id="targetWaterTemp" name="targetWaterTemp" value={targetWaterTemp} min="0" placeholder="eg. 96.00" required
                                 onChange={event => { setTargetYield(event.target.valueAsNumber) }}></input>
-                        </label>
                     </p>
 
                     <p>
-                        <label>Target Brew Time
-                            <input type="text" step="0.01" id="targetBrewTime" name="targetBrewTime" value={targetBrewTime} min="0" placeholder="eg. 00:04:00" required
+                        <label>Target Brew Time</label>
+                        <input type="text" step="0.01" id="targetBrewTime" name="targetBrewTime" value={targetBrewTime} min="0" placeholder="eg. 00:04:00" required
                                 onChange={event => { setTargetYield(event.target.value) }}></input>
-                        </label>
                     </p>
 
                     <p>
-                        <label>Recipe Statuses
-                            <select value={selectedRecipeStatus} onChange={event => setSelectedRecipeStatus(event.target.value)} required>
+                        <label>Recipe Statuses</label>
+                        <select value={selectedRecipeStatus} onChange={event => setSelectedRecipeStatus(event.target.value)} required>
                                 <option value="">-- Select Recipe Status --</option>
                                 {recipeStatuses.map(status => (
                                     <option key={status.status_id} value={status.status_type}>
                                         {status.status_type}
                                     </option>
                                 ))}
-                            </select>
-                        </label>
+                        </select>
                     </p>
 
                     <p>
                         <button type="submit">
-                            Update Brew Recipe
+                            Save Changes
                         </button>
                     </p>
                 </form>
