@@ -9,7 +9,8 @@
    AI Source: GitHub Copilot VSCode integration. 
 */
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background-color: #f6ded0;
@@ -24,17 +25,21 @@ table {
   box-shadow: 0 1px 4px #4a3e36;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #4a3e36;
   padding: 12px;
   text-align: center;
 }
+
 th {
   background-color: #f6a677;
 }
+
 tr:nth-child(even) {
   background-color: #e6e6e6;
 }
+
 tr:nth-child(odd) {
   background-color: #ffffff;
 }
@@ -46,12 +51,16 @@ table tr button {
   box-shadow: 0 1px 2px #4a3e36;
 }
 
-input, select { 
+input,
+select {
   margin-bottom: 4px;
   margin-right: 12px;
 }
 
 nav {
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   width: 175px;
@@ -147,6 +156,7 @@ hr {
 
 .mainContent {
   display: flex;
+  margin-left: 175px;
   flex-direction: column;
   flex: 1;
 }
@@ -161,7 +171,7 @@ footer {
 form {
   margin-top: 0;
   margin: 1rem;
-  display:flex;
+  display: flex;
   flex-direction: column;
   border: 1px solid #4a3e36;
   background-color: #f2f2f2;
@@ -186,7 +196,8 @@ form p {
   padding: 10px 5rem;
 }
 
-form select, form input {
+form select,
+form input {
   box-sizing: border-box;
   margin: 0;
   padding: 3px 0;
@@ -205,7 +216,7 @@ form button {
   border-radius: 5px;
   transition: background-color 0.25s ease-in-out;
   width: 100%;
-  color:#4a3e36;
+  color: #4a3e36;
   box-shadow: 0 1px 4px #4a3e36;
 }
 
@@ -220,7 +231,7 @@ form p button {
 .deleteButton {
   background-color: #d26b63;
   transition: background-color 0.25s ease-in-out;
-  color:#4a3e36;
+  color: #4a3e36;
 }
 
 .deleteButton:hover {
