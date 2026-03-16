@@ -12,7 +12,7 @@
 // Date: 02/23/26
 // Prompts used:
 //      Refactor data fetching to use Promise.all() for concurrent fetching.
-//      Troubleshooting assistance for populating dropdowns with data from multiple tables.
+//      Troubleshooting assistance for populating dropdowns with data from multiple tables and parsing ids for delete operations.
 // AI Source: GitHub Copilot VSCode integration.
 
 import React, { useState, useEffect } from 'react';
@@ -53,13 +53,21 @@ function BrewRecipes({ backendURL }) {
     }, []);
 
     // Delete a Brew Recipe
-    const handleRecipeDelete = async (recipe_id_to_delete) => {
-        const rid = parseInt(recipe_id_to_delete);
-        const deleteRes = await fetch(`${backendURL}/api/brewrecipes/${rid}`, { method: 'DELETE' });
-        if (deleteRes.status === 204) {
-            setBrewRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.recipe_id !== rid));
-        } else {
-            console.error("Failed to delete Brew Recipe record.", err);
+    const handleRecipeDelete = async (deleteRecipeId) => {
+        if(window.confirm("Are you sure you want to delete this brew recipe? It will delete all associated results in Brew Results.")) {
+            try {
+                const recipe_id = parseInt(deleteRecipeId);
+                const deleteRes = await fetch(`${backendURL}/api/brewrecipes/${recipe_id}`, { method: 'DELETE' });
+                if (deleteRes.status === 204) {
+                    setBrewRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.recipe_id !== recipe_id));
+                } else {
+                    alert("Brew recipe deleted successfully.")
+                    console.error("Failed to delete Brew Recipe record.", err);
+                }
+            } catch (err) {
+                alert("Could not connect to the server");
+                console.error("Connection error:", err);
+            }
         }
     };
 

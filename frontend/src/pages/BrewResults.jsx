@@ -135,22 +135,21 @@ function BrewResults({ backendURL }) {
             // Source URL: https://www.w3schools.com/react/react_es6_spread.asp
             // Add the new result to the brewResults state array to rerender with new records
             setBrewResults(brewResults => [...brewResults, newRow]);
-
-            // Reset the form
-            setSelectedBrewRecipe("");
-            setSelectedCoffee("");
-            setSelectedBrewerType("");
-            setDose("");
-            setYield("");
-            setGrindSize("");
-            setWaterTemp("");
-            setBrewTime("");
-            setTdsReading("");
-            setExtYield("");
-            setSelectedRating("");
         } else {
             console.log("Failed to add Brew Result");
-        }   
+        }
+        // Reset the form
+        setSelectedBrewRecipe("");
+        setSelectedCoffee("");
+        setSelectedBrewerType("");
+        setDose("");
+        setYield("");
+        setGrindSize("");
+        setWaterTemp("");
+        setBrewTime("");
+        setTdsReading("");
+        setExtYield("");
+        setSelectedRating("");  
     };
 
     // Handle user clicking Delete button on a record in the table
@@ -161,7 +160,7 @@ function BrewResults({ backendURL }) {
                 const response = await fetch(`${backendURL}/api/brewresults/${result_id}`, { method: 'DELETE' });
                 if(response.status === 204) {
                     alert("Brew result deleted successfully.")
-                    setBrewResults(brewResults => brewResults.filter(br => br.result_id !== rid));
+                    setBrewResults(brewResults => brewResults.filter(br => br.result_id !== result_id));
                 } else {
                     alert("Failed to delete brew result.");
                     console.log("Failed to delete with status:", response.status);
@@ -174,16 +173,16 @@ function BrewResults({ backendURL }) {
     };
 
     // Handle the user completing the Bulk Delete form
-    const handleBulkDelete = async (delete_recipe_id, delete_coffee_id) => {
+    const handleBulkDelete = async (deleteRecipeId, deleteCoffeeId) => {
         if(window.confirm("Are you sure you want to delete all records associated with selected coffee and recipe ID?")) {
             try {
-                const rid = parseInt(delete_recipe_id);
-                const cid = parseInt(delete_coffee_id);
-                const bulkDeleteRes = await fetch(`${backendURL}/api/brewresults/${rid}/${cid}`, { method: 'DELETE'});
+                const result_id = parseInt(deleteRecipeId);
+                const coffee_id = parseInt(deleteCoffeeId);
+                const bulkDeleteRes = await fetch(`${backendURL}/api/brewresults/${result_id}/${coffee_id}`, { method: 'DELETE'});
 
                 // Filter out deleted rows 
                 if(bulkDeleteRes.status === 204) {
-                    setBrewResults(brewResults => brewResults.filter(br => !((br.recipe_id === rid) && (br.coffee_id === cid))));
+                    setBrewResults(brewResults => brewResults.filter(br => !((br.recipe_id === result_id) && (br.coffee_id === coffee_id))));
                 } else {
                     alert("Failed to delete multiple brew results");
                     console.log("Failed to delete with status:", bulkDeleteRes.status);
@@ -192,6 +191,9 @@ function BrewResults({ backendURL }) {
                 console.error("Connection error:", err);
                 alert("Could not connect to the server.");
             }
+            // Reset the form
+            setDeleteCoffee("");
+            setDeleteRecipe("");
         }
     }
 
