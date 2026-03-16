@@ -21,7 +21,7 @@ Grouped by page/file first, then date. For pages with both non-AI and AI citatio
     - Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
   <br>
   - Use of AI Tools:
-    - Date: 03/02/26
+  - - Date: 03/02/26
     - Prompts used include parameterized queries, string interpolation, and stored procedure OUT parameter behavior.
     - AI Source: GitHub Copilot VSCode integration.
 
