@@ -14,29 +14,30 @@ Grouped by page/file first, then date. For pages with both non-AI and AI citatio
 
 #### backend/server.js
   - Date: 02/09/26
-  - SETUP, LISTENER, and READ routes copied/adapted from "Exploration - Web Application Technology".
-  - Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+    - SETUP, LISTENER, and READ routes copied/adapted from "Exploration - Web Application Technology".
+    - Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
   - Date: 02/09/26
-  - CUD operations adapted from "Exploration - Implementing CUD operations in your app".
-  - Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
-- Use of AI:
-  - Date: 03/02/26
-  - Prompts used include parameterized queries, string interpolation, and stored procedure OUT parameter behavior.
-  - AI Source: GitHub Copilot VSCode integration.
+    - CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+    - Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
+  <br>
+  - Use of AI Tools:
+    - Date: 03/02/26
+    - Prompts used include parameterized queries, string interpolation, and stored procedure OUT parameter behavior.
+    - AI Source: GitHub Copilot VSCode integration.
 
 #### documentation/DML.sql
   - Date: 02/12/26
-  - Queries and user input representation adapted from bsg_sample_data_manipulation_queries.sql.
-  - Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323336?module_item_id=26243423
+    - Queries and user input representation adapted from bsg_sample_data_manipulation_queries.sql.
+    - Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323336?module_item_id=26243423
 
 #### documentation/PL.sql
   - Date: 02/27/26
-  - All SPs adapted from PL/SQL Assignment starter code (plsql_student_shell_files).
-  - Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323329
+    - All SPs adapted from PL/SQL Assignment starter code (plsql_student_shell_files).
+    - Source URL: https://canvas.oregonstate.edu/courses/2031764/assignments/10323329
 
 ### Frontend
 #### frontend/reactServer.cjs
-- Use of AI:
+- Use of AI Tools:
   - Date: 02/12/26
   - Prompt(s) used:
     1. Why does "npm run stop_production" return "Forever cannot find process"?
