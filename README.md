@@ -9,8 +9,8 @@ Grouped by page/file first, then date. For pages with both non-AI and AI citatio
 ### Backend
 #### backend/database/db-connector.js
   - Date: 02/09/26
-  - Copied from class exploration.
-  - Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+  -- Copied from class exploration.
+  -- Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
 
 #### backend/server.js
   - Date: 02/09/26
