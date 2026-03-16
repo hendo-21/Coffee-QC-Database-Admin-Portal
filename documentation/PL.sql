@@ -6,7 +6,7 @@
 -- Reset database IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_reset_db;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_reset_db()
 BEGIN
@@ -182,7 +182,7 @@ BEGIN
         ('05229', 6, 1775, 2), 
         ('1123', 5, 1820, 1), 
         ('05215', 5, 1700, 3), 
-        ('10246', 7, 1950, 1);
+        ('11221', 7, 1950, 1);
 
     INSERT INTO `Roasters` (`roaster_name`, `email`, `location_id`) 
     VALUES 
@@ -234,7 +234,7 @@ DELIMITER;
 -- Insert a Brew Result IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_insert_brew_result;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_insert_brew_result(
     IN recipe_id INT,
@@ -291,7 +291,7 @@ DELIMITER;
 -- Bulk delete brew results IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_delete_many_brew_results;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_delete_many_brew_results(IN p_recipe_id INT, IN p_coffee_id INT)
 BEGIN
@@ -317,7 +317,7 @@ DELIMITER;
 -- Delete a Brew Recipe IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_delete_brew_recipe;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_delete_brew_recipe(IN p_recipe_id INT)
 BEGIN
@@ -341,7 +341,7 @@ DELIMITER;
 -- Update a brew recipe NOT IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_update_brew_recipe;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_update_brew_recipe(
     IN p_recipe_id INT,
@@ -395,7 +395,7 @@ DELIMITER;
 -- Insert a Coffee IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_insert_coffee;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_insert_coffee(
     IN p_coffee_name VARCHAR(50),
@@ -448,7 +448,7 @@ DELIMITER;
 -- Delete a coffee IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_delete_coffee;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_delete_coffee(IN p_coffee_id INT)
 BEGIN
@@ -472,7 +472,7 @@ DELIMITER;
 -- Update CoffeeLotVarietal IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_update_coffee_lot_varietal;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_update_coffee_lot_varietal(
     IN p_old_lot_id INT,
@@ -494,7 +494,7 @@ DELIMITER;
 -- Add CoffeeLotVarietal IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_add_coffee_lot_varietal;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_add_coffee_lot_varietal(
     IN p_lot_id INT,
@@ -526,7 +526,7 @@ DELIMITER;
 -- Delete a Coffee Lot Varietal record IMPLEMENTED
 DROP PROCEDURE IF EXISTS sp_delete_coffeelotvarietal;
 
-DELIMITER / /
+DELIMITER //
 
 CREATE PROCEDURE sp_delete_coffeelotvarietal(IN p_lot_id INT, p_varietal_id INT)
 BEGIN
@@ -543,3 +543,103 @@ BEGIN
 END //
 
 DELIMITER;
+
+-- Add CoffeeLot record IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_add_coffeelot;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_add_coffeelot(
+    IN p_lot_number VARCHAR(50),
+    IN p_location_id INT,
+    IN p_meters_elevation INT,
+    IN p_process_id INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Insert error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO CoffeeLots (lot_number, location_id, meters_elevation, process_id) 
+    VALUES (
+    p_lot_number,
+    p_location_id,
+    p_meters_elevation,
+    p_process_id
+);
+
+    COMMIT;
+END //
+
+DELIMITER ;
+
+-- Add Varietal record IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_add_varietal;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_add_varietal(
+    IN p_varietal_name VARCHAR(50)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Insert error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO Varietals (varietal_name) 
+    VALUES (p_varietal_name);
+
+    COMMIT;
+END //
+
+DELIMITER;
+
+-- Delete a Coffee Lot record IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_delete_coffeelot;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_delete_coffeelot(IN p_lot_id INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Delete error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM CoffeeLots 
+        WHERE lot_id = p_lot_id;
+    COMMIT;
+END //
+
+DELIMITER ;
+
+-- Delete a Varietal record IMPLEMENTED
+DROP PROCEDURE IF EXISTS sp_delete_varietal;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_delete_varietal(IN p_varietal_id INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SELECT 'Delete error!' AS result;
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM Varietals 
+        WHERE varietal_id = p_varietal_id;
+    COMMIT;
+END //
+
+DELIMITER ;

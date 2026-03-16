@@ -1,3 +1,19 @@
+// Citation for following code:
+// Date: 02/09/26
+// Code for the front end components adapted from "Exploration - Web Application Technology".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
+// Citation for following code:
+// Date: 02/09/26
+// Code for the CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
+
+// Citation for use of AI Tools:
+// Date: 02/18/26
+// Prompts used: 
+//      Refactor to standalone page component from Coffees.jsx, maintain left-side nav layout, page, table, and form styling.
+// AI Source: GitHub Copilot VSCode integration.
+
 import React, { useState, useEffect } from "react";
 
 function RecipeStatuses({ backendURL }) {
@@ -9,15 +25,13 @@ function RecipeStatuses({ backendURL }) {
         try {
             const recipeStatusesRes = await fetch(`${backendURL}/api/recipestatuses`);
             setRecipeStatus(await recipeStatusesRes.json());
-        } catch {
-            console.error("Error fetching RecipeStatuses", error);
+        } catch (err) {
+            console.error("Error fetching RecipeStatuses:", err);
         }
     };
     useEffect(() => {
         loadData()
     }, []);
-
-    // TODO: POST recipe status to db
 
     return (
         <div className="pageContent">
@@ -38,29 +52,6 @@ function RecipeStatuses({ backendURL }) {
                     ))}
                 </tbody>
             </table>
-
-            {/* Form to add Recipe Status 
-            <form className="recipeStatusForm" onSubmit={event => {event.preventDefault();}}>
-                <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '1px',
-                        alignItems: 'baseline',
-                }}>
-
-                <p>
-                    <label>Recipe Status
-                        <input type="text" id="recipeStatus" name="recipeStatus" required 
-                            onChange={ event => { setRecipeStatus(event.target.value) } }></input>
-                    </label>
-                </p>
-
-                <button type="submit">
-                        Add Recipe Status
-                </button>
-
-                </div>
-            </form> */}
         </div>
     )
 }

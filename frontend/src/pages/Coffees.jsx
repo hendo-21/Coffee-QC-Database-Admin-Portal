@@ -1,6 +1,17 @@
+// Citation for following code:
+// Date: 02/09/26
+// Code for the front end components adapted from "Exploration - Web Application Technology".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
+// Citation for following code:
+// Date: 02/09/26
+// Code for the CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
+
 // Citation for use of AI Tools:
 // Date: 02/18/26
-// Prompts used: Refactor data fetching to use Promise.all() for concurrent fetching.
+// Prompts used: 
+//      Refactor data fetching to use Promise.all() for concurrent fetching.
 // AI Source: GitHub Copilot VSCode integration.
 
 import React, { useState, useEffect } from 'react';
@@ -41,10 +52,8 @@ function Coffees({ backendURL }) {
         loadData()
     }, [])
 
-    // 2. Add a new coffee
-    const addCoffee = (e) => {
-        e.preventDefault();
-
+    // Add a new coffee
+    const addCoffee = async () => {
         const newCoffee = {
             coffee_name: newName,
             roaster_id: Number(newRoasterId),
@@ -52,26 +61,33 @@ function Coffees({ backendURL }) {
             roast_type_id: Number(newRoastTypeId)
         };
 
-        fetch(`${backendURL}/api/coffees/add`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newCoffee)
-        })
-            .then(() => {
+        try{
+            const response = await fetch(`${backendURL}/api/coffees/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newCoffee)
+            });
+            if(response.status === 200) {
                 setNewName(""); // Clear input
                 setNewRoasterId("");
                 setNewLotId("");
                 setNewRoastTypeId("");
                 loadData(); // Refresh to show new data
-            });
+            } else {
+                alert("Failed to add coffee.");
+                console.log("Failed to add coffee with status:", response.status);
+            }
+        } catch (err) {
+            console.error("Error adding a coffee:", err);
+        }
     };
 
 
     // 3. Delete a Coffee
-    const handleCoffeeDelete = async (coffee_id_to_delete) => {
+    const handleCoffeeDelete = async (coffeeIdToDelete) => {
         if(window.confirm("Are you sure you want to delete this coffee? This will also delete associated records in Brew Results.")) {
             try {
-                const cid = parseInt(coffee_id_to_delete);
+                const cid = parseInt(coffeeIdToDelete);
                 const deleteRes = await fetch(`${backendURL}/api/coffees/${cid}`, { method: 'DELETE' });
                 if (deleteRes.status === 204) {
                     loadData();
@@ -124,7 +140,7 @@ function Coffees({ backendURL }) {
             <hr/>
 
             {/* Form for CREATE */}
-            <form onSubmit={addCoffee}>
+            <form onSubmit={(e) => {e.preventDefault(); addCoffee();}}>
                 <h3>Add New Coffee</h3>
                 <p>
                     <label>Coffee Name:</label>

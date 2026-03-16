@@ -24,17 +24,17 @@ function Home() {
 
                     <Link to="/coffeelots">
                         <span className="homepageIndexElement">Coffee Lots:</span>
-                        <span>View Coffee lot information: location, elevation, and processing style.</span>
+                        <span>View, Add, and Delete coffee lots from the database.</span>
                     </Link>
 
                     <Link to="/varietals">
                         <span className="homepageIndexElement">Varietals:</span>
-                        <span>View the varietals that compose the coffee lots.</span>
+                        <span>View, Add, and Delete varietals found in coffee lots.</span>
                     </Link>
 
                     <Link to="/coffeelotvarietals">
                         <span className="homepageIndexElement">Coffee Lot Varietals:</span>
-                        <span>View the varietals that makeup each lot of coffee.</span>
+                        <span>View, Add, and Delete associations between coffee lots and varietals.</span>
                     </Link>
 
                     <Link to="/processingstyles">

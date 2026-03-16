@@ -1,9 +1,20 @@
+// Citation for following code:
+// Date: 02/09/26
+// Code for the front end components adapted from "Exploration - Web Application Technology".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
+// Citation for following code:
+// Date: 02/09/26
+// Code for the CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
+
+
 import React, { useState, useEffect } from 'react';
 
 function RoastTypes({backendURL}) {
     const [roastTypes, setRoastTypes] = useState([]);
 
-    // 1. Load data
+    // Load RoastTypes table
     const loadRoastTypes = async () => {
         try {
             const response = await fetch(`${backendURL}/api/roasttypes`);

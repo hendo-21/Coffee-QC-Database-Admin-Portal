@@ -1,16 +1,22 @@
-// Citation for use of AI Tools:
-// Date: 02/18/26
-// Prompts used: 
-//      Refactor to standalone page component from Coffees.jsx.
-//      Refactor data fetching to use Promise.all() for concurrent fetching.
-// AI Source: GitHub Copilot VSCode integration.
+// Citation for following code:
+// Date: 02/09/26
+// Code for the front end components adapted from "Exploration - Web Application Technology".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
+// Citation for following code:
+// Date: 02/09/26
+// Code for the CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
 
 // Citation for use of AI Tools:
-// Date: 03/14/26
-// Prompts used for Edit finctionality: 
-//    1. Review my code snippet. When the user clicks the Edit button, how do I limit editing to a single row? All row dropdowns become visible.
-//    2. Refactor the selected section to use row-specific edit state.
-// AI Source: GitHub Copilot VSCode integration. 
+// Date: 02/18/26, 03/14/26
+// Prompts used: 
+//      Refactor to standalone page component from Coffees.jsx, maintain left-side nav layout, page, table, and form styling.
+//      Refactor data fetching to use Promise.all() for concurrent fetching.
+//      Review my code snippet. When the user clicks the Edit button, how do I limit editing to a single row? All row dropdowns become visible.
+//      Refactor the selected section to use row-specific edit state.
+// AI Source: GitHub Copilot VSCode integration.
+
 
 import React, { useState, useEffect } from 'react';
 
@@ -67,7 +73,7 @@ function CoffeeLotVarietals({ backendURL }) {
             new_varietal_id: Number(newVarietalId)
         };
         try {
-            const response = await fetch(`${backendURL}/api/coffeelotvarietals/${oldLotId}/`, {
+            const response = await fetch(`${backendURL}/api/coffeelotvarietals/${oldLotId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedRecord)
@@ -109,10 +115,10 @@ function CoffeeLotVarietals({ backendURL }) {
                 loadData();
             } else {
                 alert("Failed to add record.");
-                console.log("Failed to add record with status:", response.status)
+                console.log("Failed to add record with status:", response.status);
             }
         } catch (err) {
-            console.error("Error adding coffee lot varietal:", err)
+            console.error("Error adding coffee lot varietal:", err);
         }
     }
 
@@ -196,7 +202,6 @@ function CoffeeLotVarietals({ backendURL }) {
             <hr/>
 
             {/* Form for CREATE in M:N */}
-
             <form onSubmit={ e => {e.preventDefault(); addCoffeeLotVarietal();} }>
                 <h3>Add a Coffee Lot Varietal record</h3>
                 <p>
