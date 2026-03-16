@@ -4,7 +4,7 @@ This is the term project for Oregon State University's CS340: Intro to Databases
 
 ## Code Citations
 
-Citations for use of AI are summarized below. See referenced files for more detail.
+Citations for use of AI are summarized below alongside complete citations for class materials used. See referenced files for more detail.
 
 ### Backend
 #### backend/database/db-connector.js
