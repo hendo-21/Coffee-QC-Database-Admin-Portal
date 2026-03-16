@@ -12,16 +12,24 @@
 -- Leaving in non-implemented CUD queries per Lindsey Clement, ULA, recc, and for future development.
 -- CUD entities:
 -- -- CREATE:
--- -- -- Coffees - M:N relationship with BrewRecipes
--- -- -- BrewResults - also acts as intersection table that resolves M:N between Coffees and BrewRecipes
+-- -- -- CoffeeLots
+-- -- -- Varietals
+-- -- -- CoffeeLotVarietals - intersection table resolving M:N between CoffeeLots and Varietals
+-- -- -- Coffees
+-- -- -- BrewResults - intersection table that resolves M:N between Coffees and BrewRecipes
 -- -- UPDATE: 
--- -- -- BrewRecipes (M:N with Coffees)
+-- -- -- CoffeeLotVarietals - intersection table resolving M:N between CoffeeLots and Varietals
+-- -- -- BrewRecipes
 -- -- DELETE: 
--- -- -- Coffees (M:N with BrewRecipes) 
--- -- -- BrewRecipes (M:N with Coffees)
--- -- -- BrewResults
+-- -- -- CoffeeLots - uses CASCADE and deletes associated records in CoffeeLotVarietals
+-- -- -- Varietals - uses CASCADE and deletes associated records in CoffeeLotVarietals
+-- -- -- CoffeeLotVarietals (M:N delete) - intersection table resolving M:N between CoffeeLots and Varietals
+-- -- -- Coffees - uses CASCADE and deletes associated records in BrewResults
+-- -- -- BrewRecipes - uses CASCADE and deletes associated records in BrewResults
+-- -- -- BrewResults (M:N delete)- intersection table resolving M:N between Coffees and BrewRecipes
 
 -- User inputs are denoted with the character : 
+
 
 
 /* Roasters */
@@ -47,6 +55,7 @@ DELETE FROM Roasters
 WHERE roaster_id = :roaster_id_to_delete;
 
 
+
 /* RoastTypes */
 --- READ --- to populate Roast Types page 
 SELECT roast_type_id, roast_name 
@@ -62,6 +71,7 @@ WHERE roast__type_id = :roast_id_to_update;
 
 -- DELETE -- 
 DELETE FROM RoastTypes WHERE roast_type_id = :roast_id_to_delete;
+
 
 
 /* ProcessingStyles */
@@ -81,6 +91,7 @@ WHERE process_id = :process_id_to_update;
 DELETE FROM ProcessingStyles WHERE process_id = :process_id_to_delete;
 
 
+
 /* BrewerTypes */
 -- READ -- to populate the Brewer Types page
 SELECT brewer_id, brewer_type
@@ -96,6 +107,7 @@ WHERE brewer_id = :brewer_id_to_update;
 
 -- DELETE -- 
 DELETE FROM BrewerTypes WHERE brewer_id = :brewer_id_to_delete;
+
 
 
 /* Locations */
@@ -115,6 +127,7 @@ WHERE location_id = :location_id_to_update;
 DELETE FROM Locations WHERE location_id = :location_id_to_delete
 
 
+
 /* Coffees */
 -- READ -- 
 -- to populate the Coffees page; join with Roasters, CoffeeLots, and RoastTypes
@@ -131,7 +144,6 @@ INNER JOIN CoffeeLots ON Coffees.lot_id = CoffeeLots.lot_id
 INNER JOIN RoastTypes ON Coffees.roast_type_id = RoastTypes.roast_type_id;
 
 -- CREATE -- 
--- add a coffee to the database (M:N relationship addition)
 INSERT INTO Coffees (coffee_name, roaster_id, lot_id, roast_type_id)
 VALUES (
 	:coffee_name_input,
@@ -170,6 +182,7 @@ UPDATE Varietals SET varietal_name = :newTypeInput
 WHERE varietal_id = :varietal_id_to_update;
 
 -- DELETE -- 
+-- M:N delete. Disassociates a Varietal from a CoffeeLot. Cascades to CoffeeLotVarietals to ensure no data anomaly
 DELETE FROM Varietals WHERE varietal_id = :varietal_id_to_delete;
 
 
@@ -205,6 +218,7 @@ UPDATE CoffeeLots SET
 WHERE lot_id = :lot_id_to_update;
 
 -- DELETE -- 
+-- M:N delete. Disassociates a CoffeeLot from a Varietal. Cascades to CoffeeLotVarietals to ensure no data anomaly
 DELETE FROM CoffeeLots WHERE lot_id = :lot_id_to_update;
 
 
@@ -223,6 +237,7 @@ JOIN Varietals ON CoffeeLotVarietals.varietal_id = Varietals.varietal_id
 ORDER BY CoffeeLots.lot_number ASC;
 
 -- CREATE --
+-- M:N create operation
 INSERT INTO CoffeeLotVarietals (lot_id, varietal_id)
 VALUES (
 	:lot_id_from_dropdown,
@@ -230,6 +245,7 @@ VALUES (
 );
 
 -- UPDATE --
+-- update a varietal associated with a coffee lot. M:N update on relationship between CoffeeLots and Varietals
 UPDATE CoffeeLotVarietals
 SET
 	lot_id = new_lot_id_from_dropdown,
@@ -237,8 +253,10 @@ SET
 WHERE lot_id = :lot_id_to_update AND varietal_id_to_update;
 
 -- DELETE --
+-- deletes a record from CoffeeLotVarietals. M:N delete
 DELETE FROM CoffeeLotVarietals
 WHERE lot_id = :lot_id_to_delete AND varietal_id = :varietal_id_to_delete;
+
 
 
 /* BrewRecipes */
@@ -278,7 +296,6 @@ VALUES (
 );
 
 -- UPDATE -- update a brew recipe's data based on submission of Edit Brew Recipe form
--- (M:N relationship update with CASCADE)
 UPDATE BrewRecipes
 SET
 	brewer_id = :new_brewer_id_from_dropdown,
@@ -292,6 +309,8 @@ WHERE recipe_id = :recipe_id_to_update;
 
 -- DELETE -- 
 DELETE FROM BrewRecipes WHERE recipe_id = :recipe_id_to_delete;
+
+
 
 /* BrewResults */
 -- READ -- for populating the Brew Results page

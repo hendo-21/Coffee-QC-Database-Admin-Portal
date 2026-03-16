@@ -4,8 +4,8 @@
    Prompts used:
     - Add a hover effect for the nav anchors that lightens the color to #d26b63 over the course of 0.25s.
     - How can I lock the footer to the bottom of the page when viewing in the browser?
-    - I'd like to provide some padding on the top and bottom of the links within the homepageIndex class. How can I achieve that?
     - How can I locate nav elements on the left side of the page rather than the top?
+    - Wrap all page component HTML contents in a div for universal styling rules
    AI Source: GitHub Copilot VSCode integration. 
 */
 

@@ -1,3 +1,14 @@
+// Citation for following code:
+// Date: 02/09/26
+// Code for the front end components adapted from "Exploration - Web Application Technology".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
+// Citation for following code:
+// Date: 02/09/26
+// Code for the CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
+
+
 import React, { useState, useEffect } from "react";
 
 function BrewerTypes ({ backendURL }) {
@@ -9,15 +20,13 @@ function BrewerTypes ({ backendURL }) {
         try {
             const brewerTypesRes = await fetch(`${backendURL}/api/brewertypes`);
             setBrewerTypes(await brewerTypesRes.json());
-        } catch {
-            console.error("Error fetching BrewerTypes", error);
+        } catch (err) {
+            console.error("Error fetching BrewerTypes:", err);
         }
     };
     useEffect(() => {
         loadData()
     }, []);
-
-    // TODO: POST to BrewerTy..pes table
 
     return (
         <div className="pageContent">
@@ -38,29 +47,6 @@ function BrewerTypes ({ backendURL }) {
                     ))}
                 </tbody>
             </table>
-
-            {/* Form to add Brewer Type 
-            <form className="brewerTypeForm" onSubmit={event => {event.preventDefault();}}>
-                <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '1px',
-                        alignItems: 'baseline',
-                }}>
-
-                <p>
-                    <label>Brewer Type
-                        <input type="text" id="brewerType" name="brewerType" placeholder="Chemex" required 
-                            onChange={ event => { setBrewerType(event.target.value) } }></input>
-                    </label>
-                </p>
-
-                <button type="submit">
-                        Add Brewer Type
-                </button>
-
-                </div>
-            </form> */}
         </div>
     )
 

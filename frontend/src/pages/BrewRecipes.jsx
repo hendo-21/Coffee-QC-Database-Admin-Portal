@@ -1,12 +1,21 @@
+// Citation for following code:
+// Date: 02/09/26
+// Code for the front end components adapted from "Exploration - Web Application Technology".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
+// Citation for following code:
+// Date: 02/09/26
+// Code for the CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
+
 // Citation for use of AI Tools:
 // Date: 02/23/26
-// Prompts used: multi-table dropdown form, recipe status and brewer type dropdown inputs.
-//      Refactored data fetching to use Promise.all() for concurrent fetching.
+// Prompts used:
+//      Refactor data fetching to use Promise.all() for concurrent fetching.
+//      Troubleshooting assistance for populating dropdowns with data from multiple tables.
 // AI Source: GitHub Copilot VSCode integration.
 
 import React, { useState, useEffect } from 'react';
-import BrewerTypes from './BrewerTypes';
-import RecipeStatuses from './RecipeStatuses';
 
 function BrewRecipes({ backendURL }) {
     // Init state for fetching tables
@@ -35,7 +44,7 @@ function BrewRecipes({ backendURL }) {
             setBrewRecipes(await brewRecipesRes.json());
             setBrewerTypes(await brewerTypesRes.json());
             setBrewStatuses(await recipeStatusesRes.json());
-        } catch {
+        } catch (error) {
             console.error('Error fetching data:', error);
         };
     };
@@ -50,7 +59,7 @@ function BrewRecipes({ backendURL }) {
         if (deleteRes.status === 204) {
             setBrewRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.recipe_id !== rid));
         } else {
-            console.error("Failed to delete Brew Recipe record.");
+            console.error("Failed to delete Brew Recipe record.", err);
         }
     };
 
@@ -59,38 +68,41 @@ function BrewRecipes({ backendURL }) {
         const newRecipeID = Number(e.target.value);
         setSelectedBrewRecipe(newRecipeID);
         const recipe = brewRecipes.find(r => r.recipe_id === newRecipeID);
+        const brewer = brewerTypes.find(bt => bt.brewer_type === recipe.brewer_type);
+        const status = recipeStatuses.find(rs => rs.status_type === recipe.status);
         if (recipe) {
-            setSelectedBrewerType(recipe.brewer_type)
+            setSelectedBrewerType(brewer.brewer_id)
             setTargetDose(Number(recipe.target_dose));
             setTargetYield(Number(recipe.target_yield));
             setTargetGrindSize(Number(recipe.target_grind_size));
             setTargetWaterTemp(Number(recipe.target_water_temp));
             setTargetBrewTime(recipe.target_brew_time);
-            setSelectedRecipeStatus(recipe.status);
+            setSelectedRecipeStatus(status.status_id);
         }
     };
 
     // Update a brew recipe in the database
     const updateBrewRecipe = async () => {
-        // Get the status id
-        const recipeStatus = recipeStatuses.find(rs => rs.status_type === selectedRecipeStatus);
-        const rsId = recipeStatus.status_id;
-
-        // Get the brewer id
-        const brewerType = brewerTypes.find(bt => bt.brewer_type === selectedBrewerType);
-        const btId = brewerType.brewer_id;
+        const recipe_id = Number(selectedBrewRecipe);
+        const brewer_id = Number(selectedBrewerType);
+        const target_dose = Number(targetDose);
+        const target_yield = Number(targetYield);
+        const target_grind_size = Number(targetGrindSize);
+        const target_water_temp = Number(targetWaterTemp);
+        const target_brew_time = targetBrewTime;
+        const status_id = Number(selectedRecipeStatus);
 
         // Make the request
         const updatedRecipe = {
-            btId,
-            targetDose,
-            targetYield,
-            targetGrindSize,
-            targetWaterTemp,
-            targetBrewTime,
-            rsId
+            brewer_id,
+            target_dose,
+            target_yield,
+            target_grind_size,
+            target_water_temp,
+            target_brew_time,
+            status_id
         };
-        const response = await fetch (`${backendURL}/api/brewresults/${selectedBrewRecipe}`, {
+        const response = await fetch (`${backendURL}/api/brewrecipe/${recipe_id}`, {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(updatedRecipe)
@@ -182,7 +194,7 @@ function BrewRecipes({ backendURL }) {
                         <select value={selectedBrewerType} onChange={event => setSelectedBrewerType(event.target.value)} required>
                                 <option value=""></option>
                                 {brewerTypes.map(type => (
-                                    <option key={type.brewer_id} value={type.brewer_type}>
+                                    <option key={type.brewer_id} value={type.brewer_id}>
                                         {type.brewer_type}
                                     </option>
                                 ))}
@@ -192,31 +204,31 @@ function BrewRecipes({ backendURL }) {
                     <p>
                         <label>Target Dose</label>
                         <input type="number" step="0.01" id="targetDose" name="targetDose" value={targetDose} min="0" placeholder="eg. 15.00" required
-                                onChange={event => { setTargetDose(event.target.valueAsNumber) }}></input>
+                                onChange={event => { setTargetDose(event.target.value) }}></input>
                     </p>
 
                     <p>
                         <label>Target Yield</label>
                         <input type="number" step="0.01" id="targetYield" name="targetYield" value={targetYield} min="0" placeholder="eg. 240.00" required
-                                onChange={event => { setTargetYield(event.target.valueAsNumber) }}></input>
+                                onChange={event => { setTargetYield(event.target.value) }}></input>
                     </p>
 
                     <p>
                         <label>Target Grind Size</label>
                         <input type="number" step="0.01" id="targetGrindSize" name="targetGrindSize" value={targetGrindSize} min="0" placeholder="eg. 14.00" required
-                                onChange={event => { setTargetGrindSize(event.target.valueAsNumber) }}></input>
+                                onChange={event => { setTargetGrindSize(event.target.value) }}></input>
                     </p>
 
                     <p>
                         <label>Target Water Temp</label>
                         <input type="number" step="0.01" id="targetWaterTemp" name="targetWaterTemp" value={targetWaterTemp} min="0" placeholder="eg. 96.00" required
-                                onChange={event => { setTargetYield(event.target.valueAsNumber) }}></input>
+                                onChange={event => { setTargetWaterTemp(event.target.value) }}></input>
                     </p>
 
                     <p>
                         <label>Target Brew Time</label>
                         <input type="text" step="0.01" id="targetBrewTime" name="targetBrewTime" value={targetBrewTime} min="0" placeholder="eg. 00:04:00" required
-                                onChange={event => { setTargetYield(event.target.value) }}></input>
+                                onChange={event => { setTargetBrewTime(event.target.value) }}></input>
                     </p>
 
                     <p>
@@ -224,7 +236,7 @@ function BrewRecipes({ backendURL }) {
                         <select value={selectedRecipeStatus} onChange={event => setSelectedRecipeStatus(event.target.value)} required>
                                 <option value="">-- Select Recipe Status --</option>
                                 {recipeStatuses.map(status => (
-                                    <option key={status.status_id} value={status.status_type}>
+                                    <option key={status.status_id} value={status.status_id}>
                                         {status.status_type}
                                     </option>
                                 ))}

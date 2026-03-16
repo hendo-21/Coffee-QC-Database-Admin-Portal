@@ -1,11 +1,19 @@
+// Citation for following code:
+// Date: 02/09/26
+// Code for the front end components adapted from "Exploration - Web Application Technology".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-web-application-technology-2?module_item_id=26243419
+
+// Citation for following code:
+// Date: 02/09/26
+// Code for the CUD operations adapted from "Exploration - Implementing CUD operations in your app".
+// Source URL: https://canvas.oregonstate.edu/courses/2031764/pages/exploration-implementing-cud-operations-in-your-app?module_item_id=26243436
+
 import React, { useState, useEffect } from 'react';
 
 function Locations({ backendURL }) {
     const [locations, setLocations] = useState([]);
-    const [newCity, setNewCity] = useState("");
-    const [newCountry, setNewCountry] = useState("");
 
-    // 1. Load data
+    // Load data
     const loadLocations = async () => {
         const response = await fetch(`${backendURL}/api/locations`);
         const dbData = await response.json();
@@ -14,26 +22,6 @@ function Locations({ backendURL }) {
     useEffect(() => {
         loadLocations()
     }, [])
-
-    // 2. Add a new location
-    const addLocation = (e) => {
-        e.preventDefault();
-        const newLocation = {
-            city: newCity,
-            country: newCountry
-        };
-
-        fetch('/api/locations', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newLocation)
-        })
-            .then(() => {
-                setNewCity(""); // Clear input
-                setNewCountry("");
-                loadLocations(); // Refresh to show new data
-            });
-    };
 
     return (
         <div className="pageContent">
@@ -58,43 +46,6 @@ function Locations({ backendURL }) {
                     ))}
                 </tbody>
             </table>
-
-            {/* Form for CREATE 
-            <form onSubmit={addLocation}>
-                <h3>Add New Location</h3>
-
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '10px',
-                    alignItems: 'flex-end',
-                }}>
-
-
-                    <div>
-                        <label>City: </label>
-                        <input
-                            value={newCity}
-                            onChange={e => setNewCity(e.target.value)}
-                            placeholder="Enter City"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label>Country: </label>
-                        <input
-                            value={newCountry}
-                            onChange={e => setNewCountry(e.target.value)}
-                            placeholder="Enter Country"
-                            required
-                        />
-                    </div>
-
-                    <button type="submit">Add Location</button>
-                </div>
-            </form>
-            */}
         </div>
     );
 }

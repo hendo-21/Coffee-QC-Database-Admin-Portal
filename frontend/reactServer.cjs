@@ -1,3 +1,10 @@
+// Citation for use of AI Tools
+// Date: 02/12/26
+// Prompt(s) used: 
+//  - Why does "npm run stop_production" return "Forever cannot find process"?
+//  - What does "PathError: Missing parameter name" mean in Express 5?
+// AI Source: Google Gemini
+
 // ########################################
 // ########## SETUP
 
@@ -10,14 +17,6 @@ const PORT = 1886;
 
 // ########################################
 // ########## ROUTE HANDLERS
-
-
-// Citation for use of AI Tools
-// Date: 02/12/26
-// Prompt(s) used: 
-//  - Why does "npm run stop_production" return "Forever cannot find process"?
-//  - What does "PathError: Missing parameter name" mean in Express 5?
-// AI Source: Google Gemini
 
 // This code below provided in the explorations was causing issues
 // app.get('*', (req, res) => {
