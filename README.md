@@ -1,14 +1,18 @@
 ## Project Overview
 
+We were tasked with desigining a relathional database and implementing a web application for use by a database administrator. This was the context for the RDBMS that we envisioned:
+
+```
 California Coffee Co. is an award winning coffee shop in Southern California, that is known for its exceptionally brewed drip coffee. This reputation is the result of a meticulous approach to sourcing coffees from the world’s best roasters, and brewing standards. By sourcing coffees from the world’s best coffee roasters, as opposed to partnering with just one roaster, or roasting their own coffee, California Coffee Co ensures they are serving their customers the best coffees available. As California Coffee Co. scales and continues to brew high quality coffees, a relational database that tracks brewing performance across coffee roasters, their coffees, and the various brewing methods used at the shop is needed to eliminate data redundancy and ensure baristas have access to top recipes. California Coffee Co. serves exclusively single origin coffees, which are sourced by the roaster by lot, with each lot containing pertinent information relating to brewed coffee quality and flavor, such as coffee bean varietal, elevation, and processing style. A roasted coffee therefore consists of one lot, that may be made up of multiple coffee bean varietals, but is limited to a single processing style. California Coffee Co. needs to track this information in addition to brewed coffee results in order to achieve their mission.
 On any given week California Coffee Co. features 5-8 different roasters, each with 6-12 different coffees, and it uses 3-5 different brewing methods, brewing 100-300 coffees a day. This means it may serve over 100 different coffees from over 50 different roasters over the course of a year. California Coffee Co. will use this database to guide coffee purchasing decisions from its partner roasters, plan its brewed coffee menu, and optimize its brewed coffee recipes. In order to keep up with their continuous improvement, the database tracks the status of which brewing recipes are being tested, currently set as the active golden standard, or retired from production. When a brew recipe is changed or replaced, a new recipe with those details will be added to the table and the previous recipe’s status will be set to retired in order to preserve historical data. 
 
 Questions California Coffee Co. hopes to answer these questions with this database:
-Which coffees, roasters, and/or brew methods produce the best outcomes?
-Are there brewing methods that consistently produce poor results, and need to be changed?
-Are there particular coffee origins or processing styles that produce better outcomes than others?
-If there are a series of poor brewing results for a particular coffee, can those results be isolated to a particular lot number?
-How is brewing performance related to lot-specific origin information such as varietals, processing style, and elevation?
+- Which coffees, roasters, and/or brew methods produce the best outcomes?
+- Are there brewing methods that consistently produce poor results, and need to be changed?
+- Are there particular coffee origins or processing styles that produce better outcomes than others?
+- If there are a series of poor brewing results for a particular coffee, can those results be isolated to a particular lot number?
+- How is brewing performance related to lot-specific origin information such as varietals, processing style, and elevation?
+```
 
 
 ## Authors
