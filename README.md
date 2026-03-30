@@ -16,6 +16,7 @@ Operations featured:
 - Update on CoffeeLotVarietals and BrewRecipes (intersection tables resolve M:N relationships)
 - Delete on Coffees, CoffeeLots, Varietals, CoffeeLotVarietals, BrewRecipes, BrewReults. Utilized CASCADE
 - Reset database to sample data
+- Foreign keys presented as user-friendly names for add/edit forms
 
 ## Authors
 - Ian Henderson
