@@ -39,6 +39,8 @@ project/
 ├── documentation/
 │   ├── DDL.sql    # Data definition queries
 │   ├── DML.sql    # Data manipulation queries
+│   ├── ERDs.pdf   # Entity relationship diagrams using crow's foot notation
+│   ├── Schema.pdf # Readable schema diagram
 │   └── PL.sql     # PL/SQL queries for stored procedures
 └── frontend/      # ReactJS
     ├── index.html
