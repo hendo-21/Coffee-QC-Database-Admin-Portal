@@ -7,6 +7,16 @@ California Coffee Co. is an award winning coffee shop in Southern California tha
 <br>
 On any given week California Coffee Co. features 5-8 different roasters, each with 6-12 different coffees, and it uses 3-5 different brewing methods, brewing 100-300 coffees a day. This means it may serve over 100 different coffees from over 50 different roasters over the course of a year. California Coffee Co. will use this database to guide coffee purchasing decisions from its partner roasters, plan its brewed coffee menu, and optimize its brewed coffee recipes. In order to keep up with their continuous improvement, the database tracks the status of which brewing recipes are being tested, currently set as the active golden standard, or retired from production. When a brew recipe is changed or replaced, a new recipe with those details will be added to the table and the previous recipe’s status will be set to retired in order to preserve historical data. 
 
+## Web App Demo
+<video src="documentation/" width="320" height="240" controls></video>
+
+Operations featured:
+- Read on all tables utilizing JOINs for user-friendly data
+- Create on CoffeeLots, Varietals, CoffeeLotVarietals, BrewResults (feature in the two M:N relationships)
+- Update on CoffeeLotVarietals and BrewRecipes (intersection tables resolve M:N relationships)
+- Delete on Coffees, CoffeeLots, Varietals, CoffeeLotVarietals, BrewRecipes, BrewReults. Utilized CASCADE
+- Reset database to sample data
+
 ## Authors
 - Ian Henderson
 - Nicholas Park
